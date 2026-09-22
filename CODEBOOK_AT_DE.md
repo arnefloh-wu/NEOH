@@ -1,0 +1,117 @@
+# Codebuch AT / DE — NEOH Markenstudie Sep 2026
+
+Referenz für das Stapeln der beiden Länderdatensätze. Die Länderzugehörigkeit steht
+in der Embedded-Data-Variable `land` (`AT` / `DE`), die als erstes Element im Survey
+Flow gesetzt wird.
+
+Dateien: `NEOH_AT_Sep2026_V6.qsf` (AT), `NEOH_DE_Sep2026.qsf` (DE).
+
+## 1. Markenraster
+
+Betrifft `bekanntheit` (gestützte Bekanntheit), `betracht` (Consideration) und
+`kauf_3monate` (Kauf letzte 3 Monate). Alle drei Fragen verwenden in beiden Ländern
+dieselben Exportcodes; die Spaltensuffixe im Export sind damit direkt vergleichbar.
+
+| Code | Marke | AT | DE |
+|-----:|-------|:--:|:--:|
+| 1 | Balisto | x | x |
+| 2 | BE-KIND | x | x |
+| 3 | Bounty | x | x |
+| 4 | Corny | x | x |
+| 5 | Dragee Keksi (Napoli) | x | — |
+| 6 | Hanuta | x | x |
+| 7 | Ketofabrik | x | — |
+| 8 | Kinder | x | x |
+| 9 | Knoppers | x | x |
+| 10 | Manner | x | x |
+| 11 | Mars | x | x |
+| 12 | Milka | x | x |
+| **13** | **NEOH** | x | x |
+| 14 | Nicks | x | x |
+| 15 | Nucao | x | x |
+| 16 | Pick Up! | x | x |
+| 17 | Snickers | x | x |
+| 18 | AHEAD | x | x |
+| 19 | More Nutrition | x | x |
+| 20 | Foodspring | x | — |
+| 90 | Barebells | — | x |
+| 91 | Xucker | — | x |
+| 92 | Duplo | — | x |
+| 99 | KEINE Marke (exklusiv) | x | x |
+
+Regeln:
+
+- **Codes 5, 7 und 20 bleiben in DE unbesetzt** und werden dort nie neu vergeben.
+  Ein Code bedeutet in beiden Ländern dieselbe Marke oder gar nichts.
+- **NEOH ist Code 13**, nicht 14. Die interne Choice-ID ist 14 — darauf greifen die
+  Skip-Logik (`bekanntheit`) und die Display-Logik von `H1` zu. Auswertungen
+  verwenden den Exportcode 13.
+- Länderspezifische Marken liegen im 90er-Bereich, die Ausweichoption bei 99.
+  Für einen reinen Ankervergleich AT/DE also Codes < 90 filtern.
+
+### Länderentscheidungen
+
+- **Dragee Keksi (Napoli)** — Marke von Manner, ausschließlich auf Österreich
+  ausgerichtet. In DE nicht sinnvoll abfragbar.
+- **Ketofabrik** — Firmensitz Salzburg, primär AT-Distribution. Die Marke firmiert
+  inzwischen unter "Keast"; für die AT-Welle ist zu prüfen, welcher Name im Regal steht.
+- **Foodspring** — das kundenseitige Geschäft wurde zum 30.06.2025 eingestellt. In DE
+  daher nicht aufgenommen. Für AT ist zu entscheiden, ob die Marke bei gestützter
+  Bekanntheit als Restgröße bleibt; bei Consideration und Kauf ist sie nicht mehr
+  interpretierbar.
+- **Barebells** (deutsche Tochter Hamburg, bei REWE und EDEKA gelistet), **Xucker**
+  (Berlin, dm und Rossmann) und **Duplo** (meistverkaufter Schokoriegel Deutschlands)
+  ergänzen in DE das Wettbewerbsumfeld.
+- **Manner** bleibt in beiden Ländern: eigenes Vertriebsbüro in Deutschland, dort aber
+  als Low-Awareness-Anker zu lesen.
+
+Anmerkung zur Distribution: NEOH ist in Deutschland bundesweit bei REWE und Müller
+gelistet, dazu Kaufland und Lekkerland, **nicht** bei dm und Rossmann. Die
+`H1`-Antwortoption "Nicht in meinem bevorzugten Geschäft erhältlich" dürfte in DE
+deshalb deutlich stärker besetzt sein als in AT.
+
+## 2. Bildungsabschluss (`bildung`)
+
+Die Kategorien sind länderspezifisch und **nicht** über den Rohcode vergleichbar.
+Für gepoolte Analysen über die ISCED-Spalte rekodieren.
+
+| AT Code | AT Kategorie | ISCED | DE Code | DE Kategorie |
+|--------:|--------------|:-----:|--------:|--------------|
+| — | — | 0–1 | 1 | Kein Schulabschluss |
+| 1 | Pflichtschule | 2 | 2 | Hauptschul-/Volksschulabschluss |
+| 1 | Pflichtschule | 2 | 3 | Mittlere Reife / Realschulabschluss |
+| 2 | Lehre/Berufsausbildung | 3–4 | 4 | Abgeschlossene Berufsausbildung (Lehre) |
+| 3 | Matura/Abitur | 3–4 | 5 | Fachhochschulreife / Abitur |
+| 4 | Bachelor | 6 | 6 | Bachelor |
+| 5 | Master/Magister/Diplom | 7 | 7 | Master / Diplom / Magister / Staatsexamen |
+| 6 | Doktorat/PhD | 8 | 8 | Promotion |
+| 7 | Sonstiges | n/a | 9 | Sonstiges |
+
+AT fasst Haupt- und Realschulniveau unter "Pflichtschule" zusammen; DE trennt beide.
+Beim Pooling werden die deutschen Codes 2 und 3 auf ISCED 2 zusammengeführt.
+
+## 3. Region (`bundesland`)
+
+AT: 9 Bundesländer (Codes 1–9). DE: 16 Bundesländer (Codes 1–16, alphabetisch).
+Nicht ineinander überführbar — für den Ländervergleich als getrennte
+Gewichtungsvariable behandeln (Statistik Austria bzw. Destatis).
+
+## 4. Identisch gehaltene Variablen
+
+Bewusst nicht lokalisiert, um die Messäquivalenz nicht zu gefährden: `haeufigkeit`,
+`alter`, `geschlecht`, `spontan`, `kanal`, alle Brand-Health-Slider, `bedürfnis`,
+`bedeutsam`, `H1`, `beschreibung`, `erfahrung`, `intention`, `empfehlung`,
+`einkommen` (beide Länder Eurozone, identische Klassen) und `zucker`.
+
+## 5. Konsistenzprüfungen für die Datenaufbereitung
+
+- `kauf_3monate_13 = 1` bei gleichzeitig `bekanntheit_13 = 0` ist inkonsistent:
+  Das Kaufraster läuft im Fragebogen vor der gestützten Bekanntheit, die
+  gleichzeitig der Screener ist.
+- `*_99` (KEINE Marke) ist exklusiv gesetzt; jede Kombination mit einer Markenangabe
+  deutet auf einen Fehler in der Feldkonfiguration hin.
+- Die Slider (`emotion`, `qualität`, `plv`, `zufriedenheit`, `wom`) haben eine
+  "Nicht zutreffend"-Option. Diese Antworten sind als fehlend zu behandeln, **nicht**
+  als Skalenmitte 0.
+- Alle Markenmetriken sind konditional auf die NEOH-Bekanntheit (Screener). Die
+  Awareness-Basis ist bei jedem Ländervergleich mit zu berichten.
