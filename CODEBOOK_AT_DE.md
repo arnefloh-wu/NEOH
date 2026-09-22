@@ -4,7 +4,10 @@ Referenz für das Stapeln der beiden Länderdatensätze. Die Länderzugehörigke
 in der Embedded-Data-Variable `land` (`AT` / `DE`), die als erstes Element im Survey
 Flow gesetzt wird.
 
-Dateien: `NEOH_AT_Sep2026_V6.qsf` (AT), `NEOH_DE_Sep2026.qsf` (DE).
+Dateien: `NEOH_AT_Sep2026_V7.qsf` (AT), `NEOH_DE_Sep2026.qsf` (DE). Beide Instrumente sind
+strukturgleich: identische Fragen, Export-Tags, Blockfolge, Logik und Randomisierung.
+Sie unterscheiden sich ausschliesslich in `einleitung`, `bundesland`, `bildung` und der
+Markenliste der drei Raster.
 
 ## 1. Markenraster
 
