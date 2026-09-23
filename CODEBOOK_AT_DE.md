@@ -99,12 +99,65 @@ AT: 9 Bundesländer (Codes 1–9). DE: 16 Bundesländer (Codes 1–16, alphabeti
 Nicht ineinander überführbar — für den Ländervergleich als getrennte
 Gewichtungsvariable behandeln (Statistik Austria bzw. Destatis).
 
+## 3a. Altersgruppe (`altersgruppe`)
+
+Embedded-Data-Variable, im Survey Flow direkt nach dem Screening-Block berechnet. `alter`
+bleibt als offene Zahleneingabe erhalten; `altersgruppe` dient der Quotierung und der
+Gewichtung.
+
+| Wert | Alter |
+|---|---|
+| `16-24` | 16 bis 24 |
+| `25-34` | 25 bis 34 |
+| `35-49` | 35 bis 49 |
+| `50-64` | 50 bis 64 |
+| `65+` | 65 und älter |
+
+Technisch als Kaskade umgesetzt: Der Ausgangswert `65+` wird von vier Branches mit
+`alter < 65`, `< 50`, `< 35` und `< 25` schrittweise überschrieben. Der zuletzt zutreffende
+Branch gewinnt. Bewusst nur mit dem Operator "kleiner als", ohne Und-Verknüpfungen —
+das ist robuster und im Survey Flow leichter zu kontrollieren.
+
+## 3b. Abbruchpfade und Feldkonfiguration
+
+Beide Fassungen haben zwei Screen-out-Pfade, beide als Branch im Survey Flow mit einem
+eigenen End-of-Survey-Element:
+
+| Position im Flow | Bedingung | Bedeutung |
+|---|---|---|
+| nach dem Screening-Block | `alter < 16` | Screen-out Alter |
+| nach dem Block Markenbekanntheit | NEOH bei `bekanntheit` nicht ausgewählt | Screen-out Bekanntheit |
+
+Der Bekanntheitsscreener war zuvor eine Skip Logic an der Frage. Skip Logic nutzt immer
+die globale Abschlussaktion — die Screen-outs wären also auf dem Complete-Link des
+Panelanbieters gelandet und als abgeschlossene Interviews abgerechnet worden. Als Branch
+mit eigenem End-of-Survey-Element lässt sich pro Pfad eine eigene Weiterleitung setzen.
+
+Vor dem Feld im Qualtrics-UI zu ergänzen:
+
+1. **Panel-ID aufnehmen**: im Embedded-Data-Element ganz oben neben `land` ein Feld mit
+   dem Feldnamen des Anbieters anlegen, Wert leer lassen. Qualtrics befüllt es aus dem
+   Query String des Einstiegslinks.
+2. **Weiterleitungen**: je End-of-Survey-Element "Umfrageoptionen überschreiben" →
+   "Zu einer URL weiterleiten", mit dem Screen-out-Link des Anbieters und angehängter ID,
+   z. B. `...?pid=${e://Field/PID}`. Der Complete-Link gehört in die globale
+   Abschlussaktion, der Quota-full-Link an das Quota-Element.
+3. **Quota-Element**: zwischen die `altersgruppe`-Branches und den Block Markenbekanntheit
+   setzen. Die Position ist entscheidend — quotiert wird die Allgemeinbevölkerung, nicht
+   die Teilstichprobe der NEOH-Kenner. Läge das Element hinter dem Bekanntheitsscreener,
+   würde die Awareness-Rate selbst verzerrt.
+
+Quotenvorschlag: `altersgruppe` × `geschlecht` interlocked, dazu eine Regionquote. Bei den
+16 deutschen Bundesländern nicht einzeln quotieren, sondern zu Nielsen-Gebieten
+zusammenfassen, sonst blockieren kleine Länder das Feld.
+
 ## 4. Identisch gehaltene Variablen
 
 Bewusst nicht lokalisiert, um die Messäquivalenz nicht zu gefährden: `haeufigkeit`,
 `alter`, `geschlecht`, `spontan`, `kanal`, alle Brand-Health-Slider, `bedürfnis`,
 `bedeutsam`, `H1`, `beschreibung`, `erfahrung`, `intention`, `empfehlung`,
 `einkommen` (beide Länder Eurozone, identische Klassen) und `zucker`.
+Ebenso die Ausweichoption der fünf Slider, die in beiden Fassungen "Weiß nicht" heißt.
 
 ## 5. Konsistenzprüfungen für die Datenaufbereitung
 
