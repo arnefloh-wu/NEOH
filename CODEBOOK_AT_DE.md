@@ -23,7 +23,7 @@ dieselben Exportcodes; die Spaltensuffixe im Export sind damit direkt vergleichb
 | 4 | Corny | x | x |
 | 5 | Dragee Keksi (Napoli) | x | — |
 | 6 | Hanuta | x | x |
-| 7 | Ketofabrik | x | — |
+| 7 | Ketofabrik (Keast) | x | — |
 | 8 | Kinder | x | x |
 | 9 | Knoppers | x | x |
 | 10 | Manner | x | x |
@@ -57,11 +57,14 @@ Regeln:
 - **Dragee Keksi (Napoli)** — Marke von Manner, ausschließlich auf Österreich
   ausgerichtet. In DE nicht sinnvoll abfragbar.
 - **Ketofabrik** — Firmensitz Salzburg, primär AT-Distribution. Die Marke firmiert
-  inzwischen unter "Keast"; für die AT-Welle ist zu prüfen, welcher Name im Regal steht.
+  inzwischen unter "Keast". Das Label lautet deshalb "Ketofabrik (Keast)": Es fängt
+  Befragte ab, die nur einen der beiden Namen kennen, und ist gegen den Stand des
+  Rebrands im Handel robust. Der Exportcode 7 bleibt unverändert.
 - **Foodspring** — das kundenseitige Geschäft wurde zum 30.06.2025 eingestellt. In DE
-  daher nicht aufgenommen. Für AT ist zu entscheiden, ob die Marke bei gestützter
-  Bekanntheit als Restgröße bleibt; bei Consideration und Kauf ist sie nicht mehr
-  interpretierbar.
+  nicht aufgenommen, in AT bewusst beibehalten: Markenwissen überlebt die Distribution,
+  die gestützte Bekanntheit bleibt also aussagekräftig. **Bei `betracht` und
+  `kauf_3monate` ist Code 20 dagegen nicht interpretierbar** und in der Auswertung
+  gesondert zu behandeln.
 - **Barebells** (deutsche Tochter Hamburg, bei REWE und EDEKA gelistet), **Xucker**
   (Berlin, dm und Rossmann) und **Duplo** (meistverkaufter Schokoriegel Deutschlands)
   ergänzen in DE das Wettbewerbsumfeld.
@@ -151,12 +154,34 @@ Quotenvorschlag: `altersgruppe` × `geschlecht` interlocked, dazu eine Regionquo
 16 deutschen Bundesländern nicht einzeln quotieren, sondern zu Nielsen-Gebieten
 zusammenfassen, sonst blockieren kleine Länder das Feld.
 
+## 3c. Aufmerksamkeitsprüfung (`attention`)
+
+Instructed-Response-Item, in beiden Fassungen identisch. Steht als dritter von fünf
+Slidern im Block Markengesundheit, damit es sich formal nicht von den umgebenden Items
+unterscheidet. Skala −100 bis +100 wie die Brand-Health-Slider, Antwortpflicht, keine
+Ausweichoption.
+
+Wortlaut: "Diese Frage prüft nur, ob die Fragen aufmerksam gelesen werden. Bitte ziehen
+Sie den Schieberegler ganz nach rechts auf 100."
+
+**Das Item terminiert nicht.** Es wird erhoben und in der Aufbereitung als
+Ausschlusskriterium verwendet — ein Abbruch im Feld führt zu Abrechnungsstreit mit dem
+Panelanbieter und verzerrt die Screen-out-Statistik.
+
+Auswertungsregel: `attention < 90` gilt als nicht bestanden. Die Schwelle statt exakt 100,
+weil der Regler nicht einrastet (`SnapToGrid` ist aus) und ein Ziehen ans rechte Ende
+minimal darunter liegen kann. Der Anteil nicht bestandener Fälle ist zu berichten.
+
+Das Item liegt hinter dem NEOH-Bekanntheitsscreener und erfasst damit nur qualifizierte
+Befragte. Für Screen-outs bleiben Bearbeitungsdauer und offene Angaben die einzigen
+Qualitätsindikatoren.
+
 ## 4. Identisch gehaltene Variablen
 
 Bewusst nicht lokalisiert, um die Messäquivalenz nicht zu gefährden: `haeufigkeit`,
 `alter`, `geschlecht`, `spontan`, `kanal`, alle Brand-Health-Slider, `bedürfnis`,
 `bedeutsam`, `H1`, `beschreibung`, `erfahrung`, `intention`, `empfehlung`,
-`einkommen` (beide Länder Eurozone, identische Klassen) und `zucker`.
+`einkommen` (beide Länder Eurozone, identische Klassen), `zucker` und `attention`.
 Ebenso die Ausweichoption der fünf Slider, die in beiden Fassungen "Weiß nicht" heißt.
 
 ## 5. Konsistenzprüfungen für die Datenaufbereitung
@@ -171,3 +196,7 @@ Ebenso die Ausweichoption der fünf Slider, die in beiden Fassungen "Weiß nicht
   als Skalenmitte 0.
 - Alle Markenmetriken sind konditional auf die NEOH-Bekanntheit (Screener). Die
   Awareness-Basis ist bei jedem Ländervergleich mit zu berichten.
+- `attention < 90` markiert nicht bestandene Aufmerksamkeitsprüfungen. Ausschluss in
+  beiden Ländern nach derselben Regel, Anteil berichten.
+- In AT ist Code 20 (Foodspring) nur bei `bekanntheit` interpretierbar, nicht bei
+  `betracht` und `kauf_3monate`.
