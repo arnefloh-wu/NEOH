@@ -8,8 +8,6 @@ Forschungsprojekt der WU Wien, Kontakt: Dr. Arne Floh, arne.floh@wu.ac.at
 
 ## Aktuelle Fassungen
 
-Für das Feld sind ausschließlich diese Dateien zu verwenden:
-
 Es gibt je Land **zwei Feldvarianten** desselben Instruments. Fragen, Export-Tags, Codes
 und Logik sind identisch; sie unterscheiden sich nur darin, was mit Befragten geschieht,
 die NEOH nicht kennen. Vor dem Feldstart ist eine davon zu wählen — die Varianten eines
@@ -35,10 +33,10 @@ ISCED-Mapping der Bildungsabschlüsse und die Konsistenzregeln für die
 Datenaufbereitung fest. Ohne dieses Dokument sind die beiden Exporte nicht sinnvoll
 zu stapeln.
 
-Die beiden Instrumente sind strukturgleich: identische Fragen, Export-Tags,
-Blockfolge, Logik und Randomisierung. Sie unterscheiden sich ausschließlich in
-`einleitung`, `bundesland`, `bildung` und der Markenliste der drei Raster. Die
-Länderzugehörigkeit steht in der Embedded-Data-Variable `land` (`AT` / `DE`).
+Innerhalb einer Variante sind die beiden Länderfassungen strukturgleich: identische
+Fragen, Export-Tags, Blockfolge, Logik und Randomisierung. Sie unterscheiden sich
+ausschließlich in `einleitung`, `bundesland`, `bildung` und der Markenliste der drei
+Raster. Die Länderzugehörigkeit steht in der Embedded-Data-Variable `land` (`AT` / `DE`).
 
 ## Versionshistorie
 
