@@ -8,22 +8,35 @@ Forschungsprojekt der WU Wien, Kontakt: Dr. Arne Floh, arne.floh@wu.ac.at
 
 ## Aktuelle Fassungen
 
-Für das Feld sind ausschließlich diese Dateien zu verwenden:
+Es gibt je Land **zwei Feldvarianten** desselben Instruments. Fragen, Export-Tags, Codes
+und Logik sind identisch; sie unterscheiden sich nur darin, was mit Befragten geschieht,
+die NEOH nicht kennen. Vor dem Feldstart ist eine davon zu wählen — die Varianten eines
+Landes sind nicht poolbar.
 
-| Land | Datei | `SurveyName` in Qualtrics |
+**Variante Screener** — Nicht-Kenner werden terminiert:
+
+| Land | Datei | `SurveyName` |
 |---|---|---|
 | Österreich | [`NEOH_AT_Sep2026_V7.qsf`](NEOH_AT_Sep2026_V7.qsf) | `NEOH_AT_Sep2026` |
 | Deutschland | [`NEOH_DE_Sep2026.qsf`](NEOH_DE_Sep2026.qsf) | `NEOH_DE_Sep2026` |
+
+**Variante Vollstichprobe** — ausgesteuert wird nur über Alter und Quoten, Nicht-Kenner
+durchlaufen einen Kurzpfad und schliessen ab:
+
+| Land | Datei | `SurveyName` |
+|---|---|---|
+| Österreich | [`NEOH_AT_Sep2026_Vollstichprobe.qsf`](NEOH_AT_Sep2026_Vollstichprobe.qsf) | `NEOH_AT_Sep2026_Vollstichprobe` |
+| Deutschland | [`NEOH_DE_Sep2026_Vollstichprobe.qsf`](NEOH_DE_Sep2026_Vollstichprobe.qsf) | `NEOH_DE_Sep2026_Vollstichprobe` |
 
 [`CODEBOOK_AT_DE.md`](CODEBOOK_AT_DE.md) hält die Markencodes beider Länder, das
 ISCED-Mapping der Bildungsabschlüsse und die Konsistenzregeln für die
 Datenaufbereitung fest. Ohne dieses Dokument sind die beiden Exporte nicht sinnvoll
 zu stapeln.
 
-Die beiden Instrumente sind strukturgleich: identische Fragen, Export-Tags,
-Blockfolge, Logik und Randomisierung. Sie unterscheiden sich ausschließlich in
-`einleitung`, `bundesland`, `bildung` und der Markenliste der drei Raster. Die
-Länderzugehörigkeit steht in der Embedded-Data-Variable `land` (`AT` / `DE`).
+Innerhalb einer Variante sind die beiden Länderfassungen strukturgleich: identische
+Fragen, Export-Tags, Blockfolge, Logik und Randomisierung. Sie unterscheiden sich
+ausschließlich in `einleitung`, `bundesland`, `bildung` und der Markenliste der drei
+Raster. Die Länderzugehörigkeit steht in der Embedded-Data-Variable `land` (`AT` / `DE`).
 
 ## Versionshistorie
 
@@ -53,7 +66,9 @@ Projekte bleiben unberührt. Je Fassung im Preview testen:
 
 - Die Markenreihenfolge wechselt bei mehrfachem Aufruf, "KEINE Marke" bleibt unten.
 - Alter 15 terminiert, Alter 17 läuft durch.
-- Ohne NEOH-Auswahl bei `bekanntheit` terminiert die Umfrage.
+- Variante Screener: ohne NEOH-Auswahl bei `bekanntheit` terminiert die Umfrage.
+- Variante Vollstichprobe: ohne NEOH-Auswahl werden die sechs Markenmodule übersprungen
+  und die Umfrage läuft bis zum Ende durch.
 - NEOH bei `betracht` angekreuzt, bei `kauf_3monate` nicht → `H1` erscheint.
 
 Dazu ein Testexport, der bestätigt, dass die Spaltensuffixe aus den Recode-Werten
