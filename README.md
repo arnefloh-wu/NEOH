@@ -79,12 +79,12 @@ gebildet werden (NEOH ist Exportcode **13**, nicht 14).
 
 Außerhalb der QSF-Dateien zu erledigen:
 
-- Panel-Redirects für Complete, Screen-out und Quota-full
+- Panel-Redirects der DE-Fassung (AT ist gesetzt; Quotierung übernimmt der Anbieter,
+  ein Quota-full-Link wird daher nicht benötigt)
 - Einwilligungstext und Datenschutz-Link in `einleitung`, abzustimmen mit der
   WU-Datenschutzstelle
-- Attention-Check sowie Speeder- und Straightliner-Regeln
-- Quoten: Alter × Geschlecht interlocked (Bänder 18-29 / 30-39 / 40-49 / 50-59 / 60-99), Region
-- Soft-Launch zur Incidence-Messung, besonders in Deutschland, wo die
-  NEOH-Bekanntheit deutlich unter der österreichischen liegen dürfte
+- Speeder- und Straightliner-Regeln für die Aufbereitung (der Attention-Check
+  `attention` ist im Instrument, siehe Codebuch 3c)
+- Soft-Launch zur Messung der Bearbeitungsdauer (siehe `SOFTLAUNCH_DE.md`)
 - Feldzeitpunkte möglichst nah beieinander: der Süßwarenmarkt ist saisonal, ein
   großer Abstand konfundiert den Ländereffekt mit einem Saisoneffekt

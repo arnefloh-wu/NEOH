@@ -157,7 +157,7 @@ ist jeweils durch `${e://Field/PID}` ersetzt:
 |---|---|---|
 | Complete | 5 | globale Abschlussaktion |
 | Screen-out Alter | 31 | End-of-Survey im Branch `Screen-out: unter 18 Jahre` |
-| Quota-full | **offen** | Quota-Element, Link liegt noch nicht vor |
+| Quota-full | entfällt | Aussteuerung erfolgt beim Anbieter, siehe unten |
 | Quality terminate | 42 | nicht verwendet, siehe unten |
 
 Die Links liegen bisher **nur für Österreich** vor; die deutsche Fassung hat noch keine
@@ -168,17 +168,30 @@ Weiterleitungen.
 Ein Feldabbruch bei nicht bestandener Prüfung würde die Screen-out-Statistik verzerren
 und Abrechnungsdiskussionen erzeugen.
 
-Noch im Qualtrics-UI zu ergänzen:
+### Quotierung
 
-1. **Quota-Element** zwischen die `altersgruppe`-Branches und den Block Markenbekanntheit
-   setzen, mit dem Quota-full-Link als Abschlussaktion. Die Position ist entscheidend —
-   quotiert wird die Allgemeinbevölkerung, nicht die Teilstichprobe der NEOH-Kenner. Läge
-   das Element hinter dem Bekanntheitsscreener, würde die Awareness-Rate selbst verzerrt.
-2. **Weiterleitungen der DE-Fassung**, sobald die Links vorliegen.
+Die Aussteuerung nach Alter und Geschlecht übernimmt der Panelanbieter auf seiner Seite.
+Im Fragebogen ist daher **kein Quota-Element** hinterlegt und es wird **kein
+Quota-full-Link** benötigt: Wer in eine volle Zelle fällt, erreicht die Umfrage gar nicht
+erst.
 
-Quotenvorschlag: `altersgruppe` × `geschlecht` interlocked, dazu eine Regionquote. Bei den
-16 deutschen Bundesländern nicht einzeln quotieren, sondern zu Nielsen-Gebieten
-zusammenfassen, sonst blockieren kleine Länder das Feld.
+`altersgruppe` bleibt trotzdem im Instrument — die Variable steuert nicht mehr, sondern
+dient der Kontrolle und der Gewichtung. Das ist kein Selbstzweck: Der Anbieter steuert
+nach **seinen Profildaten**, der Fragebogen erhebt Alter und Geschlecht als
+**Selbstauskunft**. Beide können auseinanderfallen, etwa bei veralteten Profilen oder
+geteilten Panel-Accounts. Die erreichte Verteilung ist deshalb nach dem Feld gegen die
+Sollvorgabe zu prüfen, und zwar auf Basis von `altersgruppe` und `geschlecht` aus dem
+Datensatz, nicht auf Basis der Anbieterstatistik.
+
+Ohne Quota-Element in Qualtrics gibt es zudem kein zweites Sicherheitsnetz gegen
+Überbelegung einzelner Zellen. Das liegt beim Anbieter.
+
+Noch im Qualtrics-UI zu ergänzen: die **Weiterleitungen der DE-Fassung**, sobald die Links
+vorliegen.
+
+Die Sollvorgabe für Österreich lautet `altersgruppe` × `geschlecht` interlocked
+(je 250 Frauen und Männer, Bänder 18-29 / 30-39 / 40-49 / 50-59 / 60-99) mit Bundesland
+als Randquote.
 
 ## 3c. Aufmerksamkeitsprüfung (`attention`)
 

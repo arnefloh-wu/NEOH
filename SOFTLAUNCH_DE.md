@@ -1,5 +1,20 @@
 # Soft-Launch-Plan Deutschland
 
+> **Stand nach dem Angebot des Panelanbieters.** Die ursprüngliche Hauptaufgabe dieses
+> Plans — die Incidence Rate messen, um die Bruttostichprobe zu dimensionieren — ist
+> entfallen. Der Anbieter setzt eine IR von mindestens 80 % voraus, und die
+> Vollstichproben-Variante erreicht praktisch 100 %, weil nur nach Alter und Quote
+> ausgesteuert wird. Die Fallzahlen stehen fest (AT 500, DE 1.000), die Quotierung
+> übernimmt der Anbieter.
+>
+> Damit bleibt als Zweck: die **Bearbeitungsdauer** prüfen, weil das Angebot mit 10
+> Minuten kalkuliert, sowie der technische Durchlauf von Weiterleitungen und Logik. Dafür
+> genügen 50 bis 100 Fälle statt der unten hergeleiteten 300. Die Abschnitte 1 und 2
+> dokumentieren die ursprüngliche Herleitung und sind nur noch historisch relevant;
+> Abschnitt 4 (Messplan) und die Timing-Elemente (`CODEBOOK_AT_DE.md`, Abschnitt 3e)
+> gelten unverändert.
+
+
 Instrument: `NEOH_DE_Sep2026.qsf`. Ziel des Soft-Launch ist, die drei Grössen zu messen,
 die das Budget und die Machbarkeit der Hauptwelle bestimmen, bevor die Stichprobe
 beauftragt wird — und das Instrument unter Feldbedingungen zu prüfen.
