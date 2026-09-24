@@ -246,8 +246,10 @@ Was das für die Auswertung ändert:
   durchläuft es jeder Befragte an derselben Stelle und die Ausschlussregel trifft beide
   Gruppen gleich streng. In der Screener-Variante sitzt es weiter im Block
   Markengesundheit.
-- Die Dauerangabe in `einleitung` lautet "ca. 5–13 Minuten, je nachdem welche Marken Sie
-  kennen". Die Angabe gegenüber dem Panelanbieter muss dazu passen.
+- `einleitung` enthält **keine Dauerangabe**. Die gegenüber dem Panelanbieter
+  kalkulierte LOI ist dadurch nicht an eine Zusage im Fragebogen gebunden; die
+  tatsächliche Bearbeitungsdauer wird über die Timing-Elemente gemessen
+  (Abschnitt 3e).
 
 Die beiden Varianten eines Landes sind **nicht poolbar**, solange `attention` an
 unterschiedlicher Stelle steht und die Nicht-Kenner nur in einer Variante vorkommen. Eine
