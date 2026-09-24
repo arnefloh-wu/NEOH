@@ -102,28 +102,33 @@ AT: 9 Bundesländer (Codes 1–9). DE: 16 Bundesländer (Codes 1–16, alphabeti
 Nicht ineinander überführbar — für den Ländervergleich als getrennte
 Gewichtungsvariable behandeln (Statistik Austria bzw. Destatis).
 
-## 3a. Altersgruppe (`altersgruppe`)
+## 3a. Alter (`alter`)
 
-Embedded-Data-Variable, im Survey Flow direkt nach dem Screening-Block berechnet. `alter`
-bleibt als offene Zahleneingabe erhalten; `altersgruppe` dient der Quotierung und der
-Gewichtung.
+Geschlossene Einfachauswahl mit den Kategorien, nach denen der Panelanbieter aussteuert.
+Beide Länder identisch.
 
-| Wert | Alter |
-|---|---|
-| `18-29` | 18 bis 29 |
-| `30-39` | 30 bis 39 |
-| `40-49` | 40 bis 49 |
-| `50-59` | 50 bis 59 |
-| `60-99` | 60 und älter |
+| Code | Kategorie |
+|---:|---|
+| 1 | Unter 18 Jahre — **terminiert** |
+| 2 | 18 bis 29 Jahre |
+| 3 | 30 bis 39 Jahre |
+| 4 | 40 bis 49 Jahre |
+| 5 | 50 bis 59 Jahre |
+| 6 | 60 Jahre und älter |
 
-Die Bänder entsprechen exakt der Aussteuerung des Panelanbieters, damit Qualtrics-Quoten,
-Anbieterquoten und Gewichtung auf dieselben Zellen laufen. Beide Länder verwenden
-dieselben Grenzen.
+Code 1 kommt im Datensatz nicht vor: Wer ihn wählt, wird im Branch
+`Screen-out: unter 18 Jahre` terminiert. Die Kategorie existiert nur, damit ein
+Fehlversand nicht stillschweigend als 18-Jähriger gezählt wird.
 
-Technisch als Kaskade umgesetzt: Der Ausgangswert `60-99` wird von vier Branches mit
-`alter < 60`, `< 50`, `< 40` und `< 30` schrittweise überschrieben. Der zuletzt zutreffende
-Branch gewinnt. Bewusst nur mit dem Operator "kleiner als", ohne Und-Verknüpfungen —
-das ist robuster und im Survey Flow leichter zu kontrollieren.
+Eine frühere Fassung erhob das Alter als offene Zahleneingabe und leitete daraus die
+Embedded-Data-Variable `altersgruppe` ab. Beides ist entfallen — `alter` trägt die
+Bandzuordnung jetzt selbst, die Kaskade im Survey Flow ist weg.
+
+**Konsequenz für die Auswertung:** Das Alter liegt nur noch kategorial vor. Median- oder
+Mittelwertaussagen zum Alter sind nicht mehr möglich, Alter als stetige Kovariate ebenso
+wenig, und eine Umgruppierung auf ein anderes Bandschema (etwa für die Gewichtung gegen
+eine Statistik mit abweichenden Klassen) geht nicht mehr. Dafür stimmen Fragebogen und
+Anbieteraussteuerung exakt überein.
 
 ## 3b. Abbruchpfade und Feldkonfiguration
 
@@ -132,7 +137,7 @@ eigenen End-of-Survey-Element:
 
 | Position im Flow | Bedingung | Bedeutung |
 |---|---|---|
-| nach dem Screening-Block | `alter < 18` | Screen-out Alter |
+| nach dem Screening-Block | `alter` = Kategorie 1 (unter 18) | Screen-out Alter |
 | nach dem Block Markenbekanntheit | NEOH bei `bekanntheit` nicht ausgewählt | Screen-out Bekanntheit |
 
 Der Bekanntheitsscreener war zuvor eine Skip Logic an der Frage. Skip Logic nutzt immer
@@ -171,9 +176,8 @@ und Abrechnungsdiskussionen erzeugen.
 
 Die Weiterleitungen der DE-Fassung folgen, sobald die Links vorliegen.
 
-Die Sollvorgabe für Österreich lautet `altersgruppe` × `geschlecht` interlocked
-(je 250 Frauen und Männer, Bänder 18-29 / 30-39 / 40-49 / 50-59 / 60-99) mit Bundesland
-als Randquote.
+Die Sollvorgabe für Österreich lautet `alter` × `geschlecht` interlocked (je 250 Frauen
+und Männer, Kategorien 2 bis 6) mit Bundesland als Randquote.
 
 ## 3c. Aufmerksamkeitsprüfung (`attention`)
 
@@ -234,7 +238,7 @@ gegenüber dem Panelanbieter kalkulierten LOI liegt.
 |---|---|
 | `t_spontan` | offene Frage `spontan` |
 | `t_raster` | die drei Markenraster (`bekanntheit`, `betracht`, `kauf_3monate`, zusammen 63 Items) |
-| `t_sentiment` | `beschreibung`, `erfahrung`, `intention`, `empfehlung` |
+| `t_sentiment` | `beschreibung`, `intention`, `empfehlung` |
 
 Jedes Element liefert vier Spalten: `First Click`, `Last Click`, `Page Submit` und
 `Click Count`. Relevant ist **`Page Submit`** — die Verweildauer auf der Seite in
@@ -259,7 +263,7 @@ Anbietergespräch ist der Median über alle Completes je Land getrennt zu berich
 
 Bewusst nicht lokalisiert, um die Messäquivalenz nicht zu gefährden: `haeufigkeit`,
 `alter`, `geschlecht`, `spontan`, `kanal`, alle Brand-Health-Slider, `bedürfnis`,
-`bedeutsam`, `H1`, `beschreibung`, `erfahrung`, `intention`, `empfehlung`,
+`bedeutsam`, `H1`, `beschreibung`, `intention`, `empfehlung`,
 `einkommen` (beide Länder Eurozone, identische Klassen), `zucker` und `attention`.
 Ebenso die Ausweichoption der fünf Slider, die in beiden Fassungen "Weiß nicht" heißt.
 
@@ -275,6 +279,7 @@ Ebenso die Ausweichoption der fünf Slider, die in beiden Fassungen "Weiß nicht
   als Skalenmitte 0.
 - Alle Markenmetriken sind konditional auf die NEOH-Bekanntheit (Screener). Die
   Awareness-Basis ist bei jedem Ländervergleich mit zu berichten.
+- `alter` = 1 darf im Datensatz nicht vorkommen; solche Fälle werden terminiert.
 - `attention < 90` markiert nicht bestandene Aufmerksamkeitsprüfungen. Ausschluss in
   beiden Ländern nach derselben Regel, Anteil berichten.
 - In AT ist Code 20 (Foodspring) nur bei `bekanntheit` interpretierbar, nicht bei
