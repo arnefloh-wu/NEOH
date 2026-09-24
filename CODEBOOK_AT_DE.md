@@ -42,6 +42,11 @@ dieselben Exportcodes; die Spaltensuffixe im Export sind damit direkt vergleichb
 | 92 | Duplo | — | x |
 | 99 | KEINE Marke (exklusiv) | x | x |
 
+Darstellung: Die drei Raster laufen über **drei Spalten**. 21 Optionen teilen sich ohne
+Rest auf 7 je Spalte, sodass "KEINE Marke" als letzte Option unten rechts steht und keine
+Marke optisch darunter liegt. Bei vier Spalten wäre die erste Spalte eine Zeile länger
+gewesen, was die Absicht der Endposition unterlaufen hätte.
+
 Regeln:
 
 - **Codes 5, 7 und 20 bleiben in DE unbesetzt** und werden dort nie neu vergeben.
