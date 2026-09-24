@@ -214,6 +214,37 @@ Die beiden Varianten eines Landes sind **nicht poolbar**, solange `attention` an
 unterschiedlicher Stelle steht und die Nicht-Kenner nur in einer Variante vorkommen. Eine
 Entscheidung für eine Variante ist also vor dem Feldstart zu treffen, nicht danach.
 
+## 3e. Zeitmessung (nur Vollstichproben-Variante)
+
+Drei unsichtbare Timing-Elemente auf den drei zeitkritischen Seiten. Für die Befragten
+ändert sich nichts; sie dienen der Diagnose, falls die Bearbeitungsdauer über der
+gegenüber dem Panelanbieter kalkulierten LOI liegt.
+
+| Tag | Seite |
+|---|---|
+| `t_spontan` | offene Frage `spontan` |
+| `t_raster` | die drei Markenraster (`bekanntheit`, `betracht`, `kauf_3monate`, zusammen 63 Items) |
+| `t_sentiment` | `beschreibung`, `erfahrung`, `intention`, `empfehlung` |
+
+Jedes Element liefert vier Spalten: `First Click`, `Last Click`, `Page Submit` und
+`Click Count`. Relevant ist **`Page Submit`** — die Verweildauer auf der Seite in
+Sekunden. Bei den offenen Fragen trennt die Differenz zwischen `First Click` und
+`Page Submit` zusätzlich Nachdenk- von Tippzeit.
+
+Auswertung immer über den **Median**, nie den Mittelwert: Die Verteilung ist stark
+rechtsschief, weil einzelne Befragte den Tab offen liegen lassen. Dasselbe gilt für die
+Gesamtdauer, die Qualtrics ohnehin als `Duration (in seconds)` exportiert.
+
+Zwei Randbedingungen: Die Werte sind additiv, wenn eine Seite mehrfach aufgerufen wird.
+Ein Zurück-Button existiert nicht (`BackButton` ist aus), aber `SaveAndContinue` ist
+aktiv — wer unterbricht und später auf derselben Seite wieder einsteigt, erzeugt eine
+aufgeblähte Zeit. Auch deshalb der Median.
+
+Die LOI ist in den beiden Ländern **nicht vergleichbar**, obwohl der Fragebogen identisch
+ist: NEOH-Kenner durchlaufen sechs zusätzliche Module. Bei hoher Bekanntheit (AT) liegt
+die Misch-LOI nahe am langen Pfad, bei niedriger (DE) nahe am kurzen. Für das
+Anbietergespräch ist der Median über alle Completes je Land getrennt zu berichten.
+
 ## 4. Identisch gehaltene Variablen
 
 Bewusst nicht lokalisiert, um die Messäquivalenz nicht zu gefährden: `haeufigkeit`,
