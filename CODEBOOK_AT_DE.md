@@ -166,19 +166,35 @@ seinen Platzhalter entsprechend an:
 https://wumarketing.qualtrics.com/jfe/form/SV_XXXXXXXX?PID=%id%
 ```
 
-Weiterleitungen (Anbieter: Loopster Panel). **Sie sind derzeit nicht in den QSF-Dateien
-hinterlegt** und im Qualtrics-UI zu setzen — die von Hand geschriebene Struktur der
-End-of-Survey-Optionen war beim Import problematisch. Der Platzhalter `%id%` aus den
-Vorlagen des Anbieters ist jeweils durch `${e://Field/PID}` zu ersetzen:
+Achtung, die Parameternamen sind auf Hin- und Rückweg **nicht identisch**: Der
+Einstiegslink trägt `PID` (unser Feldname in Qualtrics), der Rückweg trägt `i_survey`
+(der Feldname im System des Anbieters). Ein Testaufruf des Qualtrics-Links mit
+`?i_survey=...` läuft deshalb ins Leere — Qualtrics kennt kein Feld dieses Namens,
+`PID` bleibt leer, und die Rückleitung endet auf `i_survey=`.
 
-| Ausgang | ergebnis | Wo zu setzen |
+Weiterleitungen (Anbieter: Loopster Panel). In der AT-Fassung sind sie **im QSF
+hinterlegt**: Complete in den Umfrageoptionen (`SurveyTermination: Redirect` +
+`EOSRedirectURL`), Screen-out als `EndingType: Advanced` am End-of-Survey-Element im
+Branch `Screen-out: unter 18 Jahre`. Der Platzhalter `%id%` aus den Vorlagen des
+Anbieters ist jeweils durch `${e://Field/PID}` ersetzt:
+
+| Ausgang | ergebnis | Wo hinterlegt |
 |---|---|---|
 | Complete | 5 | Umfrageoptionen → Umfrageende → Zu einer URL weiterleiten |
 | Screen-out Alter | 31 | End-of-Survey im Branch `Screen-out: unter 18 Jahre`, dort "Umfrageoptionen überschreiben" |
 | Quota-full | entfällt | Aussteuerung erfolgt beim Anbieter |
 | Quality terminate | 42 | nicht verwendet, siehe unten |
 
-Die Links liegen bisher nur für Österreich vor.
+Die Links liegen bisher nur für Österreich vor; die DE-Fassung enthält sie noch nicht.
+
+Testaufruf der Rückleitung (privates Fenster, da `BallotBoxStuffingPrevention` aktiv ist):
+
+```
+https://wumarketing.qualtrics.com/jfe/form/SV_XXXXXXXX?PID=test123
+```
+
+Danach muß die Zielseite auf `...?i_survey=test123&autostart=1&ergebnis=5` enden und die
+Spalte `PID` in Daten & Analysen `test123` enthalten.
 
 `ergebnis=42` (Quality terminate) bleibt bewusst ungenutzt: Die Aufmerksamkeitsprüfung
 `attention` terminiert nicht, der Ausschluss erfolgt in der Aufbereitung (Abschnitt 3c).
