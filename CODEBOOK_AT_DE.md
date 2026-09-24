@@ -186,10 +186,10 @@ und Männer, Kategorien 2 bis 6) mit Bundesland als Randquote.
 
 ## 3c. Aufmerksamkeitsprüfung (`attention`)
 
-Instructed-Response-Item, in beiden Fassungen identisch. Steht als dritter von fünf
-Slidern im Block Markengesundheit, damit es sich formal nicht von den umgebenden Items
-unterscheidet. Skala −100 bis +100 wie die Brand-Health-Slider, Antwortpflicht, keine
-Ausweichoption.
+Instructed-Response-Item, in beiden Fassungen identisch. Steht als letzte Frage im Block
+Screening und Demografie, damit jeder Befragte es an derselben Stelle durchläuft — auch
+wer NEOH nicht kennt und die sechs Markenmodule überspringt. Skala −100 bis +100 wie die
+Brand-Health-Slider, Antwortpflicht, keine Ausweichoption.
 
 Wortlaut: "Diese Frage prüft nur, ob die Fragen aufmerksam gelesen werden. Bitte ziehen
 Sie den Schieberegler ganz nach rechts auf 100."
@@ -202,9 +202,8 @@ Auswertungsregel: `attention < 90` gilt als nicht bestanden. Die Schwelle statt 
 weil der Regler nicht einrastet (`SnapToGrid` ist aus) und ein Ziehen ans rechte Ende
 minimal darunter liegen kann. Der Anteil nicht bestandener Fälle ist zu berichten.
 
-Das Item liegt hinter dem NEOH-Bekanntheitsscreener und erfasst damit nur qualifizierte
-Befragte. Für Screen-outs bleiben Bearbeitungsdauer und offene Angaben die einzigen
-Qualitätsindikatoren.
+Weil das Item vor der Markenbekanntheit liegt, trifft die Ausschlussregel NEOH-Kenner und
+Nicht-Kenner an derselben Stelle und mit derselben Ermüdung gleich streng.
 
 ## 3d. Feldausrichtung
 
@@ -270,7 +269,7 @@ Bewusst nicht lokalisiert, um die Messäquivalenz nicht zu gefährden: `haeufigk
 `alter`, `geschlecht`, `spontan`, `kanal`, alle Brand-Health-Slider, `bedürfnis`,
 `bedeutsam`, `H1`, `beschreibung`, `intention`, `empfehlung`,
 `einkommen` (beide Länder Eurozone, identische Klassen), `zucker` und `attention`.
-Ebenso die Ausweichoption der fünf Slider, die in beiden Fassungen "Weiß nicht" heißt.
+Ebenso die fünf Brand-Health-Slider, die in beiden Fassungen ohne Ausweichoption laufen.
 
 ## 5. Konsistenzprüfungen für die Datenaufbereitung
 
@@ -279,9 +278,14 @@ Ebenso die Ausweichoption der fünf Slider, die in beiden Fassungen "Weiß nicht
   gleichzeitig der Screener ist.
 - `*_99` (KEINE Marke) ist exklusiv gesetzt; jede Kombination mit einer Markenangabe
   deutet auf einen Fehler in der Feldkonfiguration hin.
-- Die Slider (`emotion`, `qualität`, `plv`, `zufriedenheit`, `wom`) haben eine
-  "Nicht zutreffend"-Option. Diese Antworten sind als fehlend zu behandeln, **nicht**
-  als Skalenmitte 0.
+- Die fünf Brand-Health-Slider (`emotion`, `qualität`, `plv`, `zufriedenheit`, `wom`)
+  haben **keine** Ausweichoption. Sie stehen auf "Antwort erbeten", nicht auf
+  Antwortpflicht — wer kein Urteil abgeben kann oder will, klickt weiter, und der Wert
+  bleibt leer. Solche Fälle sind als fehlend zu behandeln.
+  **Nicht unterscheidbar** ist dadurch ein bewusst neutrales Urteil (Regler in der Mitte,
+  Wert 0) von einem "weiß nicht": Wer den Regler antippt und mittig stehen lässt, erzeugt
+  eine 0. Der Anteil leerer Werte je Slider ist deshalb mit zu berichten, besonders im
+  Ländervergleich, wo die NEOH-Vertrautheit unterschiedlich hoch ist.
 - Alle Markenmetriken sind konditional auf die NEOH-Bekanntheit (Screener). Die
   Awareness-Basis ist bei jedem Ländervergleich mit zu berichten.
 - `alter` = 1 darf im Datensatz nicht vorkommen; solche Fälle werden terminiert.
