@@ -97,12 +97,12 @@ Markenkennzahlen. Das ist beabsichtigt.
 | Kennzahl | Berechnung |
 |---|---|
 | IR gesamt | Anteil mit `bekanntheit_13 = 1` an allen, die den Screener erreichen |
-| **IR je Zelle** | dieselbe Grösse nach `altersgruppe` × `geschlecht` |
+| **IR je Zelle** | dieselbe Grösse nach `alter` × `geschlecht` |
 | Abschlussquote | Vollinterviews / Qualifizierte |
 | Median-LOI | Median der Bearbeitungsdauer, nicht Mittelwert — die Verteilung ist rechtsschief |
 
 Die IR je Zelle ist der wichtigste Einzelwert. Wenn die NEOH-Bekanntheit stark auf jüngere
-Altersgruppen konzentriert ist, sind die Zellen 50-64 und 65+ in der Hauptwelle
+Alterskategorien konzentriert ist, sind die Zellen 50-59 und 60+ in der Hauptwelle
 überproportional teuer, und die Bruttoplanung muss zellenweise statt pauschal erfolgen.
 
 ### Sekundär — prüft das Instrument
@@ -113,10 +113,10 @@ Altersgruppen konzentriert ist, sind die Zellen 50-64 und 65+ in der Hauptwelle
 | `KEINE Marke` in den drei Rastern | plausibel und exklusiv gesetzt; nie gemeinsam mit einer Marke |
 | Anteil "Weiss nicht" auf den fünf Slidern | hoch = Brand-Health-Block in DE kaum beantwortbar |
 | `H1` Einblendungsrate | > 0; zeigt, dass die Display-Logik auf QID45/QID46 greift |
-| `altersgruppe` | vollständig besetzt, Bänder stimmen mit `alter` überein |
+| `alter` | vollständig besetzt, Code 1 (unter 18) kommt nicht vor |
 | Speeder | LOI < 40 % des Medians |
 | Straightliner | identischer Wert auf allen fünf Slidern |
-| offene Angaben | Anteil unbrauchbarer Einträge bei `spontan`, `beschreibung`, `erfahrung` |
+| offene Angaben | Anteil unbrauchbarer Einträge bei `spontan` und `beschreibung` |
 | Weiterleitungen | Anbieter verbucht Completes und Screen-outs korrekt und getrennt |
 
 ### Inhaltlich — validiert die Markenliste

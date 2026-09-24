@@ -13,14 +13,11 @@ Forschungsprojekt der WU Wien, Kontakt: Dr. Arne Floh, arne.floh@wu.ac.at
 | Österreich | [`NEOH_AT_Sep2026.qsf`](NEOH_AT_Sep2026.qsf) | `NEOH_AT_Sep2026` |
 | Deutschland | [`NEOH_DE_Sep2026.qsf`](NEOH_DE_Sep2026.qsf) | `NEOH_DE_Sep2026` |
 
-Diese beiden Dateien enthalten **keine** Panel-Weiterleitungen; die werden im
-Qualtrics-UI gesetzt (siehe Codebuch, Panel-Anbindung).
-
-Zusätzlich liegt [`NEOH_AT_Sep2026_Redirects.qsf`](NEOH_AT_Sep2026_Redirects.qsf) bereit —
-inhaltlich identisch, aber mit den beiden österreichischen Weiterleitungen bereits im
-Survey Flow. Die dafür nötige Struktur der End-of-Survey-Optionen liess sich nicht gegen
-einen echten Qualtrics-Export prüfen; falls diese Datei importiert, spart sie die
-Handarbeit, falls nicht, ist die Fassung ohne Redirects der verlässliche Weg.
+[`NEOH_AT_Sep2026_Redirects.qsf`](NEOH_AT_Sep2026_Redirects.qsf) ist inhaltlich identisch
+zur österreichischen Fassung, enthält aber die beiden Panel-Weiterleitungen bereits im
+Survey Flow. Diese Datei ist erfolgreich importiert worden und damit die zu verwendende
+AT-Fassung; `NEOH_AT_Sep2026.qsf` ohne Weiterleitungen bleibt als Rückfallebene liegen.
+Für Deutschland liegen noch keine Links vor.
 
 Die zugehörigen `.docx` sind die Fragebogendokumentation, erzeugt aus den QSF-Dateien.
 
@@ -54,12 +51,10 @@ Der Import legt jeweils eine neue Umfrage mit neuer `SurveyID` an; bestehende
 Projekte bleiben unberührt. Je Länderfassung im Preview testen:
 
 - Die Markenreihenfolge wechselt bei mehrfachem Aufruf, "KEINE Marke" bleibt unten.
-- Alter 17 terminiert, Alter 19 läuft durch; `altersgruppe` kommt im Datensatz an
-  (Alter 30 muss `30-39` ergeben).
+- Die Alterskategorie kommt im Datensatz an (Codes 2 bis 6, Code 1 nie).
 - Ohne NEOH-Auswahl bei `bekanntheit` werden die sechs Markenmodule übersprungen und die
   Umfrage läuft bis zum Ende durch.
-- Alter 17 terminiert; nach dem Setzen der Redirects prüfen, dass dabei `ergebnis=31`
-  aufgerufen wird und nicht `ergebnis=5`.
+- `alter` = "Unter 18 Jahre" terminiert und ruft `ergebnis=31` auf, nicht `ergebnis=5`.
 - NEOH bei `betracht` angekreuzt, bei `kauf_3monate` nicht → `H1` erscheint.
 
 Dazu ein Testexport, der bestätigt, dass die Spaltensuffixe aus den Recode-Werten
