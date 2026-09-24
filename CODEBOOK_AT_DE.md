@@ -110,14 +110,18 @@ Gewichtung.
 
 | Wert | Alter |
 |---|---|
-| `16-24` | 16 bis 24 |
-| `25-34` | 25 bis 34 |
-| `35-49` | 35 bis 49 |
-| `50-64` | 50 bis 64 |
-| `65+` | 65 und älter |
+| `18-29` | 18 bis 29 |
+| `30-39` | 30 bis 39 |
+| `40-49` | 40 bis 49 |
+| `50-59` | 50 bis 59 |
+| `60-99` | 60 und älter |
 
-Technisch als Kaskade umgesetzt: Der Ausgangswert `65+` wird von vier Branches mit
-`alter < 65`, `< 50`, `< 35` und `< 25` schrittweise überschrieben. Der zuletzt zutreffende
+Die Bänder entsprechen exakt der Aussteuerung des Panelanbieters, damit Qualtrics-Quoten,
+Anbieterquoten und Gewichtung auf dieselben Zellen laufen. Beide Länder verwenden
+dieselben Grenzen.
+
+Technisch als Kaskade umgesetzt: Der Ausgangswert `60-99` wird von vier Branches mit
+`alter < 60`, `< 50`, `< 40` und `< 30` schrittweise überschrieben. Der zuletzt zutreffende
 Branch gewinnt. Bewusst nur mit dem Operator "kleiner als", ohne Und-Verknüpfungen —
 das ist robuster und im Survey Flow leichter zu kontrollieren.
 
@@ -128,7 +132,7 @@ eigenen End-of-Survey-Element:
 
 | Position im Flow | Bedingung | Bedeutung |
 |---|---|---|
-| nach dem Screening-Block | `alter < 16` | Screen-out Alter |
+| nach dem Screening-Block | `alter < 18` | Screen-out Alter |
 | nach dem Block Markenbekanntheit | NEOH bei `bekanntheit` nicht ausgewählt | Screen-out Bekanntheit |
 
 Der Bekanntheitsscreener war zuvor eine Skip Logic an der Frage. Skip Logic nutzt immer

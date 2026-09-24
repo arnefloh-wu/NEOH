@@ -65,7 +65,8 @@ Der Import legt jeweils eine neue Umfrage mit neuer `SurveyID` an; bestehende
 Projekte bleiben unberührt. Je Fassung im Preview testen:
 
 - Die Markenreihenfolge wechselt bei mehrfachem Aufruf, "KEINE Marke" bleibt unten.
-- Alter 15 terminiert, Alter 17 läuft durch.
+- Alter 17 terminiert, Alter 19 läuft durch; `altersgruppe` kommt im Datensatz an
+  (Alter 30 muss `30-39` ergeben).
 - Variante Screener: ohne NEOH-Auswahl bei `bekanntheit` terminiert die Umfrage.
 - Variante Vollstichprobe: ohne NEOH-Auswahl werden die sechs Markenmodule übersprungen
   und die Umfrage läuft bis zum Ende durch.
@@ -82,7 +83,7 @@ Außerhalb der QSF-Dateien zu erledigen:
 - Einwilligungstext und Datenschutz-Link in `einleitung`, abzustimmen mit der
   WU-Datenschutzstelle
 - Attention-Check sowie Speeder- und Straightliner-Regeln
-- Quoten: Alter × Geschlecht interlocked, Region, Bildung — Altersuntergrenze 16
+- Quoten: Alter × Geschlecht interlocked (Bänder 18-29 / 30-39 / 40-49 / 50-59 / 60-99), Region
 - Soft-Launch zur Incidence-Messung, besonders in Deutschland, wo die
   NEOH-Bekanntheit deutlich unter der österreichischen liegen dürfte
 - Feldzeitpunkte möglichst nah beieinander: der Süßwarenmarkt ist saisonal, ein
