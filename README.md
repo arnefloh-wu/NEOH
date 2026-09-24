@@ -13,6 +13,15 @@ Forschungsprojekt der WU Wien, Kontakt: Dr. Arne Floh, arne.floh@wu.ac.at
 | Österreich | [`NEOH_AT_Sep2026.qsf`](NEOH_AT_Sep2026.qsf) | `NEOH_AT_Sep2026` |
 | Deutschland | [`NEOH_DE_Sep2026.qsf`](NEOH_DE_Sep2026.qsf) | `NEOH_DE_Sep2026` |
 
+Diese beiden Dateien enthalten **keine** Panel-Weiterleitungen; die werden im
+Qualtrics-UI gesetzt (siehe Codebuch, Panel-Anbindung).
+
+Zusätzlich liegt [`NEOH_AT_Sep2026_Redirects.qsf`](NEOH_AT_Sep2026_Redirects.qsf) bereit —
+inhaltlich identisch, aber mit den beiden österreichischen Weiterleitungen bereits im
+Survey Flow. Die dafür nötige Struktur der End-of-Survey-Optionen liess sich nicht gegen
+einen echten Qualtrics-Export prüfen; falls diese Datei importiert, spart sie die
+Handarbeit, falls nicht, ist die Fassung ohne Redirects der verlässliche Weg.
+
 Die zugehörigen `.docx` sind die Fragebogendokumentation, erzeugt aus den QSF-Dateien.
 
 [`CODEBOOK_AT_DE.md`](CODEBOOK_AT_DE.md) hält die Markencodes beider Länder, das
@@ -49,7 +58,8 @@ Projekte bleiben unberührt. Je Länderfassung im Preview testen:
   (Alter 30 muss `30-39` ergeben).
 - Ohne NEOH-Auswahl bei `bekanntheit` werden die sechs Markenmodule übersprungen und die
   Umfrage läuft bis zum Ende durch.
-- Alter 17 landet auf `ergebnis=31` (Screenout), nicht auf `ergebnis=5` (Complete).
+- Alter 17 terminiert; nach dem Setzen der Redirects prüfen, dass dabei `ergebnis=31`
+  aufgerufen wird und nicht `ergebnis=5`.
 - NEOH bei `betracht` angekreuzt, bei `kauf_3monate` nicht → `H1` erscheint.
 
 Dazu ein Testexport, der bestätigt, dass die Spaltensuffixe aus den Recode-Werten
@@ -59,8 +69,9 @@ gebildet werden (NEOH ist Exportcode **13**, nicht 14).
 
 Außerhalb der QSF-Dateien zu erledigen:
 
-- Panel-Redirects der DE-Fassung (AT ist gesetzt; Quotierung übernimmt der Anbieter,
-  ein Quota-full-Link wird daher nicht benötigt)
+- Panel-Redirects beider Fassungen im Qualtrics-UI setzen (siehe Codebuch,
+  Panel-Anbindung). Quotierung übernimmt der Anbieter, ein Quota-full-Link wird
+  nicht benötigt.
 - Einwilligungstext und Datenschutz-Link in `einleitung`, abzustimmen mit der
   WU-Datenschutzstelle
 - Speeder- und Straightliner-Regeln für die Aufbereitung (der Attention-Check
