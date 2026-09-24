@@ -152,8 +152,14 @@ mit eigenem End-of-Survey-Element lässt sich pro Pfad eine eigene Weiterleitung
 
 ### Panel-Anbindung
 
-Die Respondenten-ID wird im Embedded-Data-Element ganz oben als leeres Feld **`PID`**
-geführt; Qualtrics befüllt es aus dem Query String des Einstiegslinks. Der Anbieter hängt
+Die Respondenten-ID wird im Embedded-Data-Element ganz oben als Feld **`PID`** geführt.
+Entscheidend: Das Feld wird **nur deklariert, nicht zugewiesen** — in der Qualtrics-Oberfläche
+steht daneben "Wert wird aus Panel oder URL gesetzt", kein Eingabefeld mit Wert. Wird
+stattdessen ein leerer Wert zugewiesen, überschreibt der Survey Flow den aus dem Query
+String gelesenen Wert, und die Rückleitung übergibt eine leere ID. Genau dieser Fehler ist
+in der ersten Feldkonfiguration aufgetreten.
+
+`land` ist der Gegenfall: Dort ist eine Zuweisung gewollt (`AT` bzw. `DE`). Der Anbieter hängt
 seinen Platzhalter entsprechend an:
 
 ```
