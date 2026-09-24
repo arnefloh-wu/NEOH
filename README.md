@@ -13,11 +13,10 @@ Forschungsprojekt der WU Wien, Kontakt: Dr. Arne Floh, arne.floh@wu.ac.at
 | Österreich | [`NEOH_AT_Sep2026.qsf`](NEOH_AT_Sep2026.qsf) | `NEOH_AT_Sep2026` |
 | Deutschland | [`NEOH_DE_Sep2026.qsf`](NEOH_DE_Sep2026.qsf) | `NEOH_DE_Sep2026` |
 
-[`NEOH_AT_Sep2026_Redirects.qsf`](NEOH_AT_Sep2026_Redirects.qsf) ist inhaltlich identisch
-zur österreichischen Fassung, enthält aber die beiden Panel-Weiterleitungen bereits im
-Survey Flow. Diese Datei ist erfolgreich importiert worden und damit die zu verwendende
-AT-Fassung; `NEOH_AT_Sep2026.qsf` ohne Weiterleitungen bleibt als Rückfallebene liegen.
-Für Deutschland liegen noch keine Links vor.
+Die österreichische Fassung enthält die beiden Panel-Weiterleitungen (Complete
+`ergebnis=5`, Screen-out `ergebnis=31`) bereits im Survey Flow; sie ist in dieser Form
+erfolgreich nach Qualtrics importiert worden. Für Deutschland liegen noch keine Links
+vor, dort sind sie nach dem Import im UI zu setzen (siehe Codebuch, Panel-Anbindung).
 
 Die zugehörigen `.docx` sind die Fragebogendokumentation, erzeugt aus den QSF-Dateien.
 
