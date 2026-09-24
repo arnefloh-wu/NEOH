@@ -4,7 +4,7 @@ Referenz für das Stapeln der beiden Länderdatensätze. Die Länderzugehörigke
 in der Embedded-Data-Variable `land` (`AT` / `DE`), die als erstes Element im Survey
 Flow gesetzt wird.
 
-Dateien: `NEOH_AT_Sep2026_V7.qsf` (AT), `NEOH_DE_Sep2026.qsf` (DE). Beide Instrumente sind
+Dateien: `NEOH_AT_Sep2026.qsf` (AT), `NEOH_DE_Sep2026.qsf` (DE). Beide Instrumente sind
 strukturgleich: identische Fragen, Export-Tags, Blockfolge, Logik und Randomisierung.
 Sie unterscheiden sich ausschliesslich in `einleitung`, `bundesland`, `bildung` und der
 Markenliste der drei Raster.
@@ -215,47 +215,34 @@ Das Item liegt hinter dem NEOH-Bekanntheitsscreener und erfasst damit nur qualif
 Befragte. Für Screen-outs bleiben Bearbeitungsdauer und offene Angaben die einzigen
 Qualitätsindikatoren.
 
-## 3d. Zwei Feldvarianten
+## 3d. Feldausrichtung
 
-Für jedes Land existieren zwei Fassungen desselben Instruments. Fragen, Export-Tags,
-Codes und Logik sind identisch; sie unterscheiden sich nur darin, was mit Befragten
-geschieht, die NEOH nicht kennen.
+Ausgesteuert wird nur über Alter (ab 18) und die Quoten des Panelanbieters. Die sechs
+NEOH-Module (Medien, Markengesundheit, Markenwahrnehmung, Bedürfnisse und Bedeutung,
+Markteffekte, Markensentiment) liegen in einem Branch, der sie bei bekanntem NEOH
+einblendet und sonst überspringt. Wer NEOH nicht kennt, beantwortet Demografie,
+`spontan`, die drei Markenraster, `attention` und `zucker` und schließt regulär ab.
 
-| Variante | Datei | Nicht-Kenner |
-|---|---|---|
-| Screener | `NEOH_AT_Sep2026_V7.qsf`, `NEOH_DE_Sep2026.qsf` | werden terminiert |
-| Vollstichprobe | `..._Vollstichprobe.qsf` | durchlaufen einen Kurzpfad und schliessen ab |
-
-In der Vollstichproben-Variante ist der einzige inhaltliche Ausschluss das Alter unter 16;
-darüber hinaus wird nur über Quoten ausgesteuert. Die sechs NEOH-Module (Medien,
-Markengesundheit, Markenwahrnehmung, Bedürfnisse und Bedeutung, Markteffekte,
-Markensentiment) liegen in einem Branch, der sie bei bekanntem NEOH einblendet und sonst
-überspringt. Nicht-Kenner beantworten Demografie, `spontan`, die drei Markenraster,
-`attention` und `zucker`.
-
-Was das für die Auswertung ändert:
+Was das für die Auswertung bedeutet:
 
 - **Die NEOH-Bekanntheit wird direkt geschätzt**, nicht aus der Screen-out-Quote
   rekonstruiert. Nenner ist die gewichtete Gesamtstichprobe.
 - **Die Markenmetriken sind weiterhin konditional** auf die Bekanntheit — aber die
-  Selektion ist jetzt beobachtet statt durch Feldausschluss erzeugt und damit modellierbar.
-- **Der Wettbewerbs-Funnel für alle 21 Optionen** liegt auf der Allgemeinbevölkerung. Nur
-  in dieser Variante sind Bekanntheit, Consideration und Kauf zwischen NEOH und den
-  übrigen Marken direkt vergleichbar.
-- **`attention` steht im Screening-Block**, nicht im Block Markengesundheit. Dadurch
-  durchläuft es jeder Befragte an derselben Stelle und die Ausschlussregel trifft beide
-  Gruppen gleich streng. In der Screener-Variante sitzt es weiter im Block
-  Markengesundheit.
+  Selektion ist beobachtet statt durch Feldausschluss erzeugt und damit modellierbar.
+- **Der Wettbewerbs-Funnel für alle 21 Optionen** liegt auf der Allgemeinbevölkerung.
+  Nur so sind Bekanntheit, Consideration und Kauf zwischen NEOH und den übrigen Marken
+  direkt vergleichbar.
+- **`attention` steht im Screening-Block**, damit es jeder Befragte an derselben Stelle
+  durchläuft und die Ausschlussregel beide Gruppen gleich streng trifft.
 - `einleitung` enthält **keine Dauerangabe**. Die gegenüber dem Panelanbieter
   kalkulierte LOI ist dadurch nicht an eine Zusage im Fragebogen gebunden; die
-  tatsächliche Bearbeitungsdauer wird über die Timing-Elemente gemessen
-  (Abschnitt 3e).
+  tatsächliche Bearbeitungsdauer wird über die Timing-Elemente gemessen (Abschnitt 3e).
 
-Die beiden Varianten eines Landes sind **nicht poolbar**, solange `attention` an
-unterschiedlicher Stelle steht und die Nicht-Kenner nur in einer Variante vorkommen. Eine
-Entscheidung für eine Variante ist also vor dem Feldstart zu treffen, nicht danach.
+Eine frühere Variante terminierte NEOH-Unkenner. Sie wurde verworfen, weil sie die vom
+Panelanbieter vorausgesetzte Bedingung "IR mindestens 80 %" verletzt, und ist nur noch
+über die Git-Historie erreichbar.
 
-## 3e. Zeitmessung (nur Vollstichproben-Variante)
+## 3e. Zeitmessung
 
 Drei unsichtbare Timing-Elemente auf den drei zeitkritischen Seiten. Für die Befragten
 ändert sich nichts; sie dienen der Diagnose, falls die Bearbeitungsdauer über der

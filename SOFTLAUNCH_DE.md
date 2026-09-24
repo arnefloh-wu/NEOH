@@ -3,7 +3,7 @@
 > **Stand nach dem Angebot des Panelanbieters.** Die ursprüngliche Hauptaufgabe dieses
 > Plans — die Incidence Rate messen, um die Bruttostichprobe zu dimensionieren — ist
 > entfallen. Der Anbieter setzt eine IR von mindestens 80 % voraus, und die
-> Vollstichproben-Variante erreicht praktisch 100 %, weil nur nach Alter und Quote
+> Feldausrichtung erreicht praktisch 100 %, weil nur nach Alter und Quote
 > ausgesteuert wird. Die Fallzahlen stehen fest (AT 500, DE 1.000), die Quotierung
 > übernimmt der Anbieter.
 >
