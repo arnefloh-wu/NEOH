@@ -8,68 +8,48 @@ Forschungsprojekt der WU Wien, Kontakt: Dr. Arne Floh, arne.floh@wu.ac.at
 
 ## Aktuelle Fassungen
 
-Es gibt je Land **zwei Feldvarianten** desselben Instruments. Fragen, Export-Tags, Codes
-und Logik sind identisch; sie unterscheiden sich nur darin, was mit Befragten geschieht,
-die NEOH nicht kennen. Vor dem Feldstart ist eine davon zu wählen — die Varianten eines
-Landes sind nicht poolbar.
-
-**Variante Screener** — Nicht-Kenner werden terminiert:
-
-| Land | Datei | `SurveyName` |
+| Land | Datei | `SurveyName` in Qualtrics |
 |---|---|---|
-| Österreich | [`NEOH_AT_Sep2026_V7.qsf`](NEOH_AT_Sep2026_V7.qsf) | `NEOH_AT_Sep2026` |
+| Österreich | [`NEOH_AT_Sep2026.qsf`](NEOH_AT_Sep2026.qsf) | `NEOH_AT_Sep2026` |
 | Deutschland | [`NEOH_DE_Sep2026.qsf`](NEOH_DE_Sep2026.qsf) | `NEOH_DE_Sep2026` |
 
-**Variante Vollstichprobe** — ausgesteuert wird nur über Alter und Quoten, Nicht-Kenner
-durchlaufen einen Kurzpfad und schliessen ab:
-
-| Land | Datei | `SurveyName` |
-|---|---|---|
-| Österreich | [`NEOH_AT_Sep2026_Vollstichprobe.qsf`](NEOH_AT_Sep2026_Vollstichprobe.qsf) | `NEOH_AT_Sep2026_Vollstichprobe` |
-| Deutschland | [`NEOH_DE_Sep2026_Vollstichprobe.qsf`](NEOH_DE_Sep2026_Vollstichprobe.qsf) | `NEOH_DE_Sep2026_Vollstichprobe` |
+Die zugehörigen `.docx` sind die Fragebogendokumentation, erzeugt aus den QSF-Dateien.
 
 [`CODEBOOK_AT_DE.md`](CODEBOOK_AT_DE.md) hält die Markencodes beider Länder, das
-ISCED-Mapping der Bildungsabschlüsse und die Konsistenzregeln für die
-Datenaufbereitung fest. Ohne dieses Dokument sind die beiden Exporte nicht sinnvoll
-zu stapeln.
+ISCED-Mapping der Bildungsabschlüsse, die Altersbänder, die Panel-Anbindung und die
+Konsistenzregeln für die Datenaufbereitung fest. Ohne dieses Dokument sind die beiden
+Exporte nicht sinnvoll zu stapeln.
 
-Innerhalb einer Variante sind die beiden Länderfassungen strukturgleich: identische
-Fragen, Export-Tags, Blockfolge, Logik und Randomisierung. Sie unterscheiden sich
-ausschließlich in `einleitung`, `bundesland`, `bildung` und der Markenliste der drei
-Raster. Die Länderzugehörigkeit steht in der Embedded-Data-Variable `land` (`AT` / `DE`).
+[`SOFTLAUNCH_DE.md`](SOFTLAUNCH_DE.md) beschreibt den Soft-Launch.
 
-## Versionshistorie
+Die beiden Länderfassungen sind strukturgleich: identische Fragen, Export-Tags,
+Blockfolge, Logik und Randomisierung. Sie unterscheiden sich ausschließlich in
+`einleitung`, `bundesland`, `bildung` und der Markenliste der drei Raster. Die
+Länderzugehörigkeit steht in der Embedded-Data-Variable `land` (`AT` / `DE`).
 
-V1 bis V6 dokumentieren die Entwicklung des österreichischen Masters und sind **nicht**
-für das Feld bestimmt. Insbesondere hat V6 vier Defekte, die in V7 behoben sind: die
-erweiterte Randomisierung liegt dort auf Fragen im Papierkorb und ist im Live-Fragebogen
-wirkungslos, die Display-Logik von `H1` verweist ebenfalls auf Papierkorb-Fragen und
-kann nie erfüllt werden, drei der fünf Brand-Health-Slider haben keine
-"Nicht zutreffend"-Option, und die Export-Tags `betracht` und `kauf_3monate` sind
-doppelt vergeben.
+## Feldausrichtung
 
-| Datei | Stand |
-|---|---|
-| `NEOH_AT_Sep2026.qsf` | Ausgangsversion |
-| `NEOH_AT_Sep2026_V2.qsf` … `_V6.qsf` | Zwischenstände |
-| `NEOH_AT_Sep2026_V7.qsf` | **aktuell, feldreif** |
-| `NEOH_DE_Sep2026.qsf` | **aktuell, feldreif** |
+Ausgesteuert wird nur über Alter (ab 18) und die Quoten des Panelanbieters. Wer NEOH
+nicht kennt, überspringt die sechs Markenmodule und schließt die Umfrage regulär ab —
+die Incidence Rate liegt damit praktisch bei 100 %, und die Markenbekanntheit wird
+bevölkerungsbezogen geschätzt statt aus einer Screen-out-Quote rekonstruiert.
 
-Die `.docx`-Dateien sind die Word-Exporte des jeweiligen Fragebogens aus Qualtrics.
-Für V7 und die deutsche Fassung stehen sie noch aus und sind nach dem Import
-nachzutragen.
+Eine frühere Variante terminierte NEOH-Unkenner. Sie wurde verworfen, weil sie die vom
+Panelanbieter vorausgesetzte Bedingung "IR mindestens 80 %" verletzt. Die
+Entwicklungsstände V1 bis V7 sind aus dem Arbeitsverzeichnis entfernt und nur noch über
+die Git-Historie erreichbar.
 
 ## Nach dem Qualtrics-Import zu prüfen
 
 Der Import legt jeweils eine neue Umfrage mit neuer `SurveyID` an; bestehende
-Projekte bleiben unberührt. Je Fassung im Preview testen:
+Projekte bleiben unberührt. Je Länderfassung im Preview testen:
 
 - Die Markenreihenfolge wechselt bei mehrfachem Aufruf, "KEINE Marke" bleibt unten.
 - Alter 17 terminiert, Alter 19 läuft durch; `altersgruppe` kommt im Datensatz an
   (Alter 30 muss `30-39` ergeben).
-- Variante Screener: ohne NEOH-Auswahl bei `bekanntheit` terminiert die Umfrage.
-- Variante Vollstichprobe: ohne NEOH-Auswahl werden die sechs Markenmodule übersprungen
-  und die Umfrage läuft bis zum Ende durch.
+- Ohne NEOH-Auswahl bei `bekanntheit` werden die sechs Markenmodule übersprungen und die
+  Umfrage läuft bis zum Ende durch.
+- Alter 17 landet auf `ergebnis=31` (Screenout), nicht auf `ergebnis=5` (Complete).
 - NEOH bei `betracht` angekreuzt, bei `kauf_3monate` nicht → `H1` erscheint.
 
 Dazu ein Testexport, der bestätigt, dass die Spaltensuffixe aus den Recode-Werten
