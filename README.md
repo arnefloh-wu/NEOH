@@ -44,6 +44,23 @@ Panelanbieter vorausgesetzte Bedingung "IR mindestens 80 %" verletzt. Die
 Entwicklungsstände V1 bis V7 sind aus dem Arbeitsverzeichnis entfernt und nur noch über
 die Git-Historie erreichbar.
 
+## Vor dem Import prüfen
+
+Qualtrics lehnt fehlerhafte QSF-Dateien beim Import wortlos ab. Zwei Fehlversuche gingen
+auf Reste zurück, die beim Umbauen von Fragen liegengeblieben waren — ein Objekt im
+`QC`-Payload, wo `null` erwartet wird, und der Key `SearchSource` auf einer Frage, die von
+Texteingabe auf Auswahl umgestellt wurde. Beides ist mit blossem Auge nicht zu sehen.
+
+```
+python3 qsf_pruefen.py NEOH_AT_Sep2026.qsf NEOH_DE_Sep2026.qsf
+```
+
+Das Skript vergleicht gegen [`referenz_import_ok.qsf`](referenz_import_ok.qsf), eine
+Fassung, die nachweislich importiert hat: erlaubte Keys je Fragetyp, Payload-Typen der
+Nicht-SQ-Elemente, Vollständigkeit der Block- und Flow-Verweise, Gültigkeit aller
+Logik-Locatoren und Eindeutigkeit der Export-Tags. Nach jeder Änderung an einer QSF-Datei
+laufen lassen.
+
 ## Nach dem Qualtrics-Import zu prüfen
 
 Der Import legt jeweils eine neue Umfrage mit neuer `SurveyID` an; bestehende
