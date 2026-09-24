@@ -140,19 +140,41 @@ die globale Abschlussaktion — die Screen-outs wären also auf dem Complete-Lin
 Panelanbieters gelandet und als abgeschlossene Interviews abgerechnet worden. Als Branch
 mit eigenem End-of-Survey-Element lässt sich pro Pfad eine eigene Weiterleitung setzen.
 
-Vor dem Feld im Qualtrics-UI zu ergänzen:
+### Panel-Anbindung
 
-1. **Panel-ID aufnehmen**: im Embedded-Data-Element ganz oben neben `land` ein Feld mit
-   dem Feldnamen des Anbieters anlegen, Wert leer lassen. Qualtrics befüllt es aus dem
-   Query String des Einstiegslinks.
-2. **Weiterleitungen**: je End-of-Survey-Element "Umfrageoptionen überschreiben" →
-   "Zu einer URL weiterleiten", mit dem Screen-out-Link des Anbieters und angehängter ID,
-   z. B. `...?pid=${e://Field/PID}`. Der Complete-Link gehört in die globale
-   Abschlussaktion, der Quota-full-Link an das Quota-Element.
-3. **Quota-Element**: zwischen die `altersgruppe`-Branches und den Block Markenbekanntheit
-   setzen. Die Position ist entscheidend — quotiert wird die Allgemeinbevölkerung, nicht
-   die Teilstichprobe der NEOH-Kenner. Läge das Element hinter dem Bekanntheitsscreener,
-   würde die Awareness-Rate selbst verzerrt.
+Die Respondenten-ID wird im Embedded-Data-Element ganz oben als leeres Feld **`PID`**
+geführt; Qualtrics befüllt es aus dem Query String des Einstiegslinks. Der Anbieter hängt
+seinen Platzhalter entsprechend an:
+
+```
+https://wumarketing.qualtrics.com/jfe/form/SV_XXXXXXXX?PID=%id%
+```
+
+Weiterleitungen (Anbieter: Loopster Panel). Der Wert `%id%` aus den Vorlagen des Anbieters
+ist jeweils durch `${e://Field/PID}` ersetzt:
+
+| Ausgang | ergebnis | Wo gesetzt |
+|---|---|---|
+| Complete | 5 | globale Abschlussaktion |
+| Screen-out Alter | 31 | End-of-Survey im Branch `Screen-out: unter 18 Jahre` |
+| Quota-full | **offen** | Quota-Element, Link liegt noch nicht vor |
+| Quality terminate | 42 | nicht verwendet, siehe unten |
+
+Die Links liegen bisher **nur für Österreich** vor; die deutsche Fassung hat noch keine
+Weiterleitungen.
+
+`ergebnis=42` (Quality terminate) bleibt bewusst ungenutzt: Die Aufmerksamkeitsprüfung
+`attention` terminiert nicht, der Ausschluss erfolgt in der Aufbereitung (Abschnitt 3c).
+Ein Feldabbruch bei nicht bestandener Prüfung würde die Screen-out-Statistik verzerren
+und Abrechnungsdiskussionen erzeugen.
+
+Noch im Qualtrics-UI zu ergänzen:
+
+1. **Quota-Element** zwischen die `altersgruppe`-Branches und den Block Markenbekanntheit
+   setzen, mit dem Quota-full-Link als Abschlussaktion. Die Position ist entscheidend —
+   quotiert wird die Allgemeinbevölkerung, nicht die Teilstichprobe der NEOH-Kenner. Läge
+   das Element hinter dem Bekanntheitsscreener, würde die Awareness-Rate selbst verzerrt.
+2. **Weiterleitungen der DE-Fassung**, sobald die Links vorliegen.
 
 Quotenvorschlag: `altersgruppe` × `geschlecht` interlocked, dazu eine Regionquote. Bei den
 16 deutschen Bundesländern nicht einzeln quotieren, sondern zu Nielsen-Gebieten
