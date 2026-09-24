@@ -150,44 +150,26 @@ seinen Platzhalter entsprechend an:
 https://wumarketing.qualtrics.com/jfe/form/SV_XXXXXXXX?PID=%id%
 ```
 
-Weiterleitungen (Anbieter: Loopster Panel). Der Wert `%id%` aus den Vorlagen des Anbieters
-ist jeweils durch `${e://Field/PID}` ersetzt:
+Weiterleitungen (Anbieter: Loopster Panel). **Sie sind derzeit nicht in den QSF-Dateien
+hinterlegt** und im Qualtrics-UI zu setzen — die von Hand geschriebene Struktur der
+End-of-Survey-Optionen war beim Import problematisch. Der Platzhalter `%id%` aus den
+Vorlagen des Anbieters ist jeweils durch `${e://Field/PID}` zu ersetzen:
 
-| Ausgang | ergebnis | Wo gesetzt |
+| Ausgang | ergebnis | Wo zu setzen |
 |---|---|---|
-| Complete | 5 | globale Abschlussaktion |
-| Screen-out Alter | 31 | End-of-Survey im Branch `Screen-out: unter 18 Jahre` |
-| Quota-full | entfällt | Aussteuerung erfolgt beim Anbieter, siehe unten |
+| Complete | 5 | Umfrageoptionen → Umfrageende → Zu einer URL weiterleiten |
+| Screen-out Alter | 31 | End-of-Survey im Branch `Screen-out: unter 18 Jahre`, dort "Umfrageoptionen überschreiben" |
+| Quota-full | entfällt | Aussteuerung erfolgt beim Anbieter |
 | Quality terminate | 42 | nicht verwendet, siehe unten |
 
-Die Links liegen bisher **nur für Österreich** vor; die deutsche Fassung hat noch keine
-Weiterleitungen.
+Die Links liegen bisher nur für Österreich vor.
 
 `ergebnis=42` (Quality terminate) bleibt bewusst ungenutzt: Die Aufmerksamkeitsprüfung
 `attention` terminiert nicht, der Ausschluss erfolgt in der Aufbereitung (Abschnitt 3c).
 Ein Feldabbruch bei nicht bestandener Prüfung würde die Screen-out-Statistik verzerren
 und Abrechnungsdiskussionen erzeugen.
 
-### Quotierung
-
-Die Aussteuerung nach Alter und Geschlecht übernimmt der Panelanbieter auf seiner Seite.
-Im Fragebogen ist daher **kein Quota-Element** hinterlegt und es wird **kein
-Quota-full-Link** benötigt: Wer in eine volle Zelle fällt, erreicht die Umfrage gar nicht
-erst.
-
-`altersgruppe` bleibt trotzdem im Instrument — die Variable steuert nicht mehr, sondern
-dient der Kontrolle und der Gewichtung. Das ist kein Selbstzweck: Der Anbieter steuert
-nach **seinen Profildaten**, der Fragebogen erhebt Alter und Geschlecht als
-**Selbstauskunft**. Beide können auseinanderfallen, etwa bei veralteten Profilen oder
-geteilten Panel-Accounts. Die erreichte Verteilung ist deshalb nach dem Feld gegen die
-Sollvorgabe zu prüfen, und zwar auf Basis von `altersgruppe` und `geschlecht` aus dem
-Datensatz, nicht auf Basis der Anbieterstatistik.
-
-Ohne Quota-Element in Qualtrics gibt es zudem kein zweites Sicherheitsnetz gegen
-Überbelegung einzelner Zellen. Das liegt beim Anbieter.
-
-Noch im Qualtrics-UI zu ergänzen: die **Weiterleitungen der DE-Fassung**, sobald die Links
-vorliegen.
+Die Weiterleitungen der DE-Fassung folgen, sobald die Links vorliegen.
 
 Die Sollvorgabe für Österreich lautet `altersgruppe` × `geschlecht` interlocked
 (je 250 Frauen und Männer, Bänder 18-29 / 30-39 / 40-49 / 50-59 / 60-99) mit Bundesland

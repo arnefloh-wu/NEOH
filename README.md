@@ -49,7 +49,8 @@ Projekte bleiben unberührt. Je Länderfassung im Preview testen:
   (Alter 30 muss `30-39` ergeben).
 - Ohne NEOH-Auswahl bei `bekanntheit` werden die sechs Markenmodule übersprungen und die
   Umfrage läuft bis zum Ende durch.
-- Alter 17 landet auf `ergebnis=31` (Screenout), nicht auf `ergebnis=5` (Complete).
+- Alter 17 terminiert; nach dem Setzen der Redirects prüfen, dass dabei `ergebnis=31`
+  aufgerufen wird und nicht `ergebnis=5`.
 - NEOH bei `betracht` angekreuzt, bei `kauf_3monate` nicht → `H1` erscheint.
 
 Dazu ein Testexport, der bestätigt, dass die Spaltensuffixe aus den Recode-Werten
@@ -59,8 +60,9 @@ gebildet werden (NEOH ist Exportcode **13**, nicht 14).
 
 Außerhalb der QSF-Dateien zu erledigen:
 
-- Panel-Redirects der DE-Fassung (AT ist gesetzt; Quotierung übernimmt der Anbieter,
-  ein Quota-full-Link wird daher nicht benötigt)
+- Panel-Redirects beider Fassungen im Qualtrics-UI setzen (siehe Codebuch,
+  Panel-Anbindung). Quotierung übernimmt der Anbieter, ein Quota-full-Link wird
+  nicht benötigt.
 - Einwilligungstext und Datenschutz-Link in `einleitung`, abzustimmen mit der
   WU-Datenschutzstelle
 - Speeder- und Straightliner-Regeln für die Aufbereitung (der Attention-Check
