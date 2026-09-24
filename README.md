@@ -13,6 +13,15 @@ Forschungsprojekt der WU Wien, Kontakt: Dr. Arne Floh, arne.floh@wu.ac.at
 | Österreich | [`NEOH_AT_Sep2026.qsf`](NEOH_AT_Sep2026.qsf) | `NEOH_AT_Sep2026` |
 | Deutschland | [`NEOH_DE_Sep2026.qsf`](NEOH_DE_Sep2026.qsf) | `NEOH_DE_Sep2026` |
 
+Diese beiden Dateien enthalten **keine** Panel-Weiterleitungen; die werden im
+Qualtrics-UI gesetzt (siehe Codebuch, Panel-Anbindung).
+
+Zusätzlich liegt [`NEOH_AT_Sep2026_Redirects.qsf`](NEOH_AT_Sep2026_Redirects.qsf) bereit —
+inhaltlich identisch, aber mit den beiden österreichischen Weiterleitungen bereits im
+Survey Flow. Die dafür nötige Struktur der End-of-Survey-Optionen liess sich nicht gegen
+einen echten Qualtrics-Export prüfen; falls diese Datei importiert, spart sie die
+Handarbeit, falls nicht, ist die Fassung ohne Redirects der verlässliche Weg.
+
 Die zugehörigen `.docx` sind die Fragebogendokumentation, erzeugt aus den QSF-Dateien.
 
 [`CODEBOOK_AT_DE.md`](CODEBOOK_AT_DE.md) hält die Markencodes beider Länder, das
