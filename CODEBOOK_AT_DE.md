@@ -196,6 +196,11 @@ https://wumarketing.qualtrics.com/jfe/form/SV_XXXXXXXX?PID=test123
 Danach muß die Zielseite auf `...?i_survey=test123&autostart=1&ergebnis=5` enden und die
 Spalte `PID` in Daten & Analysen `test123` enthalten.
 
+**Stand Österreich: geprüft.** Der Feldname `PID` ist bestätigt, der Einstiegslink lautet
+`?PID=%id%`. Die vom Anbieter vorgeschlagene Alternative `${e://Field/id}` ist damit
+gegenstandslos. Für Deutschland gilt derselbe Feldname; dort fehlen nur noch die
+Rückleitungs-URLs des Anbieters.
+
 `ergebnis=42` (Quality terminate) bleibt bewusst ungenutzt: Die Aufmerksamkeitsprüfung
 `attention` terminiert nicht, der Ausschluss erfolgt in der Aufbereitung (Abschnitt 3c).
 Ein Feldabbruch bei nicht bestandener Prüfung würde die Screen-out-Statistik verzerren
