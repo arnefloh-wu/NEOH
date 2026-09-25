@@ -71,6 +71,8 @@ Projekte bleiben unberührt. Je Länderfassung im Preview testen:
 - Ohne NEOH-Auswahl bei `bekanntheit` werden die sechs Markenmodule übersprungen und die
   Umfrage läuft bis zum Ende durch.
 - `alter` = "Unter 18 Jahre" terminiert und ruft `ergebnis=31` auf, nicht `ergebnis=5`.
+- `attention` unter 90 terminiert und ruft `ergebnis=42` auf. Im Umfrageverlauf muss der
+  Branch als "attention Is Less Than 90" lesbar sein, nicht als "Invalid Logic".
 - NEOH bei `betracht` angekreuzt, bei `kauf_3monate` nicht → `H1` erscheint.
 
 Dazu ein Testexport, der bestätigt, dass die Spaltensuffixe aus den Recode-Werten
@@ -85,8 +87,10 @@ Außerhalb der QSF-Dateien zu erledigen:
   nicht benötigt.
 - Einwilligungstext und Datenschutz-Link in `einleitung`, abzustimmen mit der
   WU-Datenschutzstelle
+- Mit dem Anbieter schriftlich klären, wie Quality Terminates (`ergebnis=42`, nicht
+  bestandene Aufmerksamkeitsprüfung) abgerechnet und ob sie ersetzt werden
 - Speeder- und Straightliner-Regeln für die Aufbereitung (der Attention-Check
-  `attention` ist im Instrument, siehe Codebuch 3c)
+  `attention` terminiert im Feld, siehe Codebuch 3c)
 - Soft-Launch zur Messung der Bearbeitungsdauer (siehe `SOFTLAUNCH_DE.md`)
 - Feldzeitpunkte möglichst nah beieinander: der Süßwarenmarkt ist saisonal, ein
   großer Abstand konfundiert den Ländereffekt mit einem Saisoneffekt

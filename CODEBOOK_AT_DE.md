@@ -183,7 +183,7 @@ Anbieters ist jeweils durch `${e://Field/PID}` ersetzt:
 | Complete | 5 | Umfrageoptionen → Umfrageende → Zu einer URL weiterleiten |
 | Screen-out Alter | 31 | End-of-Survey im Branch `Screen-out: unter 18 Jahre`, dort "Umfrageoptionen überschreiben" |
 | Quota-full | entfällt | Aussteuerung erfolgt beim Anbieter |
-| Quality terminate | 42 | nicht verwendet, siehe unten |
+| Quality terminate | 42 | End-of-Survey im Branch `Quality terminate: Aufmerksamkeitsprüfung nicht bestanden` |
 
 Die Links sind für beide Länder **identisch** — der Anbieter unterscheidet die Stichproben
 nicht über die Rückleitungs-URL, sondern über die Respondenten-ID selbst, die in seinem
@@ -205,12 +205,16 @@ Spalte `PID` in Daten & Analysen `test123` enthalten.
 gegenstandslos. Für Deutschland gilt derselbe Feldname und dieselben Rückleitungen; der
 Testaufruf ist dort nach dem Import zu wiederholen.
 
-`ergebnis=42` (Quality terminate) bleibt bewusst ungenutzt: Die Aufmerksamkeitsprüfung
-`attention` terminiert nicht, der Ausschluss erfolgt in der Aufbereitung (Abschnitt 3c).
-Ein Feldabbruch bei nicht bestandener Prüfung würde die Screen-out-Statistik verzerren
-und Abrechnungsdiskussionen erzeugen.
+`ergebnis=42` (Quality terminate) ist seit September 2026 in Gebrauch: Wer die
+Aufmerksamkeitsprüfung nicht besteht, wird im Feld terminiert (Abschnitt 3c). Der
+zugehörige Branch steht direkt hinter dem Alters-Screen-out, also vor den drei
+Markenrastern — der Abbruch erfolgt damit im billigsten Teil des Interviews. Die
+Reihenfolge ist bindend: Erst `ergebnis=31` (Alter), dann `ergebnis=42`, sonst bekämen
+unter 18-Jährige den falschen Ausgangscode.
 
-Die Weiterleitungen der DE-Fassung folgen, sobald die Links vorliegen.
+Vor Feldstart ist mit dem Anbieter schriftlich zu klären, wie Quality Terminates
+abgerechnet und ob sie ersetzt werden. Ohne diese Klärung wird aus `ergebnis=42` eine
+Diskussion über die Endabrechnung.
 
 Die Sollvorgabe für Österreich lautet `alter` × `geschlecht` interlocked (je 250 Frauen
 und Männer, Kategorien 2 bis 6) mit Bundesland als Randquote.
@@ -225,13 +229,18 @@ Brand-Health-Slider, Antwortpflicht, keine Ausweichoption.
 Wortlaut: "Diese Frage prüft nur, ob die Fragen aufmerksam gelesen werden. Bitte ziehen
 Sie den Schieberegler ganz nach rechts auf 100."
 
-**Das Item terminiert nicht.** Es wird erhoben und in der Aufbereitung als
-Ausschlusskriterium verwendet — ein Abbruch im Feld führt zu Abrechnungsstreit mit dem
-Panelanbieter und verzerrt die Screen-out-Statistik.
+**Das Item terminiert.** `attention < 90` gilt als nicht bestanden und führt über den
+Branch `Quality terminate` zur Rückleitung mit `ergebnis=42` (Panel-Anbindung). Die
+Schwelle statt exakt 100, weil der Regler nicht einrastet (`SnapToGrid` ist aus) und ein
+Ziehen ans rechte Ende minimal darunter liegen kann. Härter als 90 zu prüfen würde
+aufmerksame Befragte ausschließen, besonders auf dem Smartphone.
 
-Auswertungsregel: `attention < 90` gilt als nicht bestanden. Die Schwelle statt exakt 100,
-weil der Regler nicht einrastet (`SnapToGrid` ist aus) und ein Ziehen ans rechte Ende
-minimal darunter liegen kann. Der Anteil nicht bestandener Fälle ist zu berichten.
+Die Schwelle ist damit im Feld festgelegt und nachträglich nicht mehr variierbar — das
+ist der Preis der Feldterminierung. Die Fälle bleiben als Teilinterviews mit ihrem
+`attention`-Wert im Datensatz, der Anteil nicht bestandener Fälle ist also weiterhin
+zu berichten und in beiden Ländern zu vergleichen. Ein deutlicher Länderunterschied in
+dieser Quote wäre ein Warnsignal für unterschiedliche Panelqualität und bei der
+Interpretation der Markenkennwerte zu berücksichtigen.
 
 Weil das Item vor der Markenbekanntheit liegt, trifft die Ausschlussregel NEOH-Kenner und
 Nicht-Kenner an derselben Stelle und mit derselben Ermüdung gleich streng.
@@ -242,7 +251,7 @@ Ausgesteuert wird nur über Alter (ab 18) und die Quoten des Panelanbieters. Die
 NEOH-Module (Medien, Markengesundheit, Markenwahrnehmung, Bedürfnisse und Bedeutung,
 Markteffekte, Markensentiment) liegen in einem Branch, der sie bei bekanntem NEOH
 einblendet und sonst überspringt. Wer NEOH nicht kennt, beantwortet Demografie,
-`spontan`, die drei Markenraster, `attention` und `zucker` und schließt regulär ab.
+`attention`, `spontan`, die drei Markenraster und `zucker` und schließt regulär ab.
 
 Was das für die Auswertung bedeutet:
 
