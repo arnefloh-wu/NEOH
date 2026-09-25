@@ -13,10 +13,10 @@ Forschungsprojekt der WU Wien, Kontakt: Dr. Arne Floh, arne.floh@wu.ac.at
 | Österreich | [`NEOH_AT_Sep2026.qsf`](NEOH_AT_Sep2026.qsf) | `NEOH_AT_Sep2026` |
 | Deutschland | [`NEOH_DE_Sep2026.qsf`](NEOH_DE_Sep2026.qsf) | `NEOH_DE_Sep2026` |
 
-Die österreichische Fassung enthält die beiden Panel-Weiterleitungen (Complete
-`ergebnis=5`, Screen-out `ergebnis=31`) bereits im Survey Flow; sie ist in dieser Form
-erfolgreich nach Qualtrics importiert worden. Für Deutschland liegen noch keine Links
-vor, dort sind sie nach dem Import im UI zu setzen (siehe Codebuch, Panel-Anbindung).
+Beide Fassungen enthalten die Panel-Weiterleitungen (Complete `ergebnis=5`, Screen-out
+`ergebnis=31`) bereits im QSF; die Links sind für Österreich und Deutschland identisch.
+Die österreichische Fassung ist in dieser Form erfolgreich nach Qualtrics importiert und
+die Rückleitung mit `?PID=%id%` geprüft worden (siehe Codebuch, Panel-Anbindung).
 
 Die zugehörigen `.docx` sind die Fragebogendokumentation, erzeugt aus den QSF-Dateien.
 
@@ -80,8 +80,8 @@ gebildet werden (NEOH ist Exportcode **13**, nicht 14).
 
 Außerhalb der QSF-Dateien zu erledigen:
 
-- Panel-Redirects beider Fassungen im Qualtrics-UI setzen (siehe Codebuch,
-  Panel-Anbindung). Quotierung übernimmt der Anbieter, ein Quota-full-Link wird
+- Rückleitung der DE-Fassung nach dem Import einmal mit `?PID=test123` prüfen, wie für
+  Österreich geschehen. Quotierung übernimmt der Anbieter, ein Quota-full-Link wird
   nicht benötigt.
 - Einwilligungstext und Datenschutz-Link in `einleitung`, abzustimmen mit der
   WU-Datenschutzstelle

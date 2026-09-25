@@ -172,7 +172,7 @@ Einstiegslink trägt `PID` (unser Feldname in Qualtrics), der Rückweg trägt `i
 `?i_survey=...` läuft deshalb ins Leere — Qualtrics kennt kein Feld dieses Namens,
 `PID` bleibt leer, und die Rückleitung endet auf `i_survey=`.
 
-Weiterleitungen (Anbieter: Loopster Panel). In der AT-Fassung sind sie **im QSF
+Weiterleitungen (Anbieter: Loopster Panel). In **beiden** Fassungen sind sie **im QSF
 hinterlegt**: Complete in den Umfrageoptionen (`SurveyTermination: Redirect` +
 `EOSRedirectURL`), Screen-out als `EndingType: Advanced` am End-of-Survey-Element im
 Branch `Screen-out: unter 18 Jahre`. Der Platzhalter `%id%` aus den Vorlagen des
@@ -185,7 +185,11 @@ Anbieters ist jeweils durch `${e://Field/PID}` ersetzt:
 | Quota-full | entfällt | Aussteuerung erfolgt beim Anbieter |
 | Quality terminate | 42 | nicht verwendet, siehe unten |
 
-Die Links liegen bisher nur für Österreich vor; die DE-Fassung enthält sie noch nicht.
+Die Links sind für beide Länder **identisch** — der Anbieter unterscheidet die Stichproben
+nicht über die Rückleitungs-URL, sondern über die Respondenten-ID selbst, die in seinem
+Panel eindeutig ist. `land` (`AT` / `DE`) bleibt damit das einzige Merkmal, das die
+Zugehörigkeit auf unserer Seite festhält; beim Stapeln der beiden Exporte ist es die
+einzige verlässliche Quelle dafür.
 
 Testaufruf der Rückleitung (privates Fenster, da `BallotBoxStuffingPrevention` aktiv ist):
 
@@ -198,8 +202,8 @@ Spalte `PID` in Daten & Analysen `test123` enthalten.
 
 **Stand Österreich: geprüft.** Der Feldname `PID` ist bestätigt, der Einstiegslink lautet
 `?PID=%id%`. Die vom Anbieter vorgeschlagene Alternative `${e://Field/id}` ist damit
-gegenstandslos. Für Deutschland gilt derselbe Feldname; dort fehlen nur noch die
-Rückleitungs-URLs des Anbieters.
+gegenstandslos. Für Deutschland gilt derselbe Feldname und dieselben Rückleitungen; der
+Testaufruf ist dort nach dem Import zu wiederholen.
 
 `ergebnis=42` (Quality terminate) bleibt bewusst ungenutzt: Die Aufmerksamkeitsprüfung
 `attention` terminiert nicht, der Ausschluss erfolgt in der Aufbereitung (Abschnitt 3c).
