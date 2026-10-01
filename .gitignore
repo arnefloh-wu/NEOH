@@ -1,0 +1,5 @@
+# Analysedatensatz: enthaelt Demografie und offene Texte auf Fallebene.
+# Solange das Repository oeffentlich ist, wird er nicht versioniert.
+# Er wird jederzeit aus den Rohdaten neu erzeugt: python3 aufbereitung_at.py
+NEOH_AT_analyse.csv
+NEOH_DE_analyse.csv
