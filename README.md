@@ -27,6 +27,32 @@ Exporte nicht sinnvoll zu stapeln.
 
 [`SOFTLAUNCH_DE.md`](SOFTLAUNCH_DE.md) beschreibt den Soft-Launch.
 
+## Auswertung
+
+Das Feld Österreich lief vom 25. bis 30. September 2026 und lieferte 596
+abgeschlossene Interviews.
+
+```
+python3 aufbereitung_at.py
+```
+
+Das Skript liest den Qualtrics-Rohexport, wendet die Ausschluss- und
+Konsistenzregeln des Codebuchs an, rekodiert anhand der Choice-Labels aus
+`NEOH_AT_Sep2026.qsf` und berechnet die Gewichte. Es schreibt
+`NEOH_AT_analyse.csv` (567 Fälle, nicht versioniert, siehe `.gitignore`) und
+`AUFBEREITUNG_AT_log.txt`.
+
+Die Zielverteilungen der Gewichtung stehen in
+[`gewichtung_ziele_AT.csv`](gewichtung_ziele_AT.csv). Die Spalte
+`soll_bevoelkerung` ist **leer und von Hand zu füllen** — bis dahin gibt es
+kein bevölkerungsbezogenes Gewicht, und das Skript sagt das im Protokoll.
+
+[`FELDBERICHT_AT.md`](FELDBERICHT_AT.md) hält Feldverlauf, Ausschüsse,
+Quotenerfüllung, Gewichtung und Datenqualität fest. **Vor jeder Auswertung
+lesen:** Der vereinbarte Quotenplan bildet die Altersstruktur der
+Bevölkerung nicht ab, und die Rohdaten liegen derzeit in einem öffentlichen
+Repository.
+
 Die beiden Länderfassungen sind strukturgleich: identische Fragen, Export-Tags,
 Blockfolge, Logik und Randomisierung. Sie unterscheiden sich ausschließlich in
 `einleitung`, `bundesland`, `bildung` und der Markenliste der drei Raster. Die

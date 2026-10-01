@@ -1,0 +1,11 @@
+alter,geschlecht,alter_txt,geschlecht_txt,soll_quotenplan,soll_bevoelkerung
+2,1,18 bis 29 Jahre,Männlich,60,
+2,2,18 bis 29 Jahre,Weiblich,60,
+3,1,30 bis 39 Jahre,Männlich,50,
+3,2,30 bis 39 Jahre,Weiblich,50,
+4,1,40 bis 49 Jahre,Männlich,50,
+4,2,40 bis 49 Jahre,Weiblich,50,
+5,1,50 bis 59 Jahre,Männlich,50,
+5,2,50 bis 59 Jahre,Weiblich,50,
+6,1,60 Jahre und älter,Männlich,40,
+6,2,60 Jahre und älter,Weiblich,40,
