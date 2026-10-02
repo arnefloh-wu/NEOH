@@ -110,6 +110,17 @@ gelesen: Bilder als Dateien, Farben und Schrift als `assets/marke.json`. Ohne
 diese Dateien rendert das Deck in der validierten Standardpalette. Siehe
 [`assets/README.md`](assets/README.md).
 
+```
+python3 dashboard_at.py
+```
+
+Erzeugt `DASHBOARD_AT.html`, ein eigenständiges interaktives Dashboard mit
+Funnel, Markenbild und Wettbewerbsvergleich, filterbar nach Alter, Geschlecht
+und Zuckersegment. Die Seite enthält **keine Falldaten**, sondern einen
+vorberechneten Würfel aus 20 Zellen; die kleinste hat 12 Fälle. Die Region
+ist bewusst keine Filterdimension — mit ihr hätte der Würfel Zellen mit einer
+einzigen Person, und die Stichprobe trägt Regionalaussagen ohnehin nicht.
+
 [`FELDBERICHT_AT.md`](FELDBERICHT_AT.md) hält Feldverlauf, Ausschüsse,
 Quotenerfüllung, Gewichtung und Datenqualität fest. **Vor jeder Auswertung
 lesen:** Der vereinbarte Quotenplan bildet die Altersstruktur der
