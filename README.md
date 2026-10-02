@@ -91,10 +91,20 @@ Erwägung unabhängig vom Markenurteil erhöht. Lesbare Fassung in
 [`ERGEBNISSE_AT_bekanntheit.md`](ERGEBNISSE_AT_bekanntheit.md).
 
 ```
+python3 analyse_bekanntheit_demografie_at.py
+```
+
+Bekanntheit nach Alter, Geschlecht, Region (NUTS-1), Bundesland, Bildung und
+Einkommen — bivariat mit Konfidenzintervallen, dann multivariat, weil Bildung
+mit Alter und Einkommen mit Bildung korreliert. Dazu der Vergleich des
+Altersgefälles über alle Marken. Lesbare Fassung in
+[`ERGEBNISSE_AT_bekanntheit_demografie.md`](ERGEBNISSE_AT_bekanntheit_demografie.md).
+
+```
 python3 slides_at.py --pdf
 ```
 
-Erzeugt `SLIDES_AT.html` und rendert daraus `SLIDES_AT.pdf` (18 Folien).
+Erzeugt `SLIDES_AT.html` und rendert daraus `SLIDES_AT.pdf` (20 Folien).
 Logo, Produktbilder und Markenfarben sind optional und werden aus `assets/`
 gelesen: Bilder als Dateien, Farben und Schrift als `assets/marke.json`. Ohne
 diese Dateien rendert das Deck in der validierten Standardpalette. Siehe
