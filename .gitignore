@@ -3,3 +3,7 @@
 # Er wird jederzeit aus den Rohdaten neu erzeugt: python3 aufbereitung_at.py
 NEOH_AT_analyse.csv
 NEOH_DE_analyse.csv
+
+# Fallebene mit Demografie: dieselbe Ueberlegung wie oben.
+ERGEBNISSE_AT_brandhealth.csv
+ERGEBNISSE_DE_brandhealth.csv
