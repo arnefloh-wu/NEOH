@@ -1,0 +1,115 @@
+MARKENBEKANNTHEIT NACH DEMOGRAFIE - OESTERREICH
+================================================================================
+Basis: 567 Faelle. Gestuetzte Werte gewichtet, Intervalle nach Wilson auf
+dem effektiven n. Ungestuetzt als Anteil der jeweiligen Teilgruppe.
+Mit ! markierte Zellen haben weniger als 40 Faelle und tragen keine
+belastbare Aussage - sie stehen der Vollstaendigkeit halber da.
+
+1. BIVARIATE TABELLEN
+--------------------------------------------------------------------------------
+Alter:
+                                  n  gestützt    95-%-Intervall  ungestützt Erinnerungsq.
+   18 bis 29 Jahre               88     68.2% [ 57.9;  77.0]        5.7%         8.3%
+   30 bis 39 Jahre              118     65.9% [ 57.0;  73.9]        6.8%        10.3%
+   40 bis 49 Jahre              108     52.3% [ 43.0;  61.5]        2.8%         5.3%
+   50 bis 59 Jahre              140     41.1% [ 33.3;  49.4]        4.3%        10.4%
+   60 Jahre und älter           113     31.6% [ 23.5;  41.1]        2.7%         8.4%
+
+Geschlecht:
+                                  n  gestützt    95-%-Intervall  ungestützt Erinnerungsq.
+   Männlich                     293     43.4% [ 37.6;  49.3]        3.4%         7.9%
+   Weiblich                     274     63.2% [ 57.2;  68.9]        5.5%         8.7%
+
+Region (NUTS-1):
+                                  n  gestützt    95-%-Intervall  ungestützt Erinnerungsq.
+   Ost                          288     52.4% [ 46.5;  58.3]        4.9%         9.3%
+   Süd                           93     64.2% [ 53.7;  73.5]        4.3%         6.7%
+   West                         186     49.2% [ 41.8;  56.6]        3.8%         7.6%
+
+Bundesland:
+                                  n  gestützt    95-%-Intervall  ungestützt Erinnerungsq.
+   Burgenland                    22     67.5% [ 46.1;  83.4]        0.0%         0.0%  !
+   Kärnten                       26     48.5% [ 30.3;  67.1]        3.8%         7.9%  !
+   Niederösterreich             127     57.7% [ 48.7;  66.2]        7.1%        12.3%
+   Oberösterreich               104     49.4% [ 39.6;  59.2]        5.8%        11.7%
+   Salzburg                      21     51.8% [ 31.3;  71.7]        0.0%         0.0%  !
+   Steiermark                    67     70.1% [ 57.8;  80.1]        4.5%         6.4%
+   Tirol                         42     52.7% [ 37.5;  67.4]        2.4%         4.5%
+   Vorarlberg                    19     37.0% [ 18.6;  60.1]        0.0%         0.0%  !
+   Wien                         139     44.9% [ 36.6;  53.5]        3.6%         8.0%
+
+Bildung (drei Stufen):
+                                  n  gestützt    95-%-Intervall  ungestützt Erinnerungsq.
+   Pflichtschule/Lehre          239     49.2% [ 42.7;  55.7]        3.8%         7.7%
+   Matura                       160     58.3% [ 50.3;  66.0]        8.1%        13.9%
+   Hochschule                   152     53.9% [ 45.7;  61.9]        1.3%         2.4%
+
+Bildung (Rohkategorien):
+                                  n  gestützt    95-%-Intervall  ungestützt Erinnerungsq.
+   Bachelor                      44     62.6% [ 47.3;  75.8]        2.3%         3.6%
+   Doktorat/PhD                  10     36.3% [ 14.2;  66.2]        0.0%         0.0%  !
+   Lehre/Berufsausbildung       216     50.5% [ 43.7;  57.3]        4.2%         8.3%
+   Master/Magister/Diplom        98     51.0% [ 41.0;  61.0]        1.0%         2.0%
+   Matura/Abitur                160     58.3% [ 50.3;  66.0]        8.1%        13.9%
+   Pflichtschule                 23     37.6% [ 20.5;  58.5]        0.0%         0.0%  !
+   Sonstiges                     14     49.7% [ 26.0;  73.5]        7.1%        14.4%  !
+
+Haushaltseinkommen:
+                                  n  gestützt    95-%-Intervall  ungestützt Erinnerungsq.
+   Unter 1.000 Euro              18     82.0% [ 58.3;  93.7]        0.0%         0.0%  !
+   1.000 - 1.999 Euro            81     44.6% [ 33.9;  55.8]        6.2%        13.8%
+   2.000 - 2.999 Euro           117     52.3% [ 43.0;  61.4]        2.6%         4.9%
+   3.000 - 3.999 Euro           102     54.8% [ 44.9;  64.4]        4.9%         8.9%
+   4.000 - 4.999 Euro            85     44.5% [ 34.0;  55.5]        5.9%        13.2%
+   5.000 Euro oder mehr         109     60.7% [ 51.0;  69.7]        5.5%         9.1%
+   Keine Angabe                  55     54.2% [ 40.7;  67.1]        1.8%         3.4%
+
+2. MULTIVARIAT: WAS TRAEGT, WENN MAN DIE ANDEREN KONTROLLIERT
+--------------------------------------------------------------------------------
+Logistische Regression auf die gestuetzte Bekanntheit. Alter stetig
+kodiert (Bandmitte in Jahren, 60+ als 67), Bildung als Stufenzahl,
+Einkommen als Klassennummer ohne "Keine Angabe".
+
+n = 499 (ohne "Keine Angabe" beim Einkommen), Pseudo-R2 = 0.123
+                             b       SE         p      Odds 
+(Konstante)             1.1669   0.4979    0.0191     3.212 *
+Alter (Jahre)          -0.0432   0.0072    0.0000     0.958 ***
+weiblich                1.1789   0.1986    0.0000     3.251 ***
+Bildung (1-3)           0.0659   0.1237    0.5945     1.068 
+Einkommen (1-6)         0.0739   0.0687    0.2819     1.077 
+Region West            -0.4304   0.2287    0.0599     0.650 
+Region Süd              0.1576   0.2762    0.5681     1.171 
+
+Zehn Jahre mehr Lebensalter verändern die Chance auf Bekanntheit um den
+Faktor 0.649, also um -35 Prozent.
+
+Referenz der Region ist Ost. West und Sued werden dagegen geschaetzt.
+
+3. IST NEOHS ALTERSGEFAELLE UNGEWOEHNLICH?
+--------------------------------------------------------------------------------
+Differenz der gestuetzten Bekanntheit zwischen 18-29 und 60+, je Marke.
+Ein hoher Wert heisst: Die Marke erreicht die Jungen deutlich besser.
+
+Marke                        18-29       60+  Differenz
+More Nutrition               48.9%      2.6%      46.2
+Corny                        85.2%     41.0%      44.2
+Pick Up!                     86.4%     45.2%      41.2
+NEOH                         68.2%     31.6%      36.5  <<<
+Kinder                       95.5%     67.1%      28.4
+Knoppers                     93.2%     73.1%      20.1
+Snickers                     95.5%     82.5%      13.0
+Hanuta                       76.1%     64.6%      11.6
+AHEAD                        12.5%      3.2%       9.3
+BE-KIND                      13.6%      4.6%       9.1
+Balisto                      84.1%     76.2%       7.9
+Foodspring                   11.4%      3.9%       7.5
+Bounty                       94.3%     90.2%       4.1
+Nicks                         8.0%      4.0%       4.0
+Mars                         95.5%     92.9%       2.5
+Milka                        94.3%     92.7%       1.6
+Manner                       93.2%     92.1%       1.0
+Dragee Keksi (Napoli)        79.5%     82.2%      -2.7
+
+NEOH: Rang 4 von 18, Median aller Marken 9.2 Prozentpunkte.
+
+Geschrieben: ERGEBNISSE_AT_bekanntheit_demografie.txt, ERGEBNISSE_AT_bekanntheit_demografie.csv

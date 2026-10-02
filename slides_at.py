@@ -438,7 +438,15 @@ def gruppen_bar(stufen, gruppen, breite=W_WIDE, hoehe=H_CHART):
 
 
 # ---------------------------------------------------------------- Deck
+NR = None          # Platzhalter: folie() vergibt die Nummer in Aufrufreihenfolge
+_zaehler = [1]
+
+
 def folie(nr, kicker, titel, inhalt, fuss=''):
+    """Eine Folie. Die Nummer wird fortlaufend vergeben, nicht uebergeben -
+    beim Einschieben einer Folie verrutscht sonst der ganze Rest."""
+    _zaehler[0] += 1
+    nr = _zaehler[0]
     return """<section class="s">
   <header><span class="kick">%s</span></header>
   <h2>%s</h2>
@@ -612,7 +620,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
                  if bilder else ''))
 
     # 2 Kernaussagen
-    F.append(folie(2, 'Das Wichtigste', 'Eine junge Marke, die ihre Kategorie <em>bereits gewonnen hat</em>',
+    F.append(folie(NR, 'Das Wichtigste', 'Eine junge Marke, die ihre Kategorie <em>bereits gewonnen hat</em>',
         """<div class="body"><div class="col">
         <div class="hero">
           <div class="stat"><div class="v">%s&nbsp;%%</div><div class="l">der Österreicherinnen und
@@ -643,7 +651,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'NEOH Markenstudie Österreich 2026'))
 
     # 3 Methode
-    F.append(folie(3, 'Anlage', 'Methode und Stichprobe',
+    F.append(folie(NR, 'Anlage', 'Methode und Stichprobe',
         """<div class="body"><div class="col">
         <table><tbody>
         <tr><td>Zielgruppe</td><td class="n">Österreich, 18 Jahre und älter</td></tr>
@@ -669,7 +677,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Feldbericht: FELDBERICHT_AT.md'))
 
     # 4 Kategorie
-    F.append(folie(4, 'Position', 'In der eigenen Kategorie ist NEOH <em>Marktführer in der Bekanntheit</em>',
+    F.append(folie(NR, 'Position', 'In der eigenen Kategorie ist NEOH <em>Marktführer in der Bekanntheit</em>',
         """<div class="body mid"><div class="col">%s
         <div class="note">Gestützte Bekanntheit, gewichtet, n = %d.</div>
         </div><div class="col narrow">
@@ -683,7 +691,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 1 — Funnel im Wettbewerbsvergleich'))
 
     # 5 Gesamtmarkt
-    F.append(folie(5, 'Gesamtmarkt', 'Im Vergleich mit den Konzernmarken',
+    F.append(folie(NR, 'Gesamtmarkt', 'Im Vergleich mit den Konzernmarken',
         """<div class="body mid"><div class="col">%s</div>
         <div class="col narrow"><div class="tag">Lesehilfe</div>
         <p>Die Spitze besetzen Marken mit jahrzehntelanger Fernsehpräsenz und
@@ -696,7 +704,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Gestützte Bekanntheit, gewichtet'))
 
     # 6 Konversion Staerke
-    F.append(folie(6, 'Stärke', 'Wer NEOH erwägt, <em>kauft es auch</em>',
+    F.append(folie(NR, 'Stärke', 'Wer NEOH erwägt, <em>kauft es auch</em>',
         """<div class="body mid"><div class="col">%s
         <div class="note">Anteil der Erwäger, die in den letzten drei Monaten gekauft haben.
         Nur Marken mit mindestens 30 Kennern.</div>
@@ -738,7 +746,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
             uebergaenge[1].append(100 * c_ / b_)
     med_u = [float(np.median(x)) if x else float('nan') for x in uebergaenge[:2]]
 
-    F.append(folie(7, 'Markenpyramide', 'Von der Bekanntheit bis zur <em>aktiven Empfehlung</em>',
+    F.append(folie(NR, 'Markenpyramide', 'Von der Bekanntheit bis zur <em>aktiven Empfehlung</em>',
         """<div class="body mid"><div class="col">%s</div>
         <div class="col narrow">
         <p>Jede Stufe ist eine <strong>Teilmenge der darunterliegenden</strong>: Wer
@@ -761,7 +769,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 1 und 2 — Markenpyramide NEOH'))
 
     # 7b Trichter
-    F.append(folie(8, 'Hebel', 'Derselbe Weg als Trichter, mit den Abflüssen',
+    F.append(folie(NR, 'Hebel', 'Derselbe Weg als Trichter, mit den Abflüssen',
         """<div class="body mid"><div class="col">%s
         <div class="note">Gewichtete Anteile der Gesamtstichprobe. Oben die Übergangsrate,
         unten der Abfluss in Prozentpunkten. Hier zählen alle Käufer, auch die ohne
@@ -798,7 +806,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         p_bek = 100 * w[bekm].sum() / w.sum()
         stapel.append((m, p_bek, p_kauf, p_bet_ohne))
     stapel = sorted(set(stapel), key=lambda t: -t[1])
-    F.append(folie(9, 'Vergleich', 'Derselbe Funnel, <em>über alle Marken gelesen</em>',
+    F.append(folie(NR, 'Vergleich', 'Derselbe Funnel, <em>über alle Marken gelesen</em>',
         """<div class="body mid"><div class="col">%s
         <div class="legend">
           <span><i style="background:%s"></i>gekauft</span>
@@ -819,7 +827,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 1 — Funnel im Wettbewerbsvergleich'))
 
     # 8 Salienz
-    F.append(folie(10, 'Salienz', 'Bekannt heißt noch nicht <em>präsent</em>',
+    F.append(folie(NR, 'Salienz', 'Bekannt heißt noch nicht <em>präsent</em>',
         """<div class="body"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>ungestützt genannt</span>
         <span><i style="background:%s"></i>gestützt bekannt</span></div>
@@ -839,11 +847,84 @@ tr.hi td{color:%(ink)s;font-weight:620}
                            ZWEIT, AKZENT, sp_n, de(100 * neoh_uk / len(kenner), 0), len(kenner)),
         'Stufe 4 — Spontannennungen, n = %d' % sp_n))
 
+    # 10 Demografie
+    ALTER_ORD = ['18 bis 29 Jahre', '30 bis 39 Jahre', '40 bis 49 Jahre',
+                 '50 bis 59 Jahre', '60 Jahre und älter']
+    alterswerte = []
+    for a_ in ALTER_ORD:
+        m = np.array([r['alter_txt'] == a_ for r in d], dtype=bool)
+        bk = m & np.array([r['neoh_bekannt'] == '1' for r in d], dtype=bool)
+        alterswerte.append((a_.replace(' Jahre', '').replace(' und älter', '+'),
+                            100 * w[bk].sum() / w[m].sum()))
+    geschl = []
+    for g in ['Weiblich', 'Männlich']:
+        m = np.array([r['geschlecht_txt'] == g for r in d], dtype=bool)
+        bk = m & np.array([r['neoh_bekannt'] == '1' for r in d], dtype=bool)
+        geschl.append((g, 100 * w[bk].sum() / w[m].sum()))
+    F.append(folie(NR, 'Zielgruppe', 'Jünger und weiblich — <em>und sonst nichts</em>',
+        """<div class="body mid"><div class="col">%s
+        <div class="note">Gestützte Bekanntheit nach Altersgruppe, gewichtet.</div>
+        %s
+        <div class="note">Nach Geschlecht. Die Erinnerungsquote ist in beiden Gruppen
+        gleich (7,9 gegen 8,7&nbsp;%%) — Frauen kennen die Marke häufiger, aber nicht
+        fester.</div>
+        </div><div class="col narrow">
+        <div class="hero"><div class="stat"><div class="v">3,3&times;</div>
+        <div class="l">höhere Chance, dass eine Frau NEOH kennt — bei gleichem Alter,
+        gleicher Bildung, gleichem Einkommen</div></div></div>
+        <p>Von fünf geprüften Merkmalen tragen <strong>zwei</strong>. Zehn Jahre mehr
+        Lebensalter senken die Chance um 35&nbsp;%%, Frauen kennen die Marke mit
+        3,3-facher Chance.</p>
+        <p><strong>Bildung, Einkommen und Region tragen nichts</strong> (alle p &gt; 0,05).
+        NEOH ist keine Akademiker- und keine Einkommensmarke — die Bekanntheit verteilt
+        sich quer durch alle Schichten.</p>
+        <p class="note">Das vereinfacht die Zielgruppendefinition: Alter und Geschlecht
+        genügen, Regionalschnitte trägt die Stichprobe ohnehin nicht.</p>
+        </div></div>""" % (
+            bar_h(alterswerte, breite=W_WIDE, hoehe=200, maxwert=78, farbe=AKZENT),
+            bar_h(geschl, breite=W_WIDE, hoehe=86, maxwert=78, farbe=AKZENT)),
+        'Vertiefung Bekanntheit — Demografie'))
+
+    # 11 Altersgefaelle im Markenvergleich
+    jung = np.array([r['alter'] == '2' for r in d], dtype=bool)
+    alt6 = np.array([r['alter'] == '6' for r in d], dtype=bool)
+    gef = []
+    for m_, r_ in fu.items():
+        c = r_['code']
+        if int(r_['bekanntheit_n']) < 30:
+            continue
+        bk = np.array([x['bekanntheit_%s' % c] == '1' for x in d], dtype=bool)
+        gef.append((m_, 100 * w[jung & bk].sum() / w[jung].sum()
+                    - 100 * w[alt6 & bk].sum() / w[alt6].sum()))
+    gef.sort(key=lambda t: -t[1])
+    gef_rang = [m_ for m_, _ in gef].index('NEOH') + 1
+    gef_med = float(np.median([v for _, v in gef]))
+    F.append(folie(NR, 'Kohorte', 'Das Altersprofil <em>der eigenen Kategorie</em>',
+        """<div class="body mid"><div class="col">%s
+        <div class="note">Differenz der gestützten Bekanntheit zwischen 18–29 und 60+, in
+        Prozentpunkten. Nur Marken mit mindestens 30 Kennern.</div>
+        </div><div class="col narrow">
+        <div class="hero"><div class="stat"><div class="v">Rang&nbsp;%d</div>
+        <div class="l">von %d Marken, Median %s Prozentpunkte</div></div></div>
+        <p>Die Gesellschaft ist aufschlussreich: More Nutrition, Corny und Pick&nbsp;Up! —
+        die funktionalen und modernen Snackmarken. Die klassische Schokolade ist
+        altersneutral bekannt (Milka 1,6, Manner 1,0, Mars 2,5).</p>
+        <p>NEOH hat damit <strong>das Altersprofil seiner Kategorie, nicht das eines
+        Nachzüglers</strong>. Marken wachsen über Kohorten, und die Marke besetzt die
+        richtige.</p>
+        <p class="note">Die Kehrseite: 60+ ist die größte Altersgruppe des Landes und die,
+        in der NEOH am schwächsten steht.</p>
+        </div></div>""" % (
+            bar_h([(m_, v) for m_, v in gef if v > 0][:13], breite=W_WIDE, hoehe=H_CHART,
+                  dec=0, einheit=' Pp.', hervor='NEOH'),
+            gef_rang, len(gef), de(gef_med)),
+        'Vertiefung Bekanntheit — Altersgefälle im Markenvergleich'))
+
     # 10 Erinnerungsquote
     eq = sorted(((m, float(r['erinnerungsquote'])) for m, r in bq.items()), key=lambda t: -t[1])
     eq_med = float(np.median([v for _, v in eq]))
     eq_rang = [m for m, _ in eq].index('NEOH') + 1
-    F.append(folie(11, 'Verankerung', 'Pro Einheit Bekanntheit <em>besser verankert</em> als die meisten',
+    F.append(folie(NR, 'Verankerung', 'Pro Einheit Bekanntheit <em>besser verankert</em> als die meisten',
         """<div class="body mid"><div class="col">%s
         <div class="note">Erinnerungsquote = ungestützte Nennung geteilt durch gestützte
         Bekanntheit. Median aller Marken: %s&nbsp;%%.</div>
@@ -864,7 +945,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Vertiefung Bekanntheit — Erinnerungsquote'))
 
     # 11 Erinnerung als eigener Hebel
-    F.append(folie(12, 'Wirkung', 'Erinnerung wirkt <em>eigenständig</em>, nicht nur über Sympathie',
+    F.append(folie(NR, 'Wirkung', 'Erinnerung wirkt <em>eigenständig</em>, nicht nur über Sympathie',
         """<div class="body"><div class="col">
         <div class="hero">
           <div class="stat"><div class="v">62,5&nbsp;%</div><div class="l">der Kenner, die NEOH
@@ -900,7 +981,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Vertiefung Bekanntheit — Erinnerung und Erwägung'))
 
     # 9 Markenbild
-    F.append(folie(13, 'Markenbild', 'Die Qualität wird <em>klar honoriert</em>',
+    F.append(folie(NR, 'Markenbild', 'Die Qualität wird <em>klar honoriert</em>',
         """<div class="body mid"><div class="col">%s
         <div class="note">Skala −100 bis +100, nur Kenner mit Urteil, ungewichtet.</div>
         </div><div class="col narrow">
@@ -915,7 +996,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 2 — Brand Health, n = %d Kenner' % len(kenner)))
 
     # 10 Was Erwaegung treibt
-    F.append(folie(14, 'Treiber', 'Erwägung entsteht aus dem Markenurteil — <em>nicht aus dem Preis</em>',
+    F.append(folie(NR, 'Treiber', 'Erwägung entsteht aus dem Markenurteil — <em>nicht aus dem Preis</em>',
         """<div class="body mid"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>Kenner ohne Erwägung</span>
         <span><i style="background:%s"></i>Erwäger</span></div>
@@ -939,7 +1020,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
          ('weniger wichtig (Stufe 1–3)', '#ccd2d6',
           [non_bek, non_bet, anteil(dnon, wnon, lambda r: r['neoh_kauf'] == '1')])],
         breite=W_WIDE, hoehe=330)
-    F.append(folie(15, 'Segment', 'Zuckerreduktion ist der Zugang — und sie betrifft <em>die Mehrheit</em>',
+    F.append(folie(NR, 'Segment', 'Zuckerreduktion ist der Zugang — und sie betrifft <em>die Mehrheit</em>',
         """<div class="body"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>Zuckerreduktion wichtig (Stufe 4–5)</span>
         <span><i style="background:#ccd2d6"></i>weniger wichtig (Stufe 1–3)</span></div>
@@ -964,7 +1045,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 4 — Segmentanalyse'))
 
     # 12 Barrieren
-    F.append(folie(16, 'Barrieren', 'Beim Kauf entscheiden Preis <em>und Verfügbarkeit</em>',
+    F.append(folie(NR, 'Barrieren', 'Beim Kauf entscheiden Preis <em>und Verfügbarkeit</em>',
         """<div class="body mid"><div class="col">%s
         <div class="note">Mehrfachnennung, Basis: %d Erwäger ohne Kauf in den letzten drei
         Monaten. Kleine Fallzahl — die Rangfolge der ersten beiden Nennungen ist deutlich,
@@ -979,7 +1060,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 3 — Selbstauskunft der Erwäger'))
 
     # 13 Empfehlungen
-    F.append(folie(17, 'Ableitung', 'Vier Hebel, in der Reihenfolge ihrer Wirkung',
+    F.append(folie(NR, 'Ableitung', 'Vier Hebel, in der Reihenfolge ihrer Wirkung',
         """<div class="body"><div class="col">
         <ul class="big">
         <li><strong>Reichweite zahlt sich hier aus.</strong> NEOH verwandelt Bekanntheit
@@ -1018,7 +1099,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Ableitung aus den Stufen 1 bis 4'))
 
     # 14 Vorbehalte
-    F.append(folie(18, 'Einordnung', 'Was diese Zahlen tragen — und was nicht',
+    F.append(folie(NR, 'Einordnung', 'Was diese Zahlen tragen — und was nicht',
         """<div class="body"><div class="col">
         <ul class="big">
         <li><strong>Gewichtung.</strong> Die Werte sind auf den vereinbarten Quotenplan

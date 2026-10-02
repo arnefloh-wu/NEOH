@@ -1,0 +1,37 @@
+﻿merkmal,auspraegung,n,gest,ku,ko,ungest,quote
+alter_txt,18 bis 29 Jahre,88,68.18,57.87,76.98,5.68,8.33
+alter_txt,30 bis 39 Jahre,118,65.93,56.98,73.88,6.78,10.28
+alter_txt,40 bis 49 Jahre,108,52.34,42.99,61.52,2.78,5.31
+alter_txt,50 bis 59 Jahre,140,41.08,33.25,49.38,4.29,10.43
+alter_txt,60 Jahre und älter,113,31.64,23.47,41.13,2.65,8.39
+geschlecht_txt,Männlich,293,43.36,37.57,49.33,3.41,7.87
+geschlecht_txt,Weiblich,274,63.23,57.18,68.89,5.47,8.66
+region,Ost,288,52.43,46.46,58.33,4.86,9.27
+region,Süd,93,64.23,53.72,73.53,4.3,6.7
+region,West,186,49.21,41.85,56.61,3.76,7.65
+bundesland_txt,Burgenland,22,67.45,46.14,83.37,0.0,0.0
+bundesland_txt,Kärnten,26,48.49,30.27,67.11,3.85,7.93
+bundesland_txt,Niederösterreich,127,57.72,48.71,66.25,7.09,12.28
+bundesland_txt,Oberösterreich,104,49.38,39.65,59.15,5.77,11.68
+bundesland_txt,Salzburg,21,51.78,31.29,71.68,0.0,0.0
+bundesland_txt,Steiermark,67,70.13,57.84,80.08,4.48,6.38
+bundesland_txt,Tirol,42,52.71,37.49,67.43,2.38,4.52
+bundesland_txt,Vorarlberg,19,36.96,18.58,60.11,0.0,0.0
+bundesland_txt,Wien,139,44.94,36.63,53.54,3.6,8.0
+bildung3,Pflichtschule/Lehre,239,49.16,42.68,55.68,3.77,7.66
+bildung3,Matura,160,58.34,50.28,65.99,8.12,13.93
+bildung3,Hochschule,152,53.87,45.68,61.87,1.32,2.44
+bildung_txt,Bachelor,44,62.61,47.26,75.78,2.27,3.63
+bildung_txt,Doktorat/PhD,10,36.25,14.15,66.23,0.0,0.0
+bildung_txt,Lehre/Berufsausbildung,216,50.5,43.66,57.32,4.17,8.25
+bildung_txt,Master/Magister/Diplom,98,51.05,41.03,60.98,1.02,2.0
+bildung_txt,Matura/Abitur,160,58.34,50.28,65.99,8.12,13.93
+bildung_txt,Pflichtschule,23,37.59,20.49,58.46,0.0,0.0
+bildung_txt,Sonstiges,14,49.71,26.01,73.54,7.14,14.37
+einkommen_txt,Unter 1.000 Euro,18,81.98,58.27,93.68,0.0,0.0
+einkommen_txt,1.000 - 1.999 Euro,81,44.59,33.86,55.85,6.17,13.84
+einkommen_txt,2.000 - 2.999 Euro,117,52.25,42.96,61.39,2.56,4.91
+einkommen_txt,3.000 - 3.999 Euro,102,54.81,44.86,64.4,4.9,8.94
+einkommen_txt,4.000 - 4.999 Euro,85,44.54,34.05,55.54,5.88,13.21
+einkommen_txt,5.000 Euro oder mehr,109,60.72,51.02,69.65,5.5,9.06
+einkommen_txt,Keine Angabe,55,54.19,40.68,67.11,1.82,3.36
