@@ -47,6 +47,15 @@ Die Zielverteilungen der Gewichtung stehen in
 `soll_bevoelkerung` ist **leer und von Hand zu füllen** — bis dahin gibt es
 kein bevölkerungsbezogenes Gewicht, und das Skript sagt das im Protokoll.
 
+```
+python3 analyse_funnel_at.py
+```
+
+Stufe 1 der Auswertung: Funnel im Wettbewerbsvergleich. Schreibt
+`ERGEBNISSE_AT_funnel.csv` (Tabelle je Marke) und `ERGEBNISSE_AT_funnel.txt`.
+Die lesbare Fassung mit Einordnung steht in
+[`ERGEBNISSE_AT_funnel.md`](ERGEBNISSE_AT_funnel.md).
+
 [`FELDBERICHT_AT.md`](FELDBERICHT_AT.md) hält Feldverlauf, Ausschüsse,
 Quotenerfüllung, Gewichtung und Datenqualität fest. **Vor jeder Auswertung
 lesen:** Der vereinbarte Quotenplan bildet die Altersstruktur der
