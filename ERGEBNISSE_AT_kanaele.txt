@@ -1,0 +1,126 @@
+QUELLE DER BEKANNTHEIT - KONTAKTKANAELE, OESTERREICH
+==============================================================================
+Basis: 287 NEOH-Kenner. Die Frage ging nur an sie - Nicht-Kenner wurden
+nicht gefragt und haetten auch keinen Kontakt berichten koennen.
+Mehrfachnennung, Bezug "im letzten Monat".
+
+1. REICHWEITE JE KANAL
+------------------------------------------------------------------------------
+Kanal                             n    Anteil    95-%-Intervall
+Supermarkt (Regal, Display)     131     46.5% [ 40.6;  52.4]
+In keinem dieser Kanäle          70     22.6% [ 18.0;  28.0]
+Instagram/Facebook               64     24.4% [ 19.6;  29.9]
+TV-Werbung                       40     14.3% [ 10.6;  19.0]
+Printwerbung                     28      9.2% [  6.3;  13.3]
+Werbung auf Websites             24      8.1% [  5.4;  12.0]
+Mundpropaganda                   22      7.7% [  5.0;  11.5]
+TikTok                           20      8.7% [  5.9;  12.7]
+Außenwerbung                     20      7.2% [  4.7;  11.0]
+YouTube                          16      6.8% [  4.3;  10.4]
+Influencer-Empfehlungen          13      4.8% [  2.8;   8.1]
+
+Nach Kanalgruppen (mindestens ein Kontakt in der Gruppe):
+   Handel                       131     46.5% [ 40.6;  52.4]
+   Klassische Medien             74     26.0% [ 21.1;  31.5]
+   Digital und Social            91     34.4% [ 29.0;  40.3]
+   Persönlich                    22      7.7% [  5.0;  11.5]
+
+Der Handel ist der mit Abstand wichtigste Kontaktpunkt. Das ist fuer eine
+Marke dieser Groesse erwartbar und zugleich der Grund, warum die
+Distributionsbarrieren aus Stufe 3 so schwer wiegen: Wo die Marke nicht
+im Regal steht, gibt es kaum einen zweiten Kontaktweg.
+
+2. WIE VIELE KONTAKTPUNKTE
+------------------------------------------------------------------------------
+   0 Kanäle:  70 Personen (24.4 %)
+   1 Kanäle: 127 Personen (44.3 %)
+   2 Kanäle:  47 Personen (16.4 %)
+   3 Kanäle:  24 Personen ( 8.4 %)
+   4 Kanäle:  14 Personen ( 4.9 %)
+   5 Kanäle:   3 Personen ( 1.0 %)
+   6 Kanäle:   1 Personen ( 0.3 %)
+   8 Kanäle:   1 Personen ( 0.3 %)
+
+Mittelwert 1.32, Median 1.
+
+erwägen NEOH:              M = 1.62 Kanäle gegen 1.21, t =  2.18, p = 0.0313
+haben gekauft:             M = 1.79 Kanäle gegen 1.23, t =  2.45, p = 0.0174
+nennen NEOH ungestützt:    M = 1.58 Kanäle gegen 1.29, t =  1.00, p = 0.3281
+
+3. KANAL UND ERWAEGUNG
+------------------------------------------------------------------------------
+Kanal                             n     erwägen    95-%-Intervall
+TV-Werbung                       40       23.1% [ 12.5;  38.6]
+Printwerbung                     28       24.4% [ 12.0;  43.3]
+Werbung auf Websites             24       42.9% [ 25.0;  62.8]
+Instagram/Facebook               64       32.9% [ 22.4;  45.6]
+YouTube                          16       21.8% [  8.1;  46.9]
+TikTok                           20       29.6% [ 14.0;  52.0]
+Supermarkt (Regal, Display)     131       34.8% [ 26.9;  43.6]
+Mundpropaganda                   22       42.6% [ 24.1;  63.5]
+Außenwerbung                     20       23.3% [  9.8;  45.9]
+In keinem dieser Kanäle          70       17.1% [  9.9;  28.0]
+alle Kenner                     287       25.6%
+
+Diese Tabelle ist die am leichtesten misszuverstehende der ganzen Studie.
+Sie zeigt NICHT, welcher Kanal Erwaegung erzeugt. Wer eine Marke erwaegt,
+nimmt ihre Werbung aufmerksamer wahr und erinnert den Kontakt besser -
+die Kausalitaet laeuft in beide Richtungen, und aus einem Querschnitt
+laesst sie sich nicht trennen. Fuer eine Wirkungsaussage braeuchte es
+eine Panelmessung oder ein Experiment.
+
+4. WER UEBER WELCHEN KANAL ERREICHT WIRD
+------------------------------------------------------------------------------
+Dieser Abschnitt ist der praktisch brauchbarste: Er beschreibt, wen ein
+Kanal unter den Kennern erreicht - keine Wirkung, sondern Reichweite.
+
+                             18 bis 29 30 bis 39 40 bis 49 50 bis 59       60+
+Supermarkt (Regal, Display)      48.3%     38.0%     54.1%     51.4%     38.5%
+In keinem dieser Kanäle          13.3%     28.9%     18.0%     25.3%     41.0%
+Instagram/Facebook               36.7%     26.0%     23.1%     10.2%      6.1%
+TV-Werbung                       15.0%     15.1%     17.5%      8.6%     12.2%
+Printwerbung                      5.0%     11.4%      7.3%     12.1%     16.2%
+Werbung auf Websites              6.7%     13.8%      3.5%      8.9%      6.1%
+Mundpropaganda                    8.3%     11.2%      7.1%      4.9%      2.2%
+TikTok                           20.0%      5.2%      5.2%      1.6%      0.0%
+Außenwerbung                      8.3%      8.1%      5.4%      6.7%      6.1%
+
+                              Weiblich  Männlich
+Supermarkt (Regal, Display)      48.3%     43.8%
+In keinem dieser Kanäle          24.2%     20.3%
+Instagram/Facebook               22.9%     26.6%
+TV-Werbung                       13.5%     15.3%
+Printwerbung                     11.6%      5.7%
+Werbung auf Websites              7.8%      8.5%
+Mundpropaganda                    6.9%      8.9%
+TikTok                            6.3%     12.1%
+Außenwerbung                      4.5%     11.3%
+
+5. DIE KONTAKTLOSEN
+------------------------------------------------------------------------------
+70 Kenner (22.6 % [18.0; 28.0]) hatten im letzten Monat in keinem der
+abgefragten Kanaele Kontakt - sie kennen die Marke aus frueherer Zeit.
+
+                               ohne Kontakt  mit Kontakt
+erwägen NEOH                          17.1%        28.0%
+haben gekauft                         11.1%        16.7%
+nennen NEOH ungestützt                 7.1%         8.6%
+Brand-Health-Index                  -0.271       0.081   t = -2.59, p = 0.0113
+
+Das ist die Gruppe, bei der Markenkenntnis ohne frischen Kontakt
+existiert - und sie steht in allen Kennwerten deutlich schlechter da.
+Ob der fehlende Kontakt die schwache Bindung erzeugt oder die schwache
+Bindung dazu fuehrt, dass Kontakte nicht erinnert werden, entscheidet
+auch diese Erhebung nicht.
+
+6. TRAEGT KONTAKT ETWAS BEI, WENN DAS MARKENURTEIL KONTROLLIERT IST?
+------------------------------------------------------------------------------
+nur Markenurteil             n = 260, Pseudo-R2 = 0.210, AIC = 246.4
+     (Konstante)  b = -1.304  SE = 0.182  p = 0.0000  Odds =  0.27
+     bh_index     b =  1.582  SE = 0.232  p = 0.0000  Odds =  4.86
++ Zahl der Kontaktkanäle     n = 260, Pseudo-R2 = 0.213, AIC = 247.5
+     (Konstante)  b = -1.471  SE = 0.256  p = 0.0000  Odds =  0.23
+     bh_index     b =  1.564  SE = 0.233  p = 0.0000  Odds =  4.78
+     kanäle       b =  0.121  SE = 0.127  p = 0.3421  Odds =  1.13
+
+Geschrieben: ERGEBNISSE_AT_kanaele.txt, ERGEBNISSE_AT_kanaele.csv

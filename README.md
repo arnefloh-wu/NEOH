@@ -111,6 +111,18 @@ diese Dateien rendert das Deck in der validierten Standardpalette. Siehe
 [`assets/README.md`](assets/README.md).
 
 ```
+python3 analyse_kanaele_at.py
+python3 analyse_weitere_at.py
+```
+
+Die Quelle der Bekanntheit (`kanal`) und die Variablen, die in den Stufen 1
+bis 4 nur als Kovariaten vorkamen: `intention`, `empfehlung` als NPS,
+`bedürfnis`, `bedeutsam`, `haeufigkeit` und die drei Timing-Fragen. Lesbare
+Fassungen in [`ERGEBNISSE_AT_kanaele.md`](ERGEBNISSE_AT_kanaele.md) und
+[`ERGEBNISSE_AT_weitere.md`](ERGEBNISSE_AT_weitere.md); die Tabelle am Ende
+der zweiten Datei hält fest, welche Variable wo ausgewertet ist.
+
+```
 python3 dashboard_at.py
 ```
 
