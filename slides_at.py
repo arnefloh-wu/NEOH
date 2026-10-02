@@ -1054,10 +1054,41 @@ tr.hi td{color:%(ink)s;font-weight:620}
 
 
 def pdf():
+    """Deck mit Chromium zu PDF rendern.
+
+    Playwright und der Browser liegen je nach Umgebung an verschiedenen
+    Stellen; das Skript probiert die ueblichen durch, statt einen Pfad
+    festzuschreiben. PW_BROWSER setzt den Browser von aussen.
+    """
     skript = """
-const { chromium } = require('playwright');
+const fs = require('fs');
+function ladePlaywright() {
+  for (const p of ['playwright', 'playwright-core', '/tmp/node_modules/playwright']) {
+    try { return require(p); } catch (e) {}
+  }
+  throw new Error('playwright nicht gefunden - npm install playwright');
+}
+function browserPfad() {
+  if (process.env.PW_BROWSER) return process.env.PW_BROWSER;
+  const wurzeln = ['/opt/pw-browsers'];
+  for (const w of wurzeln) {
+    if (!fs.existsSync(w)) continue;
+    for (const d of fs.readdirSync(w).filter(x => x.startsWith('chromium-')).sort().reverse()) {
+      const c = `${w}/${d}/chrome-linux/chrome`;
+      if (fs.existsSync(c)) return c;
+    }
+  }
+  return null;
+}
 (async () => {
-  const b = await chromium.launch();
+  const { chromium } = ladePlaywright();
+  let b;
+  try { b = await chromium.launch(); }
+  catch (e) {
+    const exe = browserPfad();
+    if (!exe) throw e;
+    b = await chromium.launch({ executablePath: exe });
+  }
   const p = await b.newPage();
   await p.goto('file://' + process.cwd() + '/%s', { waitUntil: 'networkidle' });
   await p.pdf({ path: '%s', width: '1280px', height: '720px', printBackground: true,
@@ -1067,7 +1098,29 @@ const { chromium } = require('playwright');
 """ % (AUS_HTML, AUS_PDF)
     io.open('/tmp/_render.js', 'w').write(skript)
     subprocess.run(['node', '/tmp/_render.js'], check=True)
+    datum_normieren(AUS_PDF)
     print('Geschrieben: %s' % AUS_PDF)
+
+
+def datum_normieren(pfad):
+    """CreationDate und ModDate auf den Stand der Eingabedaten setzen.
+
+    Chromium schreibt die aktuelle Uhrzeit ins PDF. Dadurch unterscheiden
+    sich zwei Laeufe mit identischem Inhalt in sechs Bytes, und jede
+    Neuerzeugung erzeugt einen 200-KB-Diff in der Versionsverwaltung. Der
+    Zeitstempel wird deshalb auf die Datei gesetzt, aus der das Deck
+    stammt - damit ist das PDF reproduzierbar und der Stempel bleibt
+    wahrheitsgemaess.
+    """
+    import os, re, time
+    quellen = [DATEN, FUNNEL, BEKANNT, 'slides_at.py']
+    stand = max(os.path.getmtime(q) for q in quellen if os.path.exists(q))
+    stempel = time.strftime("D:%Y%m%d%H%M%S+00'00'", time.gmtime(stand))
+    roh = io.open(pfad, 'rb').read()
+    neu_roh = re.sub(rb"(/(?:Creation|Mod)Date )\(D:[^)]*\)",
+                     lambda m: m.group(1) + b'(' + stempel.encode() + b')', roh)
+    if len(neu_roh) == len(roh):
+        io.open(pfad, 'wb').write(neu_roh)
 
 
 if __name__ == '__main__':
