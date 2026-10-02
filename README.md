@@ -72,6 +72,15 @@ Stufe 3: Treiber des Markenurteils, logistische Modelle fuer die beiden Tore
 des Funnels, die genannten Kaufbarrieren und die Kontaktkanaele. Lesbare
 Fassung in [`ERGEBNISSE_AT_treiber.md`](ERGEBNISSE_AT_treiber.md).
 
+```
+python3 analyse_segmente_text_at.py
+```
+
+Stufe 4: Schwelle oder Gradient bei `zucker`, ungestützte Bekanntheit und Top
+of Mind aus den Spontannennungen, thematische Codierung der offenen
+Beschreibungen. Lesbare Fassung in
+[`ERGEBNISSE_AT_segmente_text.md`](ERGEBNISSE_AT_segmente_text.md).
+
 [`FELDBERICHT_AT.md`](FELDBERICHT_AT.md) hält Feldverlauf, Ausschüsse,
 Quotenerfüllung, Gewichtung und Datenqualität fest. **Vor jeder Auswertung
 lesen:** Der vereinbarte Quotenplan bildet die Altersstruktur der
