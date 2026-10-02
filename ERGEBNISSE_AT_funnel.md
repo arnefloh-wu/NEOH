@@ -77,6 +77,34 @@ Plausibilitätsprüfung nichts aussortiert.
 
 ---
 
+## 2b. Die Markenpyramide
+
+Der Funnel in Abschnitt 1 zählt jede Stufe für sich. Eine **Pyramide** verlangt
+zusätzlich, dass jede Stufe eine Teilmenge der darunterliegenden ist. Geprüft:
+Nur zwei Befragte geben Erwägung ohne gestützte Bekanntheit an, und niemand
+nennt NEOH ungestützt, ohne es gestützt zu kennen. Die Schachtelung trägt also.
+
+| Stufe | Anteil Bevölkerung | n | Übergang | Median aller Marken |
+|---|---:|---:|---:|---:|
+| kennt die Marke | 53,3 % | 287 | | |
+| … und zieht sie in Betracht | 13,6 % | 74 | 26 % | 40 % |
+| … und hat gekauft | 6,7 % | 39 | 50 % | 39 % |
+| … und empfiehlt aktiv | 2,7 % | 15 | 39 % | — |
+
+„Empfiehlt aktiv" ist `empfehlung` ≥ 9 auf der Skala 0 bis 10, also die
+NPS-Definition des Promotors.
+
+**Zur Abweichung bei der Kaufstufe:** Der Funnel in Abschnitt 1 weist 8,2 %
+Käufer aus, die Pyramide 6,7 %. Die Differenz sind **zehn Befragte, die NEOH
+gekauft haben, es beim nächsten Kauf aber nicht in Betracht ziehen würden**.
+Im Funnel zählen sie als Käufer, in der Pyramide fallen sie heraus, weil sie
+die Erwägungsstufe nicht erfüllen. Beide Zahlen sind richtig; sie beantworten
+verschiedene Fragen. Für die Berichterstattung gilt: Pyramide, wenn es um
+Markenbindung geht, Funnel, wenn es um Marktanteil geht.
+
+Das Muster bestätigt Abschnitt 1 auf einer weiteren Ebene: Die erste Stufe
+liegt 14 Punkte unter dem Median, die zweite 11 Punkte darüber.
+
 ## 3. Wer kennt und wer erwägt
 
 ### Alter
