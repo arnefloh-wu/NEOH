@@ -7,3 +7,7 @@ NEOH_DE_analyse.csv
 # Fallebene mit Demografie: dieselbe Ueberlegung wie oben.
 ERGEBNISSE_AT_brandhealth.csv
 ERGEBNISSE_DE_brandhealth.csv
+
+# Python-Bytecode
+__pycache__/
+*.pyc

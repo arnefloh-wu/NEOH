@@ -40,12 +40,36 @@ dieselben Exportcodes; die Spaltensuffixe im Export sind damit direkt vergleichb
 | 90 | Barebells | — | x |
 | 91 | Xucker | — | x |
 | 92 | Duplo | — | x |
+| 93 | Twix | — | x |
+| 94 | KitKat | — | x |
+| 95 | Lindt | — | x |
+| 96 | Ritter Sport | — | x |
 | 99 | KEINE Marke (exklusiv) | x | x |
 
-Darstellung: Die drei Raster laufen über **drei Spalten**. 21 Optionen teilen sich ohne
-Rest auf 7 je Spalte, sodass "KEINE Marke" als letzte Option unten rechts steht und keine
-Marke optisch darunter liegt. Bei vier Spalten wäre die erste Spalte eine Zeile länger
-gewesen, was die Absicht der Endposition unterlaufen hätte.
+Die Codes 93 bis 96 sind **nach dem österreichischen Feld** ergänzt worden. Anlass war
+ein Befund aus den Spontannennungen (Stufe 4): Twix war mit 25,1 % die viertmeistgenannte
+Marke Österreichs und stand in keinem Raster, obwohl Mars, Snickers und Bounty desselben
+Herstellers enthalten waren; Lindt, KitKat und Ritter Sport fehlten ebenfalls.
+
+**Folge für den Ländervergleich.** Das deutsche Raster führt 24 Marken, das
+österreichische 20. Die gemeinsamen Codes sind unverändert und bleiben direkt
+vergleichbar, aber die Listen sind unterschiedlich lang. Zwei Konsequenzen sind in der
+Auswertung zu berücksichtigen:
+
+- **Kennwerte je Marke** (Bekanntheit, Betracht, Kauf und die Übergangsraten daraus)
+  werden auf der eigenen Kennerbasis gebildet und sind weiterhin vergleichbar.
+- **Anteile am Relevant Set** und jede Kennzahl, die über alle Marken normiert,
+  sind es **nicht**. Eine längere Liste erzeugt im Mittel mehr Nennungen.
+
+Eine längere Liste kann zudem das Antwortverhalten verändern. Der Effekt ist bei 24
+gegenüber 20 Optionen klein, aber er ist nicht null und gehört in den Methodenteil.
+
+Darstellung: Die drei Raster laufen über **drei Spalten**. In der österreichischen
+Fassung teilen sich 21 Optionen ohne Rest auf 7 je Spalte; in der deutschen füllen 25
+Optionen die Spalten mit 9, 8 und 8. In beiden Fällen steht "KEINE Marke" als letzte
+Option unten rechts, und keine Marke liegt optisch darunter. Bei vier Spalten wäre die
+erste Spalte eine Zeile länger gewesen, was die Absicht der Endposition unterlaufen
+hätte.
 
 Regeln:
 

@@ -89,7 +89,10 @@ Repository.
 
 Die beiden Länderfassungen sind strukturgleich: identische Fragen, Export-Tags,
 Blockfolge, Logik und Randomisierung. Sie unterscheiden sich ausschließlich in
-`einleitung`, `bundesland`, `bildung` und der Markenliste der drei Raster. Die
+`einleitung`, `bundesland`, `bildung` und der Markenliste der drei Raster. Das
+deutsche Raster führt seit Oktober 2026 **24 Marken statt 20** — Twix, KitKat, Lindt
+und Ritter Sport sind nach einem Befund aus den Spontannennungen ergänzt worden
+(Codebuch, Abschnitt 1). Die
 Länderzugehörigkeit steht in der Embedded-Data-Variable `land` (`AT` / `DE`).
 
 ## Feldausrichtung
