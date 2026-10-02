@@ -1,0 +1,103 @@
+SEGMENTE UND OFFENE ANGABEN - OESTERREICH
+==============================================================================
+Basis: 567 Faelle, davon 287 NEOH-Kenner
+
+A. IST ZUCKER EINE SCHWELLE ODER EIN GRADIENT?
+------------------------------------------------------------------------------
+Stufe 1 zeigte einen Sprung zwischen den Stufen 3 und 4, Stufe 2 einen
+monotonen Zusammenhang mit der Bewertung. Der Modellvergleich prueft,
+welche Form die Daten besser tragen - je Tor getrennt.
+
+Tor 1: Erwaegung (Basis Kenner), n = 285
+Modell                         LogLik        AIC  Pseudo-R2
+stetig (linear)               -155.98     315.97      0.044
+dichotom (>= 4)               -153.38     310.76      0.060
+fuenf Stufen (Dummies)        -152.71     315.43      0.064
+
+Bekanntheit (Basis alle), n = 565
+Modell                         LogLik        AIC  Pseudo-R2
+stetig (linear)               -388.23     780.46      0.009
+dichotom (>= 4)               -385.92     775.84      0.015
+fuenf Stufen (Dummies)        -383.72     777.45      0.020
+
+B. UNGESTUETZTE BEKANNTHEIT (spontan)
+------------------------------------------------------------------------------
+Antworten: 566 von 567 (99.8 %)
+Mindestens eine Marke erkannt: 536 (94.7 % der Antworten)
+Keine Marke erkannt: 30
+   Beispiele: keine | Keine | Müsli riegel | keine, esse keine Schokolade | Eigenmarken | Billa, Spar
+
+Marke               ungest.   Anteil   Top of M   Anteil   im Raster?
+Mars                    244    43.1 %        120    21.2 %   ja
+Milka                   213    37.6 %        133    23.5 %   ja
+Kinder                  178    31.4 %         96    17.0 %   ja
+Twix                    142    25.1 %         20     3.5 %   NEIN
+Snickers                135    23.9 %         26     4.6 %   ja
+Bounty                  116    20.5 %          7     1.2 %   ja
+Duplo                    63    11.1 %         18     3.2 %   NEIN
+Lindt                    43     7.6 %         12     2.1 %   NEIN
+Balisto                  42     7.4 %          7     1.2 %   ja
+KitKat                   39     6.9 %          7     1.2 %   NEIN
+Corny                    32     5.7 %         13     2.3 %   ja
+Milky Way                32     5.7 %          2     0.4 %   NEIN
+Ritter Sport             28     4.9 %          6     1.1 %   NEIN
+Knoppers                 27     4.8 %          7     1.2 %   ja
+Lion                     26     4.6 %          3     0.5 %   NEIN
+NEOH                     25     4.4 %         12     2.1 %   ja
+Nussini                  23     4.1 %          8     1.4 %   NEIN
+Suchard                  22     3.9 %          5     0.9 %   NEIN
+
+NEOH ungestuetzt: 25 Nennungen = 4.4 % der Antwortenden,
+gegenueber 53,3 % gestuetzter Bekanntheit (Stufe 1).
+Unter den 287 Kennern nennen 24 NEOH spontan: 8.4 %.
+
+Nicht im gestuetzten Raster, aber spontan genannt:
+   Twix                142   25.1 %
+   Duplo                63   11.1 %
+   Lindt                43    7.6 %
+   KitKat               39    6.9 %
+   Milky Way            32    5.7 %
+   Ritter Sport         28    4.9 %
+   Lion                 26    4.6 %
+   Nussini              23    4.1 %
+   Suchard              22    3.9 %
+   Ferrero              15    2.7 %
+
+C. WIE BESCHREIBEN KENNER DIE MARKE (beschreibung)
+------------------------------------------------------------------------------
+Auswertbare Texte: 266 von 287 Kennern (92.7 %)
+Median 25 Zeichen - das traegt eine Themenstruktur, keine tiefe
+Inhaltsanalyse.
+
+Thema                                  n   Anteil
+Zucker / zuckerfrei                   67    25.2 %
+Geschmack positiv                     48    18.0 %
+Kennt es nicht / nie probiert         38    14.3 %
+Gesund / Ernährung                    34    12.8 %
+Preis / teuer                         31    11.7 %
+Innovativ / anders                    31    11.7 %
+Protein / Eiweiss                     11     4.1 %
+Nur Kategorie ("ein Schokoriegel")    10     3.8 %
+Geschmack negativ                      8     3.0 %
+Knusprig / Textur                      4     1.5 %
+Verpackung / Optik                     4     1.5 %
+Oesterreichisch / regional             2     0.8 %
+(keinem Thema zugeordnet)             55    20.7 %
+
+Nicht zugeordnete Beispiele: einer der immer da ist wenn ma | Hab es als Werbung gesehen abe | Nicht wirklich eine Ahnung, er | Pappig | Nein,  warum? | ICH KENNE DIE MARKE NUR VOM HÖ
+
+Der aufschlussreichste Code ist "Kennt es nicht / nie probiert":
+38 von 266 Kennern (14.3 %) koennen die Marke, die sie im Raster
+angekreuzt haben, inhaltlich nicht beschreiben.
+
+   davon erwaegen NEOH: 5.3 %
+   von den uebrigen:    30.7 %
+
+Wer Zucker als Merkmal nennt (n = 67), erwaegt zu 41.8 %;
+wer es nicht nennt (n = 199), zu 22.1 %.
+
+Das ist der Relevanzbefund aus Stufe 1 in den eigenen Worten der
+Befragten: Wer das Produktversprechen benennen kann, erwaegt die
+Marke; wer nur den Namen kennt, nicht.
+
+Geschrieben: ERGEBNISSE_AT_segmente_text.txt
