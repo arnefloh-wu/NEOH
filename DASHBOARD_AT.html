@@ -1,0 +1,391 @@
+<title>NEOH Markenmonitor</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: klebende Filterleiste, Kennzahlenstreifen, zweispaltiges Raster,
+   darunter die Tabellenansicht. Bei Telefonbreite stapelt alles. */
+:root{
+  --flaeche:#fcfcfb; --plane:#f6f6f3; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --base:#c3c2b7; --akzent:#2a78d6; --zweit:#eb6834;
+  --st1:#184f95; --st2:#2a78d6; --st3:#86b6ef; --st4:#e9e8e3;
+  --chip:#ffffff; --chipan:#2a78d6; --chipant:#ffffff;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --flaeche:#1a1a19; --plane:#0d0d0d; --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --base:#383835; --akzent:#3987e5; --zweit:#d95926;
+  --st1:#b7d3f6; --st2:#5598e7; --st3:#184f95; --st4:#2c2c2a;
+  --chip:#232321; --chipan:#3987e5; --chipant:#07131f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --flaeche:#1a1a19; --plane:#0d0d0d; --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --base:#383835; --akzent:#3987e5; --zweit:#d95926;
+  --st1:#b7d3f6; --st2:#5598e7; --st3:#184f95; --st4:#2c2c2a;
+  --chip:#232321; --chipan:#3987e5; --chipant:#07131f; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--flaeche);color:var(--ink);font-family:var(--body);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:0 56px}
+header{padding-block:30px 18px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(25px,4vw,34px);
+  letter-spacing:-.018em;margin:0;text-wrap:balance}
+.sub{color:var(--ink2);font-size:14.5px;margin-top:7px;max-width:68ch}
+.leiste{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--flaeche);
+  border-bottom:1px solid var(--grid);padding-block:11px;margin-bottom:22px}
+.filterzeile{display:flex;flex-wrap:wrap;gap:16px 26px;align-items:flex-start}
+.fgruppe{min-width:0}
+.flabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button.chip{font:inherit;font-size:13px;padding:5px 11px;border-radius:999px;cursor:pointer;
+  background:var(--chip);color:var(--ink2);border:1px solid var(--grid);white-space:nowrap}
+button.chip[aria-pressed="true"]{background:var(--chipan);color:var(--chipant);
+  border-color:var(--chipan);font-weight:600}
+button.chip:focus-visible,button.text:focus-visible{outline:2px solid var(--akzent);outline-offset:2px}
+button.text{font:inherit;font-size:13px;background:none;border:none;color:var(--akzent);
+  cursor:pointer;padding:5px 2px;text-decoration:underline;text-underline-offset:3px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(164px,1fr));gap:1px;
+  background:var(--grid);border:1px solid var(--grid);border-radius:10px;overflow:hidden;margin-bottom:24px}
+.kpi{background:var(--flaeche);padding:15px 17px}
+.kpi .v{font-family:var(--display);font-weight:600;font-size:33px;letter-spacing:-.02em;
+  line-height:1.05;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:12.5px;color:var(--ink2);margin-top:5px}
+.kpi .d{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px}
+.raster{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){.raster{grid-template-columns:1fr}}
+.karte{border:1px solid var(--grid);border-radius:10px;padding:17px 18px 15px;min-width:0;
+  background:var(--flaeche)}
+.karte h2{font-family:var(--display);font-weight:600;font-size:16px;margin:0 0 3px;letter-spacing:-.005em}
+.karte .hint{font-size:12.5px;color:var(--muted);margin:0 0 13px}
+.karte.weit{grid-column:1/-1}
+figure{margin:0}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.legende{display:flex;flex-wrap:wrap;gap:7px 15px;font-size:12px;color:var(--ink2);margin-top:11px}
+.legende i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:1px}
+.warn{font-size:12.5px;color:var(--zweit);margin-top:10px;font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);padding:0 9px 7px 0;border-bottom:1px solid var(--grid)}
+td{padding:6px 9px 6px 0;border-bottom:1px solid var(--grid);color:var(--ink2)}
+td.n,th.n{text-align:right}
+tr.hi td{color:var(--ink);font-weight:600}
+.tabellen{overflow-x:auto}
+footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--grid);font-size:12.5px;
+  color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between}
+.tip{position:fixed;pointer-events:none;z-index:40;background:var(--ink);color:var(--flaeche);
+  font-size:12.5px;padding:6px 9px;border-radius:6px;opacity:0;transition:opacity .09s;
+  font-variant-numeric:tabular-nums;max-width:230px}
+.tip.an{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>NEOH Markenmonitor Österreich</h1>
+  <p class="sub">Markenstudie September 2026, n&nbsp;=&nbsp;567. Filter wirken auf alle
+  Kennzahlen gleichzeitig. Alle Anteile beziehen sich auf die jeweils gefilterte
+  Teilgruppe.</p>
+</header>
+
+<div class="leiste">
+  <div class="filterzeile">
+    <div class="fgruppe"><div class="flabel">Alter</div><div class="chips" id="f-alter"></div></div>
+    <div class="fgruppe"><div class="flabel">Geschlecht</div><div class="chips" id="f-geschlecht"></div></div>
+    <div class="fgruppe"><div class="flabel">Zuckerreduktion wichtig</div><div class="chips" id="f-segment"></div></div>
+    <div class="fgruppe"><div class="flabel">Gewichtung</div><div class="chips" id="f-gewicht"></div></div>
+    <div class="fgruppe"><div class="flabel">&nbsp;</div>
+      <button class="text" id="reset" type="button">Filter zurücksetzen</button></div>
+  </div>
+</div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="raster">
+  <section class="karte">
+    <h2>Markenpyramide NEOH</h2>
+    <p class="hint">Jede Stufe ist Teilmenge der darunterliegenden.</p>
+    <figure id="pyramide"></figure>
+    <div class="warn" id="warn-basis" hidden></div>
+  </section>
+
+  <section class="karte">
+    <h2>Markenbild NEOH</h2>
+    <p class="hint">Mittelwerte auf der Skala −100 bis +100, nur Kenner mit Urteil.</p>
+    <figure id="brandhealth"></figure>
+  </section>
+
+  <section class="karte weit">
+    <h2>Gestützte Bekanntheit im Wettbewerb</h2>
+    <p class="hint">Alle 20 abgefragten Marken, absteigend. NEOH hervorgehoben.</p>
+    <figure id="marken"></figure>
+    <div class="legende">
+      <span><i style="background:var(--akzent)"></i>NEOH</span>
+      <span><i style="background:var(--base)"></i>übrige Marken</span>
+    </div>
+  </section>
+
+  <section class="karte weit">
+    <h2>Tabellenansicht</h2>
+    <p class="hint">Dieselben Zahlen zum Nachlesen und Kopieren. Die Region ist
+    eine Randverteilung über die Gesamtstichprobe und folgt den Filtern nicht —
+    für Regionalaussagen ist die Stichprobe zu klein.</p>
+    <div class="tabellen"><table id="tabelle"></table></div>
+  </section>
+</div>
+
+<footer>
+  <span>WU Wien · Dr. Arne Floh · Markenstudie NEOH September 2026</span>
+  <span id="stand"></span>
+</footer>
+</div>
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+const DATA = {"marken":[{"c":"18","n":"AHEAD"},{"c":"1","n":"Balisto"},{"c":"2","n":"BE-KIND"},{"c":"3","n":"Bounty"},{"c":"4","n":"Corny"},{"c":"5","n":"Dragee Keksi (Napoli)"},{"c":"20","n":"Foodspring"},{"c":"6","n":"Hanuta"},{"c":"7","n":"Ketofabrik (Keast)"},{"c":"8","n":"Kinder"},{"c":"9","n":"Knoppers"},{"c":"10","n":"Manner"},{"c":"11","n":"Mars"},{"c":"12","n":"Milka"},{"c":"19","n":"More Nutrition"},{"c":"13","n":"NEOH"},{"c":"14","n":"Nicks"},{"c":"15","n":"Nucao"},{"c":"16","n":"Pick Up!"},{"c":"17","n":"Snickers"}],"slider":["Emotionale Bindung","Qualität","Preis-Leistung","Zufriedenheit","Weiterempfehlung"],"zellen":[{"a":"3","g":"2","s":"0","n":22,"w":19.8,"w2":17.82,"u":0,"uw":0.0,"b":[[5,4.5,2,1.8,0,0.0],[21,18.9,11,9.9,6,5.4],[5,4.5,2,1.8,0,0.0],[20,18.0,8,7.2,5,4.5],[20,18.0,5,4.5,2,1.8],[20,18.0,8,7.2,3,2.7],[4,3.6,1,0.9,0,0.0],[20,18.0,10,9.0,5,4.5],[1,0.9,0,0.0,0,0.0],[22,19.8,17,15.3,15,13.5],[22,19.8,12,10.8,9,8.1],[21,18.9,11,9.9,6,5.4],[21,18.9,9,8.1,6,5.4],[22,19.8,15,13.5,15,13.5],[15,13.5,2,1.8,1,0.9],[18,16.2,2,1.8,2,1.8],[5,4.5,2,1.8,0,0.0],[5,4.5,2,1.8,1,0.9],[21,18.9,13,11.7,5,4.5],[20,18.0,9,8.1,8,7.2]],"sl":[[13,11.7,262.8],[15,13.5,289.8],[15,13.5,-130.5],[14,12.6,270.9],[16,14.4,94.5]]},{"a":"4","g":"1","s":"1","n":28,"w":28.35,"w2":28.7044,"u":0,"uw":0.0,"b":[[5,5.0625,2,2.025,3,3.0375],[21,21.2625,11,11.1375,6,6.075],[1,1.0125,0,0.0,0,0.0],[25,25.3125,6,6.075,4,4.05],[19,19.2375,4,4.05,2,2.025],[21,21.2625,6,6.075,4,4.05],[4,4.05,2,2.025,0,0.0],[21,21.2625,4,4.05,1,1.0125],[0,0.0,0,0.0,0,0.0],[25,25.3125,15,15.1875,13,13.1625],[26,26.325,9,9.1125,4,4.05],[28,28.35,11,11.1375,6,6.075],[26,26.325,8,8.1,6,6.075],[26,26.325,14,14.175,7,7.0875],[6,6.075,3,3.0375,1,1.0125],[14,14.175,4,4.05,2,2.025],[5,5.0625,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[21,21.2625,3,3.0375,2,2.025],[26,26.325,12,12.15,6,6.075]],"sl":[[13,13.1625,784.6875],[14,14.175,754.3125],[14,14.175,217.6875],[13,13.1625,565.9875],[13,13.1625,303.75]]},{"a":"2","g":"1","s":"0","n":21,"w":32.4736,"w2":50.2161,"u":2,"uw":3.0927,"b":[[3,4.6391,0,0.0,0,0.0],[18,27.8346,6,9.2782,2,3.0927],[2,3.0927,1,1.5464,1,1.5464],[20,30.9273,9,13.9173,3,4.6391],[15,23.1955,8,12.3709,4,6.1855],[16,24.7418,6,9.2782,2,3.0927],[1,1.5464,0,0.0,0,0.0],[15,23.1955,5,7.7318,0,0.0],[0,0.0,0,0.0,0,0.0],[20,30.9273,10,15.4636,9,13.9173],[19,29.3809,6,9.2782,4,6.1855],[19,29.3809,9,13.9173,4,6.1855],[19,29.3809,6,9.2782,2,3.0927],[20,30.9273,10,15.4636,9,13.9173],[7,10.8245,0,0.0,1,1.5464],[15,23.1955,1,1.5464,0,0.0],[0,0.0,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[16,24.7418,8,12.3709,1,1.5464],[19,29.3809,10,15.4636,4,6.1855]],"sl":[[12,18.5564,870.6029],[15,23.1955,1240.1839],[12,18.5564,-26.2882],[12,18.5564,513.3928],[13,20.1027,205.6664]]},{"a":"5","g":"2","s":"1","n":55,"w":41.58,"w2":31.4345,"u":5,"uw":3.78,"b":[[8,6.048,5,3.78,2,1.512],[52,39.312,24,18.144,13,9.828],[4,3.024,1,0.756,0,0.0],[49,37.044,21,15.876,14,10.584],[36,27.216,9,6.804,4,3.024],[48,36.288,21,15.876,9,6.804],[9,6.804,2,1.512,0,0.0],[41,30.996,9,6.804,2,1.512],[4,3.024,1,0.756,1,0.756],[46,34.776,15,11.34,20,15.12],[49,37.044,18,13.608,10,7.56],[51,38.556,24,18.144,18,13.608],[53,40.068,24,18.144,16,12.096],[54,40.824,27,20.412,20,15.12],[16,12.096,7,5.292,7,5.292],[37,27.972,10,7.56,7,5.292],[8,6.048,1,0.756,0,0.0],[2,1.512,1,0.756,1,0.756],[34,25.704,10,7.56,3,2.268],[52,39.312,16,12.096,11,8.316]],"sl":[[33,24.948,955.584],[31,23.436,1082.592],[31,23.436,161.028],[31,23.436,808.92],[34,25.704,43.092]]},{"a":"6","g":"1","s":"0","n":24,"w":14.9129,"w2":9.2664,"u":1,"uw":0.6214,"b":[[0,0.0,0,0.0,0,0.0],[17,10.5633,5,3.1068,4,2.4855],[0,0.0,0,0.0,0,0.0],[21,13.0488,8,4.971,6,3.7282],[8,4.971,0,0.0,1,0.6214],[20,12.4274,7,4.3496,4,2.4855],[0,0.0,0,0.0,0,0.0],[13,8.0778,3,1.8641,2,1.2427],[0,0.0,0,0.0,0,0.0],[15,9.3205,5,3.1068,4,2.4855],[16,9.9419,4,2.4855,4,2.4855],[22,13.6701,17,10.5633,13,8.0778],[23,14.2915,11,6.8351,9,5.5923],[22,13.6701,10,6.2137,8,4.971],[0,0.0,0,0.0,0,0.0],[7,4.3496,0,0.0,0,0.0],[1,0.6214,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[10,6.2137,2,1.2427,1,0.6214],[21,13.0488,8,4.971,7,4.3496]],"sl":[[6,3.7282,-34.7967],[6,3.7282,-29.8258],[6,3.7282,-48.4669],[5,3.1068,-44.7386],[4,2.4855,-1.8641]]},{"a":"3","g":"1","s":"1","n":31,"w":31.9582,"w2":32.946,"u":3,"uw":3.0927,"b":[[3,3.0927,2,2.0618,2,2.0618],[27,27.8345,9,9.2782,4,4.1236],[2,2.0618,1,1.0309,1,1.0309],[28,28.8655,8,8.2473,3,3.0927],[23,23.7109,8,8.2473,4,4.1236],[24,24.7418,8,8.2473,2,2.0618],[8,8.2473,1,1.0309,0,0.0],[21,21.6491,4,4.1236,2,2.0618],[0,0.0,0,0.0,0,0.0],[31,31.9582,15,15.4636,12,12.3709],[30,30.9273,15,15.4636,9,9.2782],[26,26.8036,12,12.3709,5,5.1545],[30,30.9273,9,9.2782,7,7.2164],[29,29.8964,17,17.5255,10,10.3091],[5,5.1545,2,2.0618,1,1.0309],[19,19.5873,5,5.1545,4,4.1236],[2,2.0618,0,0.0,0,0.0],[3,3.0927,1,1.0309,1,1.0309],[26,26.8036,10,10.3091,4,4.1236],[30,30.9273,12,12.3709,6,6.1855]],"sl":[[18,18.5564,760.8108],[18,18.5564,868.0254],[17,17.5255,95.8745],[17,17.5255,612.3599],[17,17.5255,230.9236]]},{"a":"6","g":"2","s":"1","n":26,"w":29.484,"w2":33.4349,"u":1,"uw":1.134,"b":[[2,2.268,1,1.134,0,0.0],[22,24.948,7,7.938,3,3.402],[2,2.268,0,0.0,0,0.0],[23,26.082,9,10.206,6,6.804],[14,15.876,1,1.134,1,1.134],[22,24.948,11,12.474,7,7.938],[2,2.268,0,0.0,0,0.0],[21,23.814,7,7.938,2,2.268],[1,1.134,0,0.0,0,0.0],[20,22.68,9,10.206,4,4.536],[20,22.68,7,7.938,2,2.268],[25,28.35,14,15.876,13,14.742],[24,27.216,9,10.206,3,3.402],[24,27.216,9,10.206,8,9.072],[0,0.0,0,0.0,0,0.0],[11,12.474,4,4.536,1,1.134],[1,1.134,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[16,18.144,5,5.67,1,1.134],[21,23.814,5,5.67,3,3.402]],"sl":[[11,12.474,742.77],[11,12.474,790.398],[11,12.474,283.5],[10,11.34,579.474],[10,11.34,153.09]]},{"a":"2","g":"2","s":"1","n":17,"w":26.2882,"w2":40.6511,"u":0,"uw":0.0,"b":[[2,3.0927,2,3.0927,1,1.5464],[15,23.1955,6,9.2782,4,6.1855],[4,6.1855,1,1.5464,1,1.5464],[16,24.7418,4,6.1855,0,0.0],[15,23.1955,10,15.4636,5,7.7318],[16,24.7418,4,6.1855,2,3.0927],[4,6.1855,0,0.0,0,0.0],[15,23.1955,4,6.1855,1,1.5464],[0,0.0,0,0.0,0,0.0],[16,24.7418,11,17.01,11,17.01],[17,26.2882,10,15.4636,4,6.1855],[17,26.2882,8,12.3709,3,4.6391],[17,26.2882,3,4.6391,1,1.5464],[16,24.7418,8,12.3709,4,6.1855],[11,17.01,3,4.6391,1,1.5464],[15,23.1955,6,9.2782,2,3.0927],[1,1.5464,0,0.0,0,0.0],[4,6.1855,2,3.0927,1,1.5464],[17,26.2882,8,12.3709,2,3.0927],[16,24.7418,2,3.0927,2,3.0927]],"sl":[[14,21.6491,864.4175],[14,21.6491,1204.6176],[14,21.6491,-57.2155],[14,21.6491,671.122],[13,20.1027,306.1801]]},{"a":"6","g":"1","s":"1","n":49,"w":30.4471,"w2":18.9189,"u":1,"uw":0.6214,"b":[[1,0.6214,0,0.0,0,0.0],[34,21.1266,9,5.5923,4,2.4855],[3,1.8641,0,0.0,0,0.0],[45,27.9616,26,16.1556,10,6.2137],[19,11.806,4,2.4855,2,1.2427],[38,23.6121,13,8.0778,8,4.971],[2,1.2427,0,0.0,0,0.0],[32,19.8838,9,5.5923,6,3.7282],[2,1.2427,0,0.0,0,0.0],[30,18.6411,4,2.4855,6,3.7282],[36,22.3693,12,7.4564,7,4.3496],[45,27.9616,26,16.1556,26,16.1556],[47,29.2044,22,13.6701,14,8.6992],[44,27.3403,22,13.6701,16,9.9419],[2,1.2427,1,0.6214,1,0.6214],[10,6.2137,1,0.6214,1,0.6214],[3,1.8641,0,0.0,0,0.0],[1,0.6214,0,0.0,0,0.0],[14,8.6992,5,3.1068,5,3.1068],[41,25.4762,14,8.6992,10,6.2137]],"sl":[[10,6.2137,351.6954],[10,6.2137,414.4538],[10,6.2137,135.4587],[9,5.5923,258.4899],[9,5.5923,124.274]]},{"a":"5","g":"2","s":"0","n":20,"w":15.12,"w2":11.4307,"u":0,"uw":0.0,"b":[[0,0.0,0,0.0,0,0.0],[19,14.364,9,6.804,4,3.024],[0,0.0,0,0.0,0,0.0],[16,12.096,9,6.804,6,4.536],[11,8.316,2,1.512,1,0.756],[18,13.608,9,6.804,7,5.292],[3,2.268,1,0.756,1,0.756],[13,9.828,2,1.512,1,0.756],[0,0.0,0,0.0,0,0.0],[16,12.096,9,6.804,8,6.048],[17,12.852,9,6.804,6,4.536],[17,12.852,10,7.56,7,5.292],[16,12.096,8,6.048,4,3.024],[20,15.12,14,10.584,10,7.56],[1,0.756,0,0.0,0,0.0],[5,3.78,0,0.0,0,0.0],[2,1.512,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[11,8.316,4,3.024,2,1.512],[16,12.096,11,8.316,2,1.512]],"sl":[[5,3.78,42.336],[5,3.78,84.672],[5,3.78,33.264],[4,3.024,25.704],[4,3.024,58.968]]},{"a":"3","g":"2","s":"1","n":41,"w":36.9,"w2":33.21,"u":5,"uw":4.5,"b":[[21,18.9,10,9.0,4,3.6],[38,34.2,25,22.5,10,9.0],[6,5.4,2,1.8,1,0.9],[40,36.0,15,13.5,5,4.5],[38,34.2,15,13.5,6,5.4],[38,34.2,17,15.3,4,3.6],[13,11.7,4,3.6,2,1.8],[34,30.6,14,12.6,5,4.5],[1,0.9,0,0.0,0,0.0],[40,36.0,31,27.9,29,26.1],[39,35.1,23,20.7,11,9.9],[37,33.3,17,15.3,13,11.7],[40,36.0,18,16.2,6,5.4],[40,36.0,26,23.4,19,17.1],[28,25.2,6,5.4,3,2.7],[33,29.7,12,10.8,9,8.1],[7,6.3,2,1.8,0,0.0],[3,2.7,0,0.0,0,0.0],[37,33.3,21,18.9,8,7.2],[39,35.1,15,13.5,8,7.2]],"sl":[[32,28.8,1397.7],[32,28.8,1616.4],[31,27.9,140.4],[31,27.9,1134.0],[28,25.2,355.5]]},{"a":"2","g":"2","s":"0","n":27,"w":41.7518,"w2":64.5635,"u":1,"uw":1.5464,"b":[[1,1.5464,1,1.5464,0,0.0],[23,35.5664,11,17.01,8,12.3709],[2,3.0927,0,0.0,0,0.0],[26,40.2055,9,13.9173,2,3.0927],[24,37.1127,12,18.5564,5,7.7318],[22,34.02,8,12.3709,4,6.1855],[2,3.0927,0,0.0,0,0.0],[19,29.3809,6,9.2782,0,0.0],[0,0.0,0,0.0,0,0.0],[26,40.2055,21,32.4736,16,24.7418],[26,40.2055,13,20.1027,6,9.2782],[24,37.1127,11,17.01,4,6.1855],[27,41.7518,5,7.7318,3,4.6391],[26,40.2055,17,26.2882,11,17.01],[10,15.4636,3,4.6391,0,0.0],[15,23.1955,1,1.5464,0,0.0],[2,3.0927,1,1.5464,0,0.0],[1,1.5464,1,1.5464,1,1.5464],[24,37.1127,13,20.1027,4,6.1855],[27,41.7518,15,23.1955,5,7.7318]],"sl":[[13,20.1027,346.3855],[15,23.1955,541.2274],[13,20.1027,-37.1127],[14,21.6491,284.531],[13,20.1027,102.06]]},{"a":"6","g":"2","s":"0","n":14,"w":15.876,"w2":18.0034,"u":0,"uw":0.0,"b":[[0,0.0,0,0.0,0,0.0],[11,12.474,7,7.938,3,3.402],[0,0.0,0,0.0,0,0.0],[13,14.742,7,7.938,3,3.402],[4,4.536,1,1.134,0,0.0],[12,13.608,5,5.67,3,3.402],[0,0.0,0,0.0,0,0.0],[6,6.804,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[9,10.206,3,3.402,3,3.402],[10,11.34,1,1.134,1,1.134],[12,13.608,10,11.34,5,5.67],[12,13.608,6,6.804,5,5.67],[14,15.876,6,6.804,9,10.206],[1,1.134,0,0.0,0,0.0],[5,5.67,1,1.134,0,0.0],[0,0.0,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[7,7.938,1,1.134,1,1.134],[11,12.474,3,3.402,1,1.134]],"sl":[[5,5.67,170.1],[5,5.67,198.45],[5,5.67,172.368],[5,5.67,113.4],[5,5.67,3.402]]},{"a":"2","g":"1","s":"1","n":23,"w":35.5664,"w2":54.9986,"u":2,"uw":3.0927,"b":[[5,7.7318,2,3.0927,2,3.0927],[18,27.8346,12,18.5564,3,4.6391],[4,6.1855,1,1.5464,0,0.0],[21,32.4736,10,15.4636,4,6.1855],[21,32.4736,11,17.01,3,4.6391],[16,24.7418,3,4.6391,1,1.5464],[3,4.6391,0,0.0,0,0.0],[18,27.8346,9,13.9173,2,3.0927],[0,0.0,0,0.0,0,0.0],[22,34.02,14,21.6491,6,9.2782],[20,30.9273,11,17.01,3,4.6391],[22,34.02,11,17.01,5,7.7318],[21,32.4736,8,12.3709,4,6.1855],[21,32.4736,11,17.01,8,12.3709],[15,23.1955,3,4.6391,1,1.5464],[15,23.1955,4,6.1855,3,4.6391],[4,6.1855,1,1.5464,0,0.0],[1,1.5464,0,0.0,0,0.0],[19,29.3809,15,23.1955,8,12.3709],[22,34.02,15,23.1955,8,12.3709]],"sl":[[15,23.1955,797.9238],[15,23.1955,1141.2166],[14,21.6491,12.3709],[12,18.5564,609.2674],[12,18.5564,136.08]]},{"a":"4","g":"2","s":"1","n":40,"w":43.6154,"w2":47.5576,"u":2,"uw":2.1808,"b":[[10,10.9038,3,3.2712,2,2.1808],[38,41.4346,21,22.8981,10,10.9038],[5,5.4519,1,1.0904,0,0.0],[39,42.525,15,16.3558,8,8.7231],[33,35.9827,15,16.3558,4,4.3615],[35,38.1635,10,10.9038,7,7.6327],[7,7.6327,2,2.1808,0,0.0],[34,37.0731,7,7.6327,3,3.2712],[3,3.2712,1,1.0904,0,0.0],[38,41.4346,23,25.0789,22,23.9885],[39,42.525,25,27.2596,9,9.8135],[31,33.8019,19,20.7173,13,14.175],[38,41.4346,18,19.6269,9,9.8135],[37,40.3442,19,20.7173,18,19.6269],[17,18.5365,8,8.7231,4,4.3615],[27,29.4404,10,10.9038,7,7.6327],[7,7.6327,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[32,34.8923,11,11.9942,6,6.5423],[38,41.4346,15,16.3558,7,7.6327]],"sl":[[25,27.2596,1231.0447],[25,27.2596,1636.6679],[25,27.2596,347.8328],[22,23.9885,1326.9985],[23,25.0789,487.4021]]},{"a":"5","g":"1","s":"1","n":38,"w":33.1477,"w2":28.915,"u":1,"uw":0.8723,"b":[[1,0.8723,1,0.8723,0,0.0],[33,28.7862,13,11.34,9,7.8508],[2,1.7446,2,1.7446,0,0.0],[34,29.6585,21,18.3185,11,9.5954],[20,17.4462,9,7.8508,3,2.6169],[28,24.4246,13,11.34,5,4.3615],[1,0.8723,0,0.0,0,0.0],[21,18.3185,4,3.4892,0,0.0],[1,0.8723,1,0.8723,0,0.0],[34,29.6585,13,11.34,11,9.5954],[29,25.2969,15,13.0846,5,4.3615],[34,29.6585,23,20.0631,19,16.5739],[36,31.4031,19,16.5739,7,6.1062],[35,30.5308,17,14.8292,12,10.4677],[1,0.8723,1,0.8723,0,0.0],[14,12.2123,9,7.8508,6,5.2338],[2,1.7446,1,0.8723,0,0.0],[0,0.0,0,0.0,0,0.0],[18,15.7015,5,4.3615,2,1.7446],[31,27.0415,12,10.4677,9,7.8508]],"sl":[[14,12.2123,397.7724],[14,12.2123,655.1033],[14,12.2123,71.5293],[14,12.2123,580.0848],[13,11.34,253.8416]]},{"a":"5","g":"1","s":"0","n":27,"w":23.5523,"w2":20.5449,"u":0,"uw":0.0,"b":[[1,0.8723,0,0.0,0,0.0],[22,19.1908,8,6.9785,4,3.4892],[0,0.0,0,0.0,0,0.0],[24,20.9354,14,12.2123,6,5.2338],[16,13.9569,4,3.4892,1,0.8723],[20,17.4462,10,8.7231,8,6.9785],[0,0.0,0,0.0,0,0.0],[19,16.5739,6,5.2338,2,1.7446],[0,0.0,0,0.0,0,0.0],[22,19.1908,12,10.4677,7,6.1062],[24,20.9354,9,7.8508,5,4.3615],[22,19.1908,14,12.2123,7,6.1062],[26,22.68,13,11.34,7,6.1062],[24,20.9354,19,16.5739,13,11.34],[1,0.8723,0,0.0,0,0.0],[3,2.6169,0,0.0,1,0.8723],[2,1.7446,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[16,13.9569,2,1.7446,1,0.8723],[24,20.9354,9,7.8508,7,6.1062]],"sl":[[3,2.6169,102.06],[3,2.6169,44.4877],[3,2.6169,-36.6369],[3,2.6169,-13.0846],[3,2.6169,19.1908]]},{"a":"4","g":"2","s":"0","n":12,"w":13.0846,"w2":14.2673,"u":1,"uw":1.0904,"b":[[1,1.0904,1,1.0904,1,1.0904],[12,13.0846,5,5.4519,3,3.2712],[1,1.0904,1,1.0904,0,0.0],[12,13.0846,3,3.2712,1,1.0904],[12,13.0846,5,5.4519,2,2.1808],[11,11.9942,2,2.1808,2,2.1808],[4,4.3615,1,1.0904,1,1.0904],[11,11.9942,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[12,13.0846,5,5.4519,4,4.3615],[12,13.0846,7,7.6327,4,4.3615],[11,11.9942,6,6.5423,2,2.1808],[12,13.0846,2,2.1808,3,3.2712],[12,13.0846,5,5.4519,6,6.5423],[5,5.4519,2,2.1808,0,0.0],[7,7.6327,2,2.1808,2,2.1808],[1,1.0904,0,0.0,0,0.0],[3,3.2712,0,0.0,0,0.0],[11,11.9942,2,2.1808,1,1.0904],[12,13.0846,6,6.5423,3,3.2712]],"sl":[[6,6.5423,146.1116],[7,7.6327,267.1443],[7,7.6327,-53.4289],[6,6.5423,188.6366],[6,6.5423,91.5923]]},{"a":"3","g":"1","s":"0","n":24,"w":24.7418,"w2":25.5066,"u":0,"uw":0.0,"b":[[3,3.0927,0,0.0,0,0.0],[19,19.5873,11,11.34,5,5.1545],[1,1.0309,0,0.0,0,0.0],[19,19.5873,8,8.2473,3,3.0927],[17,17.5255,7,7.2164,1,1.0309],[16,16.4945,10,10.3091,4,4.1236],[1,1.0309,1,1.0309,0,0.0],[17,17.5255,7,7.2164,1,1.0309],[0,0.0,0,0.0,0,0.0],[20,20.6182,10,10.3091,7,7.2164],[18,18.5564,9,9.2782,1,1.0309],[21,21.6491,7,7.2164,5,5.1545],[23,23.7109,11,11.34,5,5.1545],[21,21.6491,12,12.3709,7,7.2164],[2,2.0618,1,1.0309,2,2.0618],[9,9.2782,2,2.0618,0,0.0],[5,5.1545,1,1.0309,1,1.0309],[2,2.0618,0,0.0,0,0.0],[18,18.5564,8,8.2473,7,7.2164],[22,22.68,9,9.2782,5,5.1545]],"sl":[[9,9.2782,123.7091],[9,9.2782,220.6145],[9,9.2782,-264.9436],[9,9.2782,119.5854],[9,9.2782,31.9582]]},{"a":"4","g":"1","s":"0","n":28,"w":28.35,"w2":28.7044,"u":0,"uw":0.0,"b":[[1,1.0125,0,0.0,0,0.0],[21,21.2625,9,9.1125,7,7.0875],[1,1.0125,0,0.0,0,0.0],[23,23.2875,7,7.0875,5,5.0625],[21,21.2625,6,6.075,3,3.0375],[17,17.2125,5,5.0625,4,4.05],[1,1.0125,1,1.0125,1,1.0125],[22,22.275,9,9.1125,5,5.0625],[1,1.0125,0,0.0,0,0.0],[23,23.2875,11,11.1375,14,14.175],[22,22.275,10,10.125,6,6.075],[21,21.2625,10,10.125,6,6.075],[22,22.275,12,12.15,7,7.0875],[27,27.3375,12,12.15,12,12.15],[0,0.0,0,0.0,0,0.0],[8,8.1,0,0.0,0,0.0],[2,2.025,0,0.0,0,0.0],[0,0.0,0,0.0,0,0.0],[20,20.25,5,5.0625,3,3.0375],[24,24.3,11,11.1375,9,9.1125]],"sl":[[6,6.075,124.5375],[8,8.1,305.775],[8,8.1,-52.65],[7,7.0875,143.775],[6,6.075,5.0625]]}],"regionen":[{"name":"Ost","n":288,"bek":52.4,"bet":18.0,"kauf":10.7},{"name":"Süd","n":93,"bek":64.2,"bet":16.2,"kauf":12.4},{"name":"West","n":186,"bek":49.2,"bet":6.0,"kauf":2.7}],"n_gesamt":567};
+
+const ALTER = {'2':'18–29','3':'30–39','4':'40–49','5':'50–59','6':'60+'};
+const GESCHLECHT = {'1':'Männlich','2':'Weiblich'};
+const SEGMENT = {'1':'wichtig (4–5)','0':'weniger wichtig (1–3)'};
+const NEOH_IDX = DATA.marken.findIndex(m => m.c === '13');
+
+const state = {alter:new Set(), geschlecht:new Set(), segment:new Set(), gewichtet:true};
+
+function chips(host, map, key){
+  const el = document.getElementById(host);
+  el.innerHTML = '';
+  for (const [k,label] of Object.entries(map)){
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.textContent = label;
+    b.setAttribute('aria-pressed','false');
+    b.addEventListener('click', () => {
+      state[key].has(k) ? state[key].delete(k) : state[key].add(k);
+      b.setAttribute('aria-pressed', state[key].has(k) ? 'true' : 'false');
+      zeichnen();
+    });
+    el.appendChild(b);
+  }
+}
+function gewichtChips(){
+  const el = document.getElementById('f-gewicht');
+  el.innerHTML = '';
+  [['Gewichtet',true],['Ungewichtet',false]].forEach(([label,val]) => {
+    const b = document.createElement('button');
+    b.type='button'; b.className='chip'; b.textContent=label;
+    b.setAttribute('aria-pressed', state.gewichtet===val ? 'true':'false');
+    b.addEventListener('click', () => {
+      state.gewichtet = val;
+      el.querySelectorAll('button').forEach((x,i) =>
+        x.setAttribute('aria-pressed', (i===0)===val ? 'true':'false'));
+      zeichnen();
+    });
+    el.appendChild(b);
+  });
+}
+
+function auswahl(){
+  return DATA.zellen.filter(z =>
+    (state.alter.size===0 || state.alter.has(z.a)) &&
+    (state.geschlecht.size===0 || state.geschlecht.has(z.g)) &&
+    (state.segment.size===0 || state.segment.has(z.s)));
+}
+
+function summen(zellen){
+  const M = DATA.marken.length;
+  const s = {n:0, w:0, w2:0, u:0, uw:0,
+             b:Array.from({length:M}, () => [0,0,0,0,0,0]),
+             sl:Array.from({length:DATA.slider.length}, () => [0,0,0])};
+  for (const z of zellen){
+    s.n += z.n; s.w += z.w; s.w2 += z.w2; s.u += z.u; s.uw += z.uw;
+    for (let i=0;i<M;i++) for (let j=0;j<6;j++) s.b[i][j] += z.b[i][j];
+    for (let i=0;i<s.sl.length;i++) for (let j=0;j<3;j++) s.sl[i][j] += z.sl[i][j];
+  }
+  return s;
+}
+
+const fmt = (v,d=1) => v.toLocaleString('de-AT',{minimumFractionDigits:d,maximumFractionDigits:d});
+const basis = s => state.gewichtet ? s.w : s.n;
+function anteil(s, i, stufe){           // stufe 0 bekannt, 1 betracht, 2 kauf
+  const b = basis(s);
+  if (!b) return 0;
+  return 100 * s.b[i][stufe*2 + (state.gewichtet?1:0)] / b;
+}
+
+function css(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+/* ---------------------------------------------------------------- Tooltip */
+const tip = document.getElementById('tip');
+function tipAn(evt, text){
+  tip.textContent = text; tip.classList.add('an');
+  const r = tip.getBoundingClientRect();
+  let x = evt.clientX + 13, y = evt.clientY - r.height - 9;
+  if (x + r.width > innerWidth - 8) x = evt.clientX - r.width - 13;
+  if (y < 4) y = evt.clientY + 15;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+function tipAus(){ tip.classList.remove('an'); }
+
+/* ---------------------------------------------------------------- Pyramide */
+function zeichnePyramide(s){
+  const B = basis(s), i = NEOH_IDX, k = state.gewichtet?1:0;
+  const stufen = [
+    ['kennt die Marke',  s.b[i][0+k], css('--st3')],
+    ['zieht in Betracht',s.b[i][2+k], css('--st2')],
+    ['hat gekauft',      s.b[i][4+k], css('--st1')]];
+  const W = 560, H = 250, mitte = W*0.40, maxb = W*0.58, zh = (H-26)/3;
+  const top = stufen[0][1] || 1;
+  let out = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Markenpyramide NEOH">`;
+  for (let j=0;j<3;j++){
+    const v = B ? 100*stufen[j][1]/B : 0;
+    const y = H - 14 - (j+1)*zh;
+    const bu = maxb * Math.pow((stufen[j][1]||0)/top, 0.45);
+    const bo = j<2 ? maxb * Math.pow((stufen[j+1][1]||0)/top, 0.45) : bu*0.42;
+    out += `<path d="M${mitte-bu/2} ${y+zh} L${mitte+bu/2} ${y+zh} L${mitte+bo/2} ${y} L${mitte-bo/2} ${y} Z"
+      fill="${stufen[j][2]}" stroke="${css('--flaeche')}" stroke-width="2"
+      data-tip="${stufen[j][0]}: ${fmt(v)} %"></path>`;
+    out += `<text x="${mitte}" y="${y+zh/2+7}" text-anchor="middle" font-size="19"
+      font-weight="600" fill="${j===2?css('--flaeche'):css('--ink')}"
+      style="font-family:var(--display)">${fmt(v)}&#8201;%</text>`;
+    out += `<text x="${mitte+maxb/2+18}" y="${y+zh/2+5}" font-size="13"
+      fill="${css('--ink2')}">${stufen[j][0]}</text>`;
+    if (j<2){
+      const rate = stufen[j][1] ? 100*stufen[j+1][1]/stufen[j][1] : 0;
+      out += `<text x="4" y="${y+5}" font-size="12.5" fill="${css('--muted')}"
+        style="font-family:var(--mono)">${fmt(rate,0)}&#8201;% weiter</text>`;
+    }
+  }
+  out += '</svg>';
+  document.getElementById('pyramide').innerHTML = out;
+}
+
+/* ------------------------------------------------------------- Brand Health */
+function zeichneBrandhealth(s){
+  const W = 560, zeile = 34, H = DATA.slider.length*zeile + 26;
+  const lb = 150, rb = 16, sp = W-lb-rb, vmin=-40, vmax=80;
+  const sx = v => lb + sp*(v-vmin)/(vmax-vmin);
+  let out = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Markenbild NEOH">`;
+  for (let g=vmin+20; g<=vmax; g+=20){
+    out += `<line x1="${sx(g)}" y1="6" x2="${sx(g)}" y2="${H-20}" stroke="${css('--grid')}" stroke-width="1"></line>`;
+    out += `<text x="${sx(g)}" y="${H-5}" text-anchor="middle" font-size="10.5"
+      fill="${css('--muted')}" style="font-family:var(--mono)">${g}</text>`;
+  }
+  out += `<line x1="${sx(0)}" y1="6" x2="${sx(0)}" y2="${H-20}" stroke="${css('--base')}" stroke-width="1.5"></line>`;
+  DATA.slider.forEach((lab,i) => {
+    const [n, w, wx] = s.sl[i];
+    const m = state.gewichtet ? (w ? wx/w : null) : null;
+    const wert = state.gewichtet ? m : (w ? wx/w : null);
+    const y = 18 + i*zeile;
+    out += `<text x="${lb-12}" y="${y+4}" text-anchor="end" font-size="13" fill="${css('--ink2')}">${lab}</text>`;
+    if (wert === null || n === 0){
+      out += `<text x="${lb+8}" y="${y+4}" font-size="12" fill="${css('--muted')}">keine Urteile</text>`;
+      return;
+    }
+    const x0 = sx(0), x1 = sx(wert);
+    out += `<rect x="${Math.min(x0,x1)}" y="${y-7}" width="${Math.max(2,Math.abs(x1-x0))}" height="14"
+      rx="3" fill="${wert>=0?css('--akzent'):css('--zweit')}"
+      data-tip="${lab}: ${fmt(wert,0)} (n = ${n})"></rect>`;
+    out += `<text x="${x1 + (wert>=0?7:-7)}" y="${y+4}" font-size="12"
+      text-anchor="${wert>=0?'start':'end'}" fill="${css('--ink')}"
+      style="font-family:var(--mono)">${fmt(wert,0)}</text>`;
+  });
+  out += '</svg>';
+  document.getElementById('brandhealth').innerHTML = out;
+}
+
+/* ------------------------------------------------------------- Markenranking */
+function zeichneMarken(s){
+  const reihen = DATA.marken.map((m,i) => ({name:m.n, v:anteil(s,i,0), neoh:i===NEOH_IDX}))
+                            .sort((a,b) => b.v - a.v);
+  const W = 1100, zeile = 26, lb = 170, H = reihen.length*zeile + 8;
+  const max = Math.max(...reihen.map(r => r.v), 1) * 1.1;
+  let out = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gestützte Bekanntheit aller Marken">`;
+  reihen.forEach((r,i) => {
+    const y = i*zeile + 4, bw = Math.max(2, (W-lb-62)*r.v/max);
+    out += `<text x="${lb-12}" y="${y+14}" text-anchor="end" font-size="13"
+      fill="${r.neoh?css('--ink'):css('--ink2')}" font-weight="${r.neoh?600:400}">${r.name}</text>`;
+    out += `<rect x="${lb}" y="${y+3}" width="${bw}" height="13" rx="3"
+      fill="${r.neoh?css('--akzent'):css('--base')}" data-tip="${r.name}: ${fmt(r.v)} % kennen die Marke"></rect>`;
+    out += `<text x="${lb+bw+8}" y="${y+14}" font-size="12"
+      fill="${r.neoh?css('--ink'):css('--muted')}" font-weight="${r.neoh?600:400}"
+      style="font-family:var(--mono)">${fmt(r.v)}&#8201;%</text>`;
+  });
+  out += '</svg>';
+  document.getElementById('marken').innerHTML = out;
+}
+
+/* ---------------------------------------------------------------- Tabelle */
+function zeichneTabelle(s){
+  const reihen = DATA.marken.map((m,i) => ({
+    name:m.n, bek:anteil(s,i,0), bet:anteil(s,i,1), kauf:anteil(s,i,2),
+    nb:s.b[i][0], neoh:i===NEOH_IDX})).sort((a,b) => b.bek - a.bek);
+  let out = `<thead><tr><th>Marke</th><th class="n">kennt</th><th class="n">erwägt</th>
+    <th class="n">gekauft</th><th class="n">Fälle</th></tr></thead><tbody>`;
+  for (const r of reihen){
+    out += `<tr class="${r.neoh?'hi':''}"><td>${r.name}</td><td class="n">${fmt(r.bek)} %</td>
+      <td class="n">${fmt(r.bet)} %</td><td class="n">${fmt(r.kauf)} %</td>
+      <td class="n">${r.nb}</td></tr>`;
+  }
+  out += `</tbody><thead><tr><th>Region (ungefiltert)</th><th class="n">kennt</th>
+    <th class="n">erwägt</th><th class="n">gekauft</th><th class="n">Fälle</th></tr></thead><tbody>`;
+  for (const r of DATA.regionen){
+    out += `<tr><td>${r.name}</td><td class="n">${fmt(r.bek)} %</td><td class="n">${fmt(r.bet)} %</td>
+      <td class="n">${fmt(r.kauf)} %</td><td class="n">${r.n}</td></tr>`;
+  }
+  out += '</tbody>';
+  document.getElementById('tabelle').innerHTML = out;
+}
+
+/* ---------------------------------------------------------------- Kennzahlen */
+function zeichneKpis(s){
+  const i = NEOH_IDX;
+  const n_eff = s.w2 ? s.w*s.w/s.w2 : 0;
+  const ung = s.n ? 100*(state.gewichtet ? s.uw/s.w : s.u/s.n) : 0;
+  const bek = anteil(s,i,0);
+  const kacheln = [
+    {v:fmt(bek)+'&#8201;%', l:'kennen NEOH (gestützt)', d:`${s.b[i][0]} von ${s.n} Fällen`},
+    {v:fmt(anteil(s,i,1))+'&#8201;%', l:'ziehen NEOH in Betracht', d:`${s.b[i][2]} Fälle`},
+    {v:fmt(anteil(s,i,2))+'&#8201;%', l:'haben gekauft (3 Monate)', d:`${s.b[i][4]} Fälle`},
+    {v:fmt(ung)+'&#8201;%', l:'nennen NEOH ungestützt', d:bek ? `Erinnerungsquote ${fmt(100*ung/bek)}&#8201;%` : '—'},
+    {v:String(s.n), l:'Fälle in der Auswahl', d:state.gewichtet ? `effektiv ${fmt(n_eff,0)}` : 'ungewichtet'}];
+  document.getElementById('kpis').innerHTML = kacheln.map(k =>
+    `<div class="kpi"><div class="v">${k.v}</div><div class="l">${k.l}</div><div class="d">${k.d}</div></div>`).join('');
+}
+
+/* ---------------------------------------------------------------- Zeichnen */
+function zeichnen(){
+  const s = summen(auswahl());
+  const warn = document.getElementById('warn-basis');
+  if (s.n === 0){
+    warn.textContent = 'Keine Fälle in dieser Auswahl. Filter lockern.';
+    warn.hidden = false;
+  } else if (s.n < 50){
+    warn.textContent = `Nur ${s.n} Fälle in dieser Auswahl — die Anteile schwanken stark.`;
+    warn.hidden = false;
+  } else {
+    warn.hidden = true;
+  }
+  zeichneKpis(s);
+  zeichnePyramide(s);
+  zeichneBrandhealth(s);
+  zeichneMarken(s);
+  zeichneTabelle(s);
+  for (const el of document.querySelectorAll('[data-tip]')){
+    el.addEventListener('mousemove', e => tipAn(e, el.getAttribute('data-tip')));
+    el.addEventListener('mouseleave', tipAus);
+  }
+}
+
+chips('f-alter', ALTER, 'alter');
+chips('f-geschlecht', GESCHLECHT, 'geschlecht');
+chips('f-segment', SEGMENT, 'segment');
+gewichtChips();
+document.getElementById('reset').addEventListener('click', () => {
+  state.alter.clear(); state.geschlecht.clear(); state.segment.clear(); state.gewichtet = true;
+  document.querySelectorAll('.chips button').forEach(b => b.setAttribute('aria-pressed','false'));
+  document.querySelectorAll('#f-gewicht button').forEach((b,i) => b.setAttribute('aria-pressed', i===0?'true':'false'));
+  zeichnen();
+});
+document.getElementById('stand').textContent =
+  'Feld 25.–30. September 2026 · ' + DATA.n_gesamt + ' Fälle nach Qualitätsprüfung';
+addEventListener('resize', () => { tipAus(); });
+zeichnen();
+</script>
