@@ -56,6 +56,14 @@ Stufe 1 der Auswertung: Funnel im Wettbewerbsvergleich. Schreibt
 Die lesbare Fassung mit Einordnung steht in
 [`ERGEBNISSE_AT_funnel.md`](ERGEBNISSE_AT_funnel.md).
 
+```
+python3 analyse_brandhealth_at.py
+```
+
+Stufe 2: Dimensionalität der fünf Brand-Health-Slider, Reliabilität, Index,
+Preis-Qualitäts-Schere und Brand Health entlang des Funnels. Lesbare Fassung in
+[`ERGEBNISSE_AT_brandhealth.md`](ERGEBNISSE_AT_brandhealth.md).
+
 [`FELDBERICHT_AT.md`](FELDBERICHT_AT.md) hält Feldverlauf, Ausschüsse,
 Quotenerfüllung, Gewichtung und Datenqualität fest. **Vor jeder Auswertung
 lesen:** Der vereinbarte Quotenplan bildet die Altersstruktur der
