@@ -64,6 +64,14 @@ Stufe 2: Dimensionalität der fünf Brand-Health-Slider, Reliabilität, Index,
 Preis-Qualitäts-Schere und Brand Health entlang des Funnels. Lesbare Fassung in
 [`ERGEBNISSE_AT_brandhealth.md`](ERGEBNISSE_AT_brandhealth.md).
 
+```
+python3 analyse_treiber_at.py
+```
+
+Stufe 3: Treiber des Markenurteils, logistische Modelle fuer die beiden Tore
+des Funnels, die genannten Kaufbarrieren und die Kontaktkanaele. Lesbare
+Fassung in [`ERGEBNISSE_AT_treiber.md`](ERGEBNISSE_AT_treiber.md).
+
 [`FELDBERICHT_AT.md`](FELDBERICHT_AT.md) hält Feldverlauf, Ausschüsse,
 Quotenerfüllung, Gewichtung und Datenqualität fest. **Vor jeder Auswertung
 lesen:** Der vereinbarte Quotenplan bildet die Altersstruktur der

@@ -87,5 +87,5 @@ Offene Angaben:
    spontan           566 Texte, Median 21 Zeichen
    beschreibung      271 Texte, Median 25 Zeichen
 
-Geschrieben: NEOH_AT_analyse.csv (567 Faelle, 112 Variablen)
+Geschrieben: NEOH_AT_analyse.csv (567 Faelle, 121 Variablen)
 Die Panel-ID ist nicht enthalten; id ist eine studieninterne Laufnummer.

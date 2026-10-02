@@ -263,6 +263,7 @@ def main():
               + ['neoh_bekannt', 'neoh_betracht', 'neoh_kauf']
               + SLIDER + ['bedürfnis', 'bedeutsam', 'intention', 'empfehlung']
               + ['kanal_%d' % i for i in range(1, 12)]
+              + ['H1_%d' % i for i in range(1, 10)]
               + ['spontan', 'beschreibung']
               + ['t_spontan_s', 't_raster_s', 't_sentiment_s'])
 
@@ -291,6 +292,12 @@ def main():
                 o[v] = r[v]
             for k in range(1, 12):
                 o['kanal_%d' % k] = 1 if r['kanal_%d' % k].strip() else 0
+            # H1 wird nur Erwaegern ohne Kauf gestellt; leer heisst hier
+            # "Frage nicht gestellt", nicht "Grund trifft nicht zu".
+            gestellt = r['neoh_betracht' if False else 'betracht_%s' % NEOH].strip() \
+                and not r['kauf_3monate_%s' % NEOH].strip()
+            for k in range(1, 10):
+                o['H1_%d' % k] = (1 if r['H1_%d' % k].strip() else 0) if gestellt else ''
             o['spontan'] = r['spontan'].replace('\n', ' ').strip()
             o['beschreibung'] = r['beschreibung'].replace('\n', ' ').strip()
             for t in ['t_spontan', 't_raster', 't_sentiment']:

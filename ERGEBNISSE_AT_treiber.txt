@@ -1,0 +1,143 @@
+TREIBER UND DIE BEIDEN TORE DES FUNNELS - OESTERREICH
+==============================================================================
+Kenner: 287   Erwaeger: 74   Kaeufer: 47
+
+1. WAS ERZEUGT DAS MARKENURTEIL
+------------------------------------------------------------------------------
+Abhaengig: Brand-Health-Index (Stufe 2, vier Items ohne wom).
+Varianzzerlegung, keine Kausalitaet - alle Masse sind zeitgleich erhoben.
+
+n = 258, R2 = 0.581
+Praediktor        rel. Gew.     Anteil   r mit Index
+bedürfnis            0.3195      55.0 %   +0.730
+bedeutsam            0.2135      36.7 %   +0.650
+zucker               0.0442       7.6 %   +0.311
+alter                0.0029       0.5 %   +0.051
+haeufigkeit          0.0011       0.2 %   -0.054
+einkommen            0.0001       0.0 %   -0.001
+
+bedürfnis ("Inwieweit erfuellt NEOH Ihre Beduerfnisse?") dominiert.
+Das ist weniger trivial, als es klingt: Es ist ein Passungsurteil,
+kein Qualitaetsurteil. Die Marke wird gut bewertet, wenn sie zum
+eigenen Bedarf passt - nicht, wenn sie objektiv gut gefunden wird.
+
+2. TOR 1 - WER ERWAEGT NEOH (Basis: Kenner)
+------------------------------------------------------------------------------
+Modell A: Markenurteil und Kontext   (n = 260, Pseudo-R2 = 0.220)
+                         b       SE         p      Odds
+(Konstante)         -2.262    0.978    0.0207     0.104 *
+bh_index             1.506    0.237    0.0000     4.509 ***
+zucker               0.282    0.175    0.1067     1.326 
+haeufigkeit          0.006    0.134    0.9665     1.006 
+einkommen            0.035    0.096    0.7146     1.036 
+alter               -0.094    0.128    0.4635     0.910 
+
+Modell B: nur die Slider   (n = 245, Pseudo-R2 = 0.317)
+                         b       SE         p      Odds
+(Konstante)         -3.524    0.472    0.0000     0.029 ***
+plv_1               -0.015    0.005    0.0013     0.985 **
+qualität_1           0.020    0.009    0.0272     1.020 *
+emotion_1            0.005    0.007    0.5257     1.005 
+zufriedenheit_1      0.030    0.007    0.0001     1.030 ***
+
+Zum negativen plv-Koeffizienten in Modell B: Bivariat haengt plv mit
+der Erwaegung praktisch nicht zusammen (Stufe 2: +11,4 Punkte,
+p = 0,079). Erst unter Kontrolle der drei anderen Slider dreht das
+Vorzeichen ins Negative. Das ist das Muster einer Suppression und
+bei Interkorrelationen bis r = 0,79 nicht ueberraschend. Inhaltlich
+darf daraus NICHT gelesen werden, dass ein besseres Preisurteil die
+Erwaegung senkt. Der belastbare Befund bleibt: plv traegt zu Tor 1
+nichts bei, waehrend zufriedenheit und qualitaet es tragen.
+
+Ebenfalls bemerkenswert in Modell A: zucker verliert seine Wirkung,
+sobald der Markenindex im Modell steht (p = 0,107). Zusammen mit der
+Rangkorrelation aus Stufe 2 (rho = 0,270) ist das das Muster einer
+Mediation - die Zuckermotivation wirkt ueber das Markenurteil, nicht
+daneben. Ein formaler Mediationstest waere der naechste Schritt.
+
+3. TOR 2 - WER KAUFT (Basis: Erwaeger)
+------------------------------------------------------------------------------
+n = 72, davon Kaeufer 39. Das ist fuer ein Modell knapp;
+die Schaetzung steht hier als Hinweis, nicht als Befund.
+                         b       SE         p      Odds
+(Konstante)          0.220    1.075    0.8382     1.246 
+plv_1               -0.005    0.005    0.3044     0.995 
+einkommen            0.094    0.154    0.5413     1.099 
+haeufigkeit         -0.098    0.210    0.6412     0.907 
+
+4. WAS ERWAEGER VOM KAUF ABHAELT (H1, Selbstauskunft)
+------------------------------------------------------------------------------
+Gestellt an Erwaeger ohne Kauf in den letzten drei Monaten: n = 35
+Mehrfachnennung moeglich.
+
+   Zu teuer                         19   54.3 %  ################
+   Nie im Angebot                    9   25.7 %  ########
+   Sonstiges                         9   25.7 %  ########
+   Haushalt bevorzugt sie nicht      7   20.0 %  ######
+   Nicht im bevorzugten Geschaeft    3    8.6 %  ###
+   Begrenzte Geschmacksauswahl       3    8.6 %  ###
+   Sehe ich nie im Regal             2    5.7 %  ##
+   Packungsgroesse fehlt             1    2.9 %  #
+   Weiss nicht genug darueber        1    2.9 %  #
+
+Der Preis ist hier mit Abstand die haeufigste Nennung - und das steht
+NICHT im Widerspruch zu Stufe 2. Dort ging es um Tor 1, hier um Tor 2.
+Preis entscheidet nicht, ob NEOH auf die Liste kommt, sondern ob es
+vom Regal in den Korb wandert.
+
+Zur Vorsicht: n = 35. Die Rangfolge der ersten beiden Nennungen ist
+deutlich, alles darunter liegt im Bereich weniger Faelle.
+
+5. PASST DAS PREISURTEIL ZUR GENANNTEN PREISBARRIERE?
+------------------------------------------------------------------------------
+plv bei "zu teuer" genannt:      M =    7.9  (n = 18)
+plv bei "zu teuer" nicht genannt: M =   37.5  (n = 15)
+t = -2.01, p = 0.054
+
+Die beiden Masse zeigen in dieselbe Richtung: Wer den Preis als
+Barriere nennt, bewertet auch das Preis-Leistungs-Verhaeltnis
+schlechter, und zwar um knapp 30 Skalenpunkte. Das spricht fuer die
+konvergente Validitaet des Sliders. Mit p = 0.054 und n = 33 ist der
+Unterschied allerdings nur knapp an der Konvention - als Beleg taugt
+er, als gesicherter Befund nicht.
+
+6. DIE JUENGSTE ALTERSGRUPPE (Stufe 1: hoechste Bekanntheit, niedrigster Kauf)
+------------------------------------------------------------------------------
+Altersgruppe               n       plv  bh_index einkommen haeufigk.
+18 bis 29 Jahre           60      -1.3    -0.075      4.22      3.88
+30 bis 39 Jahre           79      -2.1    -0.053      4.28      3.70
+40 bis 49 Jahre           56       8.0     0.129      4.43      4.14
+50 bis 59 Jahre           59       5.6    -0.026      4.27      3.98
+60 Jahre und älter        33      16.9     0.059      4.09      4.30
+
+18-29 gegen 30-59, plv        M =   -1.3 gegen    3.2,  t = -0.66, p = 0.509
+18-29 gegen 30-59, bh_index   M =   -0.1 gegen    0.0,  t = -0.67, p = 0.506
+18-29 gegen 30-59, einkommen  M =    4.2 gegen    4.3,  t = -0.36, p = 0.717
+
+Keiner der drei Kandidaten erklaert das Muster. Die juengste Gruppe
+bewertet NEOH nicht schlechter, haelt es nicht fuer teurer und hat
+kein geringeres Einkommen. Der Befund aus Stufe 1 bleibt damit
+offen - was er ausschliesst, ist eine Preis- oder Budgeterklaerung.
+
+7. KONTAKTKANAELE (nur Kenner, letzter Monat, deskriptiv)
+------------------------------------------------------------------------------
+Endogen: nur Kenner wurden gefragt. Keine Werbewirkungsaussage.
+
+   Supermarkt (Regal, Display)  131   45.6 %
+   In keinem                     70   24.4 %
+   Instagram/Facebook            64   22.3 %
+   TV-Werbung                    40   13.9 %
+   Printwerbung                  28    9.8 %
+   Werbung auf Websites          24    8.4 %
+   Mundpropaganda                22    7.7 %
+   TikTok                        20    7.0 %
+   Aussenwerbung                 20    7.0 %
+   YouTube                       16    5.6 %
+   Influencer                    13    4.5 %
+
+Wer in keinem Kanal Kontakt hatte (n = 70), erwaegt zu 18.6 %;
+wer mindestens einen Kontakt hatte (n = 217), zu 28.1 %.
+Das ist ein Zusammenhang, keine Wirkung: Wer die Marke erwaegt,
+nimmt sie auch eher wahr.
+
+Geschrieben: ERGEBNISSE_AT_treiber.txt
