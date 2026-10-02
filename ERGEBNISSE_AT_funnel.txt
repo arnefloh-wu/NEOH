@@ -1,0 +1,84 @@
+FUNNEL IM WETTBEWERBSVERGLEICH - OESTERREICH
+==============================================================================
+Datenbasis: NEOH_AT_analyse.csv, n = 567, effektives n = 526
+Gewicht:    gewicht_quote (Alter x Geschlecht auf den Quotenplan)
+ACHTUNG:    nicht bevoelkerungsgewichtet, siehe FELDBERICHT_AT.md 5
+
+Hierarchische Bereinigung (Angabe ohne gestuetzte Bekanntheit):
+   betracht:        95 von 11340 Marke-Person-Zellen auf 0 gesetzt (0.8 %)
+   kauf_3monate:    64 von 11340 Marke-Person-Zellen auf 0 gesetzt (0.6 %)
+   Einfluss auf NEOH:  Betracht 14.0 % -> 13.6 %,  Kauf 8.6 % -> 8.2 %
+
+1. FUNNEL JE MARKE  (gewichtete Anteile der Gesamtstichprobe, %)
+------------------------------------------------------------------------------
+Marke                   bekannt Betracht     Kauf   B->Betr Betr->K
+Milka                     94.2%    51.1%    39.1%     54.2%   61.8%
+Mars                      94.0%    37.1%    20.4%     39.5%   42.3%
+Bounty                    91.1%    37.4%    17.3%     41.0%   39.9%
+Snickers                  91.0%    38.1%    21.2%     41.8%   41.8%
+Manner                    89.4%    46.8%    29.4%     52.4%   53.2%
+Kinder                    87.8%    47.9%    40.7%     54.5%   68.3%
+Knoppers                  87.8%    41.0%    19.4%     46.7%   40.9%
+Balisto                   85.1%    39.4%    20.0%     46.3%   43.5%
+Dragee Keksi (Napoli)     80.5%    30.2%    15.3%     37.5%   37.1%
+Hanuta                    73.8%    21.7%     6.6%     29.5%   20.6%
+Pick Up!                  72.0%    29.5%    12.6%     41.0%   35.4%
+Corny                     71.1%    27.0%    10.7%     38.0%   32.5%
+NEOH                      53.3%    13.6%     8.2%     25.6%   49.5% <<<
+More Nutrition            28.1%     7.9%     4.0%     28.2%   36.5%
+AHEAD                     13.3%     5.8%     3.2%     43.5%   38.7%
+Foodspring                12.4%     2.7%     0.8%     21.5%   30.8%
+Nicks                     10.5%     1.6%     0.2%     15.8%   11.0%
+BE-KIND                    8.6%     2.5%     0.9%     28.5%   36.0%
+Nucao                      4.8%     1.5%     1.0%     30.4%   70.3%
+Ketofabrik (Keast)         2.2%     0.5%     0.1%     22.0%   27.8%
+
+"KEINE Marke" bei bekanntheit: 0.0 % (n = 0)
+
+2. NEOH IM VERGLEICH
+------------------------------------------------------------------------------
+Bekanntheit:  53.3 % [49.0; 57.5]  - Rang 13 von 20 Marken
+Betracht:     13.6 %   Kauf: 8.2 %
+
+Bekanntheit -> Betracht:   NEOH  25.6 %   Median  40.2 %   Rang 16 von 18
+Betracht -> Kauf:          NEOH  49.5 %   Median  39.3 %   Rang 4 von 18
+Bekanntheit -> Kauf:       NEOH  15.5 %   Median  19.0 %   Rang 12 von 18
+
+(Vergleichsbasis: Marken mit mindestens 30 Kennern, damit die
+ Uebergangsraten nicht auf Einzelfaellen beruhen.)
+
+3. NEOH-FUNNEL NACH UNTERGRUPPEN
+------------------------------------------------------------------------------
+Alter:
+                                n   bekannt  Betracht      Kauf
+   18 bis 29 Jahre             88     68.2%     13.6%      5.7%
+   30 bis 39 Jahre            118     65.9%     17.5%     12.4%
+   40 bis 49 Jahre            108     52.3%     15.1%     10.4%
+   50 bis 59 Jahre            140     41.1%     13.6%     10.1%
+   60 Jahre und älter         113     31.6%      6.9%      1.9%
+
+Geschlecht:
+                                n   bekannt  Betracht      Kauf
+   Männlich                   293     43.4%      9.7%      6.2%
+   Weiblich                   274     63.2%     17.5%     10.3%
+
+Zuckerreduktion wichtig (1 = gar nicht, 5 = sehr):
+                                n   bekannt  Betracht      Kauf
+   1                           27     41.7%      9.8%      4.1%
+   2                           54     57.7%      4.5%      1.9%
+   3                          136     40.3%      3.5%      1.9%
+   4                          144     59.8%     19.2%     10.0%
+   5                          204     58.0%     20.3%     14.2%
+
+4. EMPFINDLICHKEIT GEGEN DEN ALTERSANTEIL
+------------------------------------------------------------------------------
+Anteil 60+ in der Grundgesamtheit   bekannt  Betracht      Kauf
+16 %                             53.3%     13.6%      8.2% (Quotenplan)
+25 %                             51.0%     12.9%      7.6%
+33 %                             48.9%     12.3%      7.0%
+
+Die Szenarien sind Rechengroessen, keine amtlichen Anteile. Sie zeigen,
+dass die berichtete Bekanntheit mit dem Altersanteil um mehrere
+Prozentpunkte wandert - der Kopfwert ist ohne gewicht_bev nicht final.
+
+Geschrieben: ERGEBNISSE_AT_funnel.csv, ERGEBNISSE_AT_funnel.txt
