@@ -22,6 +22,7 @@ from analyse_segmente_text_at import marken_im_text
 
 DATEN = 'NEOH_AT_analyse.csv'
 FUNNEL = 'ERGEBNISSE_AT_funnel.csv'
+BEKANNT = 'ERGEBNISSE_AT_bekanntheit.csv'
 AUS_HTML = 'SLIDES_AT.html'
 AUS_PDF = 'SLIDES_AT.pdf'
 NEOH, KEINE = '13', '99'
@@ -35,12 +36,45 @@ MUTED = '#898781'
 GRID = '#e1e0d9'
 BASE = '#c3c2b7'
 FLAECHE = '#fdfdfc'
+# Ordinale Rampe fuer die Funnel-Stufen (eine Hue, monoton, validiert)
+ST_KAUF, ST_ERW, ST_KENNT, ST_FREMD = '#184f95', '#2a78d6', '#86b6ef', '#e9e8e3'
 
 
 # Spaltenbreiten in Pixeln. Die SVG-viewBox wird exakt darauf gesetzt, damit
 # Schriftgroessen 1:1 gerendert werden und nicht mitskalieren.
 W_FULL, W_WIDE, W_HALF, W_NARROW = 1136, 784, 547, 310
 H_CHART = 404          # Zielhoehe der Diagrammflaeche
+
+
+ASSETS = 'assets'
+
+
+def asset(*namen):
+    """Erste vorhandene Datei aus assets/ als data-URI, sonst None.
+
+    Logo und Produktbilder sind optional: Liegen sie nicht im Ordner, rendert
+    das Deck ohne sie. Eingebettet wird als data-URI, damit das PDF
+    eigenstaendig bleibt.
+    """
+    import base64, os, mimetypes
+    for n in namen:
+        for endung in ('.svg', '.png', '.jpg', '.jpeg', '.webp'):
+            pfad = os.path.join(ASSETS, n + endung)
+            if os.path.exists(pfad):
+                typ = mimetypes.guess_type(pfad)[0] or 'application/octet-stream'
+                roh = io.open(pfad, 'rb').read()
+                return 'data:%s;base64,%s' % (typ, base64.b64encode(roh).decode())
+    return None
+
+
+def produktbilder(maximal=3):
+    import glob, os
+    gefunden = []
+    for n in range(1, maximal + 1):
+        u = asset('produkt-%d' % n, 'produkt%d' % n)
+        if u:
+            gefunden.append(u)
+    return gefunden
 
 
 def de(v, dec=1):
@@ -98,6 +132,91 @@ def bar_h(werte, breite=W_HALF, hoehe=H_CHART, maxwert=None, einheit=' %',
         s.append('<text x="%.1f" y="%.1f" font-size="%.1f" fill="%s" font-weight="%d">%s%s</text>'
                  % (lb + bw + 8, y + zeile / 2 + fs * 0.35, fs - 0.5,
                     INK if akt else MUTED, 620 if akt else 400, de(v, dec), einheit))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+def funnel_stapel(reihen, breite=W_WIDE, hoehe=H_CHART, hervor=None):
+    """100-Prozent-Stapel je Marke: gekauft / erwogen / kennt / kennt nicht.
+
+    reihen: (marke, bekannt, gekauft, erwogen_ohne_kauf) in Prozent der
+    Gesamtstichprobe. Kaeufer ohne vorherige Erwaegung sind im Kaufblock
+    enthalten, der Erwaegungsblock zaehlt nur die, die nicht gekauft haben.
+    So wird der Funnel zwischen Marken vergleichbar, statt drei Balken je
+    Marke nebeneinanderzustellen.
+    """
+    lb, rb = 150, 16
+    sp = breite - lb - rb
+    zeile = min(38, (hoehe - 26) / len(reihen))
+    bh = min(21, zeile * 0.62)
+    h = zeile * len(reihen) + 30
+    s = ['<svg viewBox="0 0 %d %.0f" width="%d" height="%.0f" role="img">'
+         % (breite, h, breite, h)]
+    for i, (m, bek, kauf, bet_ohne) in enumerate(reihen):
+        y = i * zeile + 6
+        akt = (m == hervor)
+        segmente = [(kauf, ST_KAUF), (bet_ohne, ST_ERW),
+                    (bek - kauf - bet_ohne, ST_KENNT), (100 - bek, ST_FREMD)]
+        x = lb
+        s.append('<text x="%d" y="%.1f" text-anchor="end" font-size="13" fill="%s" '
+                 'font-weight="%d">%s</text>'
+                 % (lb - 12, y + bh / 2 + 4.5, INK if akt else INK2, 650 if akt else 400, m))
+        for v, farbe in segmente:
+            bw = sp * max(0.0, v) / 100
+            if bw > 0.6:
+                s.append('<rect x="%.2f" y="%.1f" width="%.2f" height="%.1f" rx="3" '
+                         'fill="%s" stroke="%s" stroke-width="2"/>'
+                         % (x, y, bw, bh, farbe, FLAECHE))
+            x += bw
+        # Direktbeschriftung nur fuer Kauf und Erwaegung, wenn Platz ist
+        if sp * kauf / 100 > 30:
+            s.append('<text x="%.1f" y="%.1f" font-size="11.5" fill="#ffffff" '
+                     'font-weight="650" text-anchor="middle">%s</text>'
+                     % (lb + sp * kauf / 200, y + bh / 2 + 4, de(kauf, 0)))
+        s.append('<text x="%.1f" y="%.1f" font-size="12" fill="%s" font-weight="%d">%s&#8201;%%</text>'
+                 % (lb + sp * bek / 100 + 8, y + bh / 2 + 4.3, INK if akt else MUTED,
+                    650 if akt else 400, de(bek, 0)))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+def funnel_trichter(stufen, breite=W_WIDE, hoehe=H_CHART):
+    """Verjuengender Trichter mit den Abfluessen an jeder Stufe."""
+    lb, rb = 40, 40
+    sp = breite - lb - rb
+    seg = sp / len(stufen)
+    mitte = hoehe / 2 - 16
+    maxh = hoehe * 0.52
+    farben = [ST_KAUF, ST_ERW, ST_KENNT][::-1]
+    s = ['<svg viewBox="0 0 %d %d" width="%d" height="%d" role="img">'
+         % (breite, hoehe, breite, hoehe)]
+    hoehen = [maxh * v / stufen[0][1] for _, v, _ in stufen]
+    for i, (lab, v, sub) in enumerate(stufen):
+        x0, x1 = lb + i * seg, lb + (i + 1) * seg
+        h0 = hoehen[i]
+        h1 = hoehen[i + 1] if i + 1 < len(hoehen) else h0 * 0.97
+        s.append('<path d="M%.1f %.1f L%.1f %.1f L%.1f %.1f L%.1f %.1f Z" fill="%s"/>'
+                 % (x0, mitte - h0 / 2, x1, mitte - h1 / 2,
+                    x1, mitte + h1 / 2, x0, mitte + h0 / 2, farben[i]))
+        s.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="26" '
+                 'font-weight="650" fill="#ffffff">%s&#8201;%%</text>'
+                 % ((x0 + x1) / 2, mitte + 9, de(v)))
+        s.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="13.5" '
+                 'font-weight="620" fill="%s">%s</text>'
+                 % ((x0 + x1) / 2, mitte + maxh / 2 + 36, INK, lab))
+        s.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="11.5" '
+                 'fill="%s">%s</text>' % ((x0 + x1) / 2, mitte + maxh / 2 + 54, MUTED, sub))
+        if i + 1 < len(stufen):
+            verlust = v - stufen[i + 1][1]
+            s.append('<path d="M%.1f %.1f L%.1f %.1f" stroke="%s" stroke-width="1.5" '
+                     'stroke-dasharray="3 3"/>'
+                     % (x1, mitte + h1 / 2 + 2, x1, mitte + maxh / 2 + 62, BASE))
+            s.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="11.5" '
+                     'fill="%s">&#8722;%s&#8201;Pp.</text>'
+                     % (x1, mitte + maxh / 2 + 78, MUTED, de(verlust)))
+            s.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="13" '
+                     'font-weight="620" fill="%s">%s&#8201;%% weiter</text>'
+                     % (x1, mitte - maxh / 2 - 14, INK2, de(100 * stufen[i + 1][1] / v, 0)))
     s.append('</svg>')
     return ''.join(s)
 
@@ -211,6 +330,7 @@ def main():
     d = laden()
     w = np.array([float(r['gewicht_quote']) for r in d])
     fu = {r['marke']: r for r in csv.DictReader(io.open(FUNNEL, encoding='utf-8-sig'))}
+    bq = {r['marke']: r for r in csv.DictReader(io.open(BEKANNT, encoding='utf-8-sig'))}
     n = len(d)
     kenner = [r for r in d if r['neoh_bekannt'] == '1']
     wk = np.array([float(r['gewicht_quote']) for r in kenner])
@@ -304,7 +424,7 @@ svg{display:block}
 p{font-size:15.5px;line-height:1.56;color:%(ink2)s;margin-bottom:13px;max-width:52ch}
 p strong{color:%(ink)s;font-weight:620}
 ul{list-style:none;margin:4px 0 0}
-ul.big li{font-size:16.5px;line-height:1.58;margin-bottom:26px;padding-left:22px}
+ul.big li{font-size:16.5px;line-height:1.56;margin-bottom:21px;padding-left:22px}
 ul.big li:before{top:9px;width:8px;height:8px}
 li{font-size:15px;line-height:1.5;color:%(ink2)s;margin-bottom:12px;padding-left:19px;position:relative}
 li:before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%%;background:%(ak)s}
@@ -333,7 +453,11 @@ tr.hi td{color:%(ink)s;font-weight:620}
 .title h1{font-size:54px;font-weight:650;letter-spacing:-.025em;line-height:1.08;max-width:19ch}
 .title .sub{font-size:19px;color:%(ink2)s;margin-top:22px;max-width:46ch;line-height:1.5}
 .title .meta{position:absolute;bottom:56px;left:72px;font-size:13px;color:%(muted)s;line-height:1.7}
-.strip{margin-top:auto;border-top:1px solid %(grid)s;padding-top:17px;display:flex;gap:40px}
+.title .logo{position:absolute;top:56px;left:72px;height:42px;width:auto;object-fit:contain}
+.title .produkte{position:absolute;right:72px;bottom:56px;display:flex;gap:18px;align-items:flex-end}
+.title .produkte img{height:300px;width:auto;object-fit:contain}
+.s .mark{position:absolute;top:50px;right:72px;height:22px;width:auto;opacity:.75}
+.strip{margin-top:auto;border-top:1px solid %(grid)s;padding-top:14px;display:flex;gap:40px}
 .strip div{flex:1;font-size:13.5px;line-height:1.5;color:%(ink2)s}
 .strip b{display:block;color:%(ink)s;font-weight:620;margin-bottom:3px;font-size:14px}
 .col{display:flex;flex-direction:column;align-items:stretch}
@@ -344,14 +468,21 @@ tr.hi td{color:%(ink)s;font-weight:620}
     F = []
 
     # 1 Titel
+    logo = asset('neoh-logo', 'logo', 'neoh')
+    bilder = produktbilder()
     F.append("""<section class="s title">
-  <div class="rule"></div>
+  %s<div class="rule"></div>
   <h1>NEOH im österreichischen Riegelmarkt</h1>
   <div class="sub">Markenstudie September 2026 — Bekanntheit, Markenbild und
   Kaufverhalten im Wettbewerbsvergleich</div>
-  <div class="meta">Online-Befragung, quotiert nach Alter und Geschlecht, n = %d<br>
+  <div class="meta">Online-Befragung, quotiert nach Alter und Geschlecht, n = %s<br>
   WU Wien · Dr. Arne Floh · Oktober 2026</div>
-</section>""" % n)
+  %s
+</section>""" % ('<img class="logo" src="%s" alt="NEOH">' % logo if logo else '',
+                 n,
+                 ('<div class="produkte">' +
+                  ''.join('<img src="%s" alt="">' % b for b in bilder) + '</div>')
+                 if bilder else ''))
 
     # 2 Kernaussagen
     F.append(folie(2, 'Das Wichtigste', 'Eine junge Marke, die ihre Kategorie <em>bereits gewonnen hat</em>',
@@ -456,8 +587,8 @@ tr.hi td{color:%(ink)s;font-weight:620}
     # 7 Der Hebel
     F.append(folie(7, 'Hebel', 'Der Zuwachs liegt zwischen Bekanntheit und Erwägung',
         """<div class="body mid"><div class="col">%s
-        <div class="note">Gewichtete Anteile der Gesamtstichprobe. Die Prozentwerte über den
-        Pfeilen sind die Übergangsraten.</div></div>
+        <div class="note">Gewichtete Anteile der Gesamtstichprobe. Oben die Übergangsrate,
+        unten der Abfluss in Prozentpunkten.</div></div>
         <div class="col narrow">
         <p>Von den Kennern nehmen <strong>%s %%</strong> NEOH in die engere Auswahl; über
         alle Marken sind es im Median %s %%.</p>
@@ -466,14 +597,52 @@ tr.hi td{color:%(ink)s;font-weight:620}
         <p class="note">Rechnerisch: Jeder Prozentpunkt mehr auf dieser Stufe bringt bei
         gleicher Kaufquote rund 0,5 Prozentpunkte zusätzliche Käufer in der
         Gesamtbevölkerung.</p>
-        </div></div>""" % (funnel_svg([('Kennen NEOH', bek, 'gestützte Bekanntheit'),
-                                       ('Ziehen in Betracht', bet, 'beim nächsten Kauf'),
-                                       ('Haben gekauft', kauf, 'letzte drei Monate')]),
+        </div></div>""" % (funnel_trichter([('Kennen NEOH', bek, 'gestützte Bekanntheit'),
+                                            ('Ziehen in Betracht', bet, 'beim nächsten Kauf'),
+                                            ('Haben gekauft', kauf, 'letzte drei Monate')],
+                                           breite=W_WIDE, hoehe=330),
                            de(float(fu['NEOH']['konv_bek_bet']), 0), de(med_k1, 0)),
         'Stufe 1 — NEOH-Funnel'))
 
+    # 7b Funnel im Markenvergleich
+    # Segmente aus den Falldaten: Kaeufer ohne vorherige Erwaegung gibt es
+    # (bis zu 8 Prozentpunkte), die Differenz zweier Randanteile waere falsch.
+    code = {}
+    for e in csv.DictReader(io.open(FUNNEL, encoding='utf-8-sig')):
+        code[e['marke']] = e['code']
+    stapel = []
+    for m, _ in list(alle[:9]) + [('NEOH', 0)]:
+        c = code[m]
+        kaufm = np.array([r['kauf_3monate_%s' % c] == '1' for r in d], dtype=bool)
+        betm = np.array([r['betracht_%s' % c] == '1' for r in d], dtype=bool)
+        bekm = np.array([r['bekanntheit_%s' % c] == '1' for r in d], dtype=bool)
+        p_kauf = 100 * w[kaufm].sum() / w.sum()
+        p_bet_ohne = 100 * w[betm & ~kaufm].sum() / w.sum()
+        p_bek = 100 * w[bekm].sum() / w.sum()
+        stapel.append((m, p_bek, p_kauf, p_bet_ohne))
+    stapel = sorted(set(stapel), key=lambda t: -t[1])
+    F.append(folie(8, 'Vergleich', 'Derselbe Funnel, <em>über alle Marken gelesen</em>',
+        """<div class="body mid"><div class="col">%s
+        <div class="legend">
+          <span><i style="background:%s"></i>gekauft</span>
+          <span><i style="background:%s"></i>erwogen, nicht gekauft</span>
+          <span><i style="background:%s"></i>kennt, erwägt nicht</span>
+          <span><i style="background:%s"></i>kennt die Marke nicht</span></div>
+        <div class="note">Jeder Balken ist die gesamte Bevölkerung (100 %%). Der Wert am
+        Ende ist die gestützte Bekanntheit.</div>
+        </div><div class="col narrow">
+        <p>NEOHs bekannter Anteil ist der kürzeste im Feld — das ist die kleinere Basis.
+        Entscheidend ist aber die Aufteilung innerhalb: <strong>Bei NEOH ist der helle
+        Block, der die Marke kennt und nicht erwägt, proportional am größten.</strong>
+        Genau dort liegt Tor 1.</p>
+        <p>Umgekehrt ist der Weg vom Erwägen zum Kauf der kürzeste im Feld: Die Hälfte
+        der Erwäger kauft auch — bei Bounty, Snickers und Knoppers rund 40 %%.</p>
+        </div></div>""" % (funnel_stapel(stapel, breite=W_WIDE, hoehe=376, hervor='NEOH'),
+                           ST_KAUF, ST_ERW, ST_KENNT, ST_FREMD),
+        'Stufe 1 — Funnel im Wettbewerbsvergleich'))
+
     # 8 Salienz
-    F.append(folie(8, 'Salienz', 'Bekannt heißt noch nicht <em>präsent</em>',
+    F.append(folie(9, 'Salienz', 'Bekannt heißt noch nicht <em>präsent</em>',
         """<div class="body"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>ungestützt genannt</span>
         <span><i style="background:%s"></i>gestützt bekannt</span></div>
@@ -484,17 +653,77 @@ tr.hi td{color:%(ink)s;font-weight:620}
         <div class="l">der %d Kenner nennen NEOH auch spontan</div></div></div>
         <p>Die gestützte Zahl misst <strong>Wiedererkennung</strong>, die ungestützte
         <strong>Erinnerung</strong>. Bei den großen Marken liegen beide näher beieinander.</p>
-        <p>Darin liegt der konkreteste Ansatzpunkt: Die Marke ist aufgebaut, sie muss im
-        Moment der Entscheidung nur noch einfallen. Wer NEOH überhaupt erinnert, nennt es
-        zur Hälfte zuerst — bei denen sitzt die Marke fest.</p>
+        <p>Wer NEOH überhaupt erinnert, nennt es zur Hälfte zuerst — bei denen sitzt die
+        Marke fest. Die Frage ist, ob die kleine Zahl an der Verankerung liegt oder an
+        der Basis.</p>
         <p class="note">45,6&nbsp;%% der Kenner hatten den letzten Markenkontakt im
         Supermarkt — mit Abstand der wichtigste Kontaktpunkt.</p>
         </div></div>""" % (dot_vergleich(paar, breite=W_WIDE, hoehe=376, vmin=0, vmax=100, hervor='NEOH'),
                            ZWEIT, AKZENT, sp_n, de(100 * neoh_uk / len(kenner), 0), len(kenner)),
         'Stufe 4 — Spontannennungen, n = %d' % sp_n))
 
+    # 10 Erinnerungsquote
+    eq = sorted(((m, float(r['erinnerungsquote'])) for m, r in bq.items()), key=lambda t: -t[1])
+    eq_med = float(np.median([v for _, v in eq]))
+    eq_rang = [m for m, _ in eq].index('NEOH') + 1
+    F.append(folie(10, 'Verankerung', 'Pro Einheit Bekanntheit <em>besser verankert</em> als die meisten',
+        """<div class="body mid"><div class="col">%s
+        <div class="note">Erinnerungsquote = ungestützte Nennung geteilt durch gestützte
+        Bekanntheit. Median aller Marken: %s&nbsp;%%.</div>
+        </div><div class="col narrow">
+        <div class="hero"><div class="stat"><div class="v">Rang&nbsp;%d</div>
+        <div class="l">von %d Marken in der Erinnerungsquote</div></div></div>
+        <p>Die niedrige ungestützte Zahl ist <strong>kein Verankerungsproblem</strong>,
+        sondern eine Folge der kleineren Basis. NEOH holt aus seiner Bekanntheit mehr
+        heraus als Knoppers, Manner, Pick&nbsp;Up! oder Hanuta — Marken mit 70 bis
+        90&nbsp;%% gestützter Bekanntheit.</p>
+        <p>Dragee Keksi ist der Gegenfall: 80&nbsp;%% kennen die Marke,
+        <strong>niemand</strong> nennt sie spontan.</p>
+        <p class="note">Und wer NEOH erinnert, nennt es zu 48&nbsp;%% zuerst — auf dem
+        Niveau von Mars (49&nbsp;%%).</p>
+        </div></div>""" % (bar_h([(m, v) for m, v in eq if v > 0][:14], breite=W_WIDE,
+                                 hoehe=H_CHART, hervor='NEOH'),
+                           de(eq_med), eq_rang, len(eq)),
+        'Vertiefung Bekanntheit — Erinnerungsquote'))
+
+    # 11 Erinnerung als eigener Hebel
+    F.append(folie(11, 'Wirkung', 'Erinnerung wirkt <em>eigenständig</em>, nicht nur über Sympathie',
+        """<div class="body"><div class="col">
+        <div class="hero">
+          <div class="stat"><div class="v">62,5&nbsp;%</div><div class="l">der Kenner, die NEOH
+            spontan erinnern, ziehen es in Betracht</div></div>
+          <div class="stat"><div class="v n">22,4&nbsp;%</div><div class="l">der Kenner, die es
+            nur wiedererkennen</div></div>
+          <div class="stat"><div class="v">7,1&times;</div><div class="l">höhere Chance auf
+            Erwägung — auch bei gleichem Markenurteil</div></div>
+        </div>
+        <p>Der naheliegende Einwand wäre: Wer die Marke mag, erinnert sie auch. Die Daten
+        widerlegen das. Nimmt man das Markenurteil ins Modell, <strong>bleibt der Effekt
+        der Erinnerung bestehen</strong> (p = 0,0007), und das Modell wird messbar besser.</p>
+        <p>Umgekehrt bewerten Erinnerer die Marke <strong>nicht signifikant besser</strong>
+        als reine Wiedererkenner. Erinnerung ist keine Folge der Zuneigung, sondern eine
+        eigene Größe.</p>
+        <div class="strip">
+          <div><b>Für die Steuerung</b>Die ungestützte Bekanntheit als Leitindikator führen,
+          nicht die gestützte</div>
+          <div><b>Einschränkung</b>24 Erinnerer in der Stichprobe — der Effekt ist groß,
+          die Schätzung unsicher</div>
+          <div><b>Kausalität</b>Querschnitt: Wer erwägt, erinnert womöglich deshalb. Das
+          deutsche Sample klärt es</div>
+        </div>
+        </div><div class="col narrow">
+        <div class="tag">Modellvergleich</div>
+        <table><tbody>
+        <tr><td>nur Markenurteil</td><td class="n">AIC 246,4</td></tr>
+        <tr class="hi"><td>+ Erinnerung</td><td class="n">AIC 236,0</td></tr>
+        </tbody></table>
+        <p class="note">Logistische Regression auf die Erwägung, Basis 260 Kenner mit
+        gültigem Markenurteil. Odds für Erinnerung 7,14 (SE 0,58), p = 0,0007.</p>
+        </div></div>""",
+        'Vertiefung Bekanntheit — Erinnerung und Erwägung'))
+
     # 9 Markenbild
-    F.append(folie(9, 'Markenbild', 'Die Qualität wird <em>klar honoriert</em>',
+    F.append(folie(12, 'Markenbild', 'Die Qualität wird <em>klar honoriert</em>',
         """<div class="body mid"><div class="col">%s
         <div class="note">Skala −100 bis +100, nur Kenner mit Urteil, ungewichtet.</div>
         </div><div class="col narrow">
@@ -509,7 +738,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 2 — Brand Health, n = %d Kenner' % len(kenner)))
 
     # 10 Was Erwaegung treibt
-    F.append(folie(10, 'Treiber', 'Erwägung entsteht aus dem Markenurteil — <em>nicht aus dem Preis</em>',
+    F.append(folie(13, 'Treiber', 'Erwägung entsteht aus dem Markenurteil — <em>nicht aus dem Preis</em>',
         """<div class="body mid"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>Kenner ohne Erwägung</span>
         <span><i style="background:%s"></i>Erwäger</span></div>
@@ -533,7 +762,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
          ('weniger wichtig (Stufe 1–3)', '#ccd2d6',
           [non_bek, non_bet, anteil(dnon, wnon, lambda r: r['neoh_kauf'] == '1')])],
         breite=W_WIDE, hoehe=330)
-    F.append(folie(11, 'Segment', 'Zuckerreduktion ist der Zugang — und sie betrifft <em>die Mehrheit</em>',
+    F.append(folie(14, 'Segment', 'Zuckerreduktion ist der Zugang — und sie betrifft <em>die Mehrheit</em>',
         """<div class="body"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>Zuckerreduktion wichtig (Stufe 4–5)</span>
         <span><i style="background:#ccd2d6"></i>weniger wichtig (Stufe 1–3)</span></div>
@@ -558,7 +787,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 4 — Segmentanalyse'))
 
     # 12 Barrieren
-    F.append(folie(12, 'Barrieren', 'Beim Kauf entscheiden Preis <em>und Verfügbarkeit</em>',
+    F.append(folie(15, 'Barrieren', 'Beim Kauf entscheiden Preis <em>und Verfügbarkeit</em>',
         """<div class="body mid"><div class="col">%s
         <div class="note">Mehrfachnennung, Basis: %d Erwäger ohne Kauf in den letzten drei
         Monaten. Kleine Fallzahl — die Rangfolge der ersten beiden Nennungen ist deutlich,
@@ -573,12 +802,18 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 3 — Selbstauskunft der Erwäger'))
 
     # 13 Empfehlungen
-    F.append(folie(13, 'Ableitung', 'Drei Hebel, in der Reihenfolge ihrer Wirkung',
+    F.append(folie(16, 'Ableitung', 'Vier Hebel, in der Reihenfolge ihrer Wirkung',
         """<div class="body"><div class="col">
         <ul class="big">
-        <li><strong>Salienz vor Reichweite.</strong> Die Marke ist aufgebaut; sie muss im
-        Entscheidungsmoment einfallen. Regalpräsenz, Zweitplatzierung und wiederkehrende
-        Anlässe wirken hier stärker als zusätzliche Bekanntheitskampagnen.</li>
+        <li><strong>Reichweite zahlt sich hier aus.</strong> NEOH verwandelt Bekanntheit
+        überdurchschnittlich gut in Erinnerung (Rang 7 von 18). Jeder Punkt zusätzliche
+        gestützte Bekanntheit trägt deshalb weiter als bei den meisten Wettbewerbern —
+        anders als bei Marken, die bekannt sind und trotzdem niemandem einfallen.</li>
+        <li><strong>Präsenz im Entscheidungsmoment.</strong> Erinnerung erhöht die Chance
+        auf Erwägung um das Siebenfache, unabhängig vom Markenurteil. Regalpräsenz,
+        Zweitplatzierung und wiederkehrende Anlässe wirken genau darauf. Als
+        Leitindikator gehört die ungestützte Bekanntheit ins Reporting, nicht die
+        gestützte.</li>
         <li><strong>Das Versprechen erkennbar machen.</strong> Wer benennen kann, wofür
         NEOH steht, erwägt die Marke zu %s %% — wer es nicht kann, zu %s %%. Zucker ist
         das einzige im Markenbild verankerte Merkmal; ein zweites Merkmal zu etablieren
@@ -591,9 +826,9 @@ tr.hi td{color:%(ink)s;font-weight:620}
           <div><b>Kurzfristig</b>Aktionen und Regalpräsenz — wirkt auf Tor 2, wo NEOH
           ohnehin stark ist</div>
           <div><b>Mittelfristig</b>Ein zweites Markenmerkmal neben Zucker — öffnet Tor 1
-          über das Segment hinaus</div>
-          <div><b>Messbar in Welle 2</b>Ungestützte Bekanntheit als Leitindikator statt
-          gestützter Reichweite</div>
+          über das Zuckersegment hinaus</div>
+          <div><b>Messbar in Welle 2</b>Ungestützte Bekanntheit und Erinnerungsquote als
+          Leitindikatoren</div>
         </div>
         </div><div class="col narrow">
         <div class="tag g">Ausgangslage</div>
@@ -606,7 +841,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Ableitung aus den Stufen 1 bis 4'))
 
     # 14 Vorbehalte
-    F.append(folie(14, 'Einordnung', 'Was diese Zahlen tragen — und was nicht',
+    F.append(folie(17, 'Einordnung', 'Was diese Zahlen tragen — und was nicht',
         """<div class="body"><div class="col">
         <ul class="big">
         <li><strong>Gewichtung.</strong> Die Werte sind auf den vereinbarten Quotenplan
