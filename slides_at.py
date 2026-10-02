@@ -180,6 +180,51 @@ def funnel_stapel(reihen, breite=W_WIDE, hoehe=H_CHART, hervor=None):
     return ''.join(s)
 
 
+def pyramide(stufen, breite=W_WIDE, hoehe=H_CHART, vergleich=None):
+    """Markenpyramide: jede Stufe ist Teilmenge der darunterliegenden.
+
+    stufen: (label, prozent, n, zusatz) von unten nach oben.
+    vergleich: optionale Medianwerte der Uebergaenge, als Referenz rechts.
+    """
+    basis = breite * 0.48
+    mitte = breite * 0.43
+    zh = (hoehe - 34) / len(stufen)
+    farben = [ST_KENNT, '#5598e7', ST_ERW, ST_KAUF]
+    maxv = stufen[0][1]
+    s = ['<svg viewBox="0 0 %d %d" width="%d" height="%d" role="img">'
+         % (breite, hoehe, breite, hoehe)]
+    for i, (lab, v, nn, zusatz) in enumerate(stufen):
+        y = hoehe - 20 - (i + 1) * zh
+        b_u = basis * (stufen[i][1] / maxv) ** 0.45
+        b_o = basis * (stufen[i + 1][1] / maxv) ** 0.45 if i + 1 < len(stufen) else b_u * 0.42
+        s.append('<path d="M%.1f %.1f L%.1f %.1f L%.1f %.1f L%.1f %.1f Z" fill="%s" '
+                 'stroke="%s" stroke-width="2"/>'
+                 % (mitte - b_u / 2, y + zh, mitte + b_u / 2, y + zh,
+                    mitte + b_o / 2, y, mitte - b_o / 2, y, farben[i % len(farben)], FLAECHE))
+        hell = i >= 2
+        s.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%d" '
+                 'font-weight="650" fill="%s">%s&#8201;%%</text>'
+                 % (mitte, y + zh / 2 + 7, 24 if zh > 54 else 19,
+                    '#ffffff' if hell else INK, de(v)))
+        s.append('<text x="%.1f" y="%.1f" font-size="14" font-weight="620" fill="%s">%s</text>'
+                 % (mitte + basis / 2 + 26, y + zh / 2 - 2, INK, lab))
+        s.append('<text x="%.1f" y="%.1f" font-size="11.5" fill="%s">%s</text>'
+                 % (mitte + basis / 2 + 26, y + zh / 2 + 15, MUTED, zusatz))
+        if i + 1 < len(stufen):
+            rate = 100 * stufen[i + 1][1] / v
+            ref = ''
+            if vergleich and i < len(vergleich):
+                ref = '  (Median %s&#8201;%%)' % de(vergleich[i], 0)
+            s.append('<text x="6" y="%.1f" font-size="13" font-weight="620" '
+                     'fill="%s">%s&#8201;%% weiter%s</text>'
+                     % (y + 5, INK2, de(rate, 0), ref))
+            s.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" '
+                     'stroke-width="1" stroke-dasharray="3 3"/>'
+                     % (142, y, mitte - b_o / 2 - 8, y, GRID))
+    s.append('</svg>')
+    return ''.join(s)
+
+
 def funnel_trichter(stufen, breite=W_WIDE, hoehe=H_CHART):
     """Verjuengender Trichter mit den Abfluessen an jeder Stufe."""
     lb, rb = 40, 40
@@ -584,11 +629,61 @@ tr.hi td{color:%(ink)s;font-weight:620}
                            de(float(fu['NEOH']['konv_bet_kauf']), 0), de(med_k2, 0), rang_k2),
         'Stufe 1 — Übergangsrate Betracht → Kauf'))
 
-    # 7 Der Hebel
-    F.append(folie(7, 'Hebel', 'Der Zuwachs liegt zwischen Bekanntheit und Erwägung',
+    # 7 Markenpyramide
+    def stufe(bed):
+        m = np.array([bool(bed(r)) for r in d], dtype=bool)
+        return 100 * float(w[m].sum() / w.sum()), int(m.sum())
+    p_bek = stufe(lambda r: r['neoh_bekannt'] == '1')
+    p_bet = stufe(lambda r: r['neoh_bekannt'] == '1' and r['neoh_betracht'] == '1')
+    p_kauf = stufe(lambda r: r['neoh_bekannt'] == '1' and r['neoh_betracht'] == '1'
+                   and r['neoh_kauf'] == '1')
+    p_pro = stufe(lambda r: r['neoh_bekannt'] == '1' and r['neoh_betracht'] == '1'
+                  and r['neoh_kauf'] == '1' and r['empfehlung'].strip()
+                  and float(r['empfehlung']) >= 9)
+    # Medianuebergaenge aller Marken mit mindestens 30 Kennern
+    uebergaenge = [[], [], []]
+    for m_, r_ in fu.items():
+        c = r_['code']
+        if int(r_['bekanntheit_n']) < 30:
+            continue
+        bk = np.array([x['bekanntheit_%s' % c] == '1' for x in d], dtype=bool)
+        bt = bk & np.array([x['betracht_%s' % c] == '1' for x in d], dtype=bool)
+        kf = bt & np.array([x['kauf_3monate_%s' % c] == '1' for x in d], dtype=bool)
+        a_, b_, c_ = (w[bk].sum(), w[bt].sum(), w[kf].sum())
+        if a_ > 0:
+            uebergaenge[0].append(100 * b_ / a_)
+        if b_ > 0:
+            uebergaenge[1].append(100 * c_ / b_)
+    med_u = [float(np.median(x)) if x else float('nan') for x in uebergaenge[:2]]
+
+    F.append(folie(7, 'Markenpyramide', 'Von der Bekanntheit bis zur <em>aktiven Empfehlung</em>',
+        """<div class="body mid"><div class="col">%s</div>
+        <div class="col narrow">
+        <p>Jede Stufe ist eine <strong>Teilmenge der darunterliegenden</strong>: Wer
+        empfiehlt, hat gekauft; wer gekauft hat, zieht die Marke in Betracht; wer sie in
+        Betracht zieht, kennt sie.</p>
+        <p>Der Engpass liegt sichtbar auf der ersten Stufe: %s&nbsp;%% statt %s&nbsp;%% im
+        Median. Darüber arbeitet die Pyramide <strong>über dem Marktdurchschnitt</strong> —
+        von den Erwägern kaufen %s&nbsp;%%, Median %s&nbsp;%%.</p>
+        <p class="note">Zehn Befragte haben NEOH gekauft, würden es beim nächsten Mal aber
+        nicht in Betracht ziehen. Sie zählen in der Pyramide nicht mit, im Funnel der
+        vorigen Folie (8,2&nbsp;%%) schon.</p>
+        </div></div>""" % (
+            pyramide([('kennt die Marke', p_bek[0], p_bek[1], 'gestützte Bekanntheit, n = %d' % p_bek[1]),
+                      ('zieht sie in Betracht', p_bet[0], p_bet[1], 'beim nächsten Kauf, n = %d' % p_bet[1]),
+                      ('hat gekauft', p_kauf[0], p_kauf[1], 'letzte drei Monate, n = %d' % p_kauf[1]),
+                      ('empfiehlt aktiv', p_pro[0], p_pro[1], 'Empfehlung 9–10, n = %d' % p_pro[1])],
+                     breite=W_WIDE, hoehe=390, vergleich=med_u),
+            de(100 * p_bet[0] / p_bek[0], 0), de(med_u[0], 0),
+            de(100 * p_kauf[0] / p_bet[0], 0), de(med_u[1], 0)),
+        'Stufe 1 und 2 — Markenpyramide NEOH'))
+
+    # 7b Trichter
+    F.append(folie(8, 'Hebel', 'Derselbe Weg als Trichter, mit den Abflüssen',
         """<div class="body mid"><div class="col">%s
         <div class="note">Gewichtete Anteile der Gesamtstichprobe. Oben die Übergangsrate,
-        unten der Abfluss in Prozentpunkten.</div></div>
+        unten der Abfluss in Prozentpunkten. Hier zählen alle Käufer, auch die ohne
+        Erwägung.</div></div>
         <div class="col narrow">
         <p>Von den Kennern nehmen <strong>%s %%</strong> NEOH in die engere Auswahl; über
         alle Marken sind es im Median %s %%.</p>
@@ -621,7 +716,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         p_bek = 100 * w[bekm].sum() / w.sum()
         stapel.append((m, p_bek, p_kauf, p_bet_ohne))
     stapel = sorted(set(stapel), key=lambda t: -t[1])
-    F.append(folie(8, 'Vergleich', 'Derselbe Funnel, <em>über alle Marken gelesen</em>',
+    F.append(folie(9, 'Vergleich', 'Derselbe Funnel, <em>über alle Marken gelesen</em>',
         """<div class="body mid"><div class="col">%s
         <div class="legend">
           <span><i style="background:%s"></i>gekauft</span>
@@ -642,7 +737,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 1 — Funnel im Wettbewerbsvergleich'))
 
     # 8 Salienz
-    F.append(folie(9, 'Salienz', 'Bekannt heißt noch nicht <em>präsent</em>',
+    F.append(folie(10, 'Salienz', 'Bekannt heißt noch nicht <em>präsent</em>',
         """<div class="body"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>ungestützt genannt</span>
         <span><i style="background:%s"></i>gestützt bekannt</span></div>
@@ -666,7 +761,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
     eq = sorted(((m, float(r['erinnerungsquote'])) for m, r in bq.items()), key=lambda t: -t[1])
     eq_med = float(np.median([v for _, v in eq]))
     eq_rang = [m for m, _ in eq].index('NEOH') + 1
-    F.append(folie(10, 'Verankerung', 'Pro Einheit Bekanntheit <em>besser verankert</em> als die meisten',
+    F.append(folie(11, 'Verankerung', 'Pro Einheit Bekanntheit <em>besser verankert</em> als die meisten',
         """<div class="body mid"><div class="col">%s
         <div class="note">Erinnerungsquote = ungestützte Nennung geteilt durch gestützte
         Bekanntheit. Median aller Marken: %s&nbsp;%%.</div>
@@ -687,7 +782,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Vertiefung Bekanntheit — Erinnerungsquote'))
 
     # 11 Erinnerung als eigener Hebel
-    F.append(folie(11, 'Wirkung', 'Erinnerung wirkt <em>eigenständig</em>, nicht nur über Sympathie',
+    F.append(folie(12, 'Wirkung', 'Erinnerung wirkt <em>eigenständig</em>, nicht nur über Sympathie',
         """<div class="body"><div class="col">
         <div class="hero">
           <div class="stat"><div class="v">62,5&nbsp;%</div><div class="l">der Kenner, die NEOH
@@ -723,7 +818,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Vertiefung Bekanntheit — Erinnerung und Erwägung'))
 
     # 9 Markenbild
-    F.append(folie(12, 'Markenbild', 'Die Qualität wird <em>klar honoriert</em>',
+    F.append(folie(13, 'Markenbild', 'Die Qualität wird <em>klar honoriert</em>',
         """<div class="body mid"><div class="col">%s
         <div class="note">Skala −100 bis +100, nur Kenner mit Urteil, ungewichtet.</div>
         </div><div class="col narrow">
@@ -738,7 +833,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 2 — Brand Health, n = %d Kenner' % len(kenner)))
 
     # 10 Was Erwaegung treibt
-    F.append(folie(13, 'Treiber', 'Erwägung entsteht aus dem Markenurteil — <em>nicht aus dem Preis</em>',
+    F.append(folie(14, 'Treiber', 'Erwägung entsteht aus dem Markenurteil — <em>nicht aus dem Preis</em>',
         """<div class="body mid"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>Kenner ohne Erwägung</span>
         <span><i style="background:%s"></i>Erwäger</span></div>
@@ -762,7 +857,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
          ('weniger wichtig (Stufe 1–3)', '#ccd2d6',
           [non_bek, non_bet, anteil(dnon, wnon, lambda r: r['neoh_kauf'] == '1')])],
         breite=W_WIDE, hoehe=330)
-    F.append(folie(14, 'Segment', 'Zuckerreduktion ist der Zugang — und sie betrifft <em>die Mehrheit</em>',
+    F.append(folie(15, 'Segment', 'Zuckerreduktion ist der Zugang — und sie betrifft <em>die Mehrheit</em>',
         """<div class="body"><div class="col">%s
         <div class="legend"><span><i style="background:%s"></i>Zuckerreduktion wichtig (Stufe 4–5)</span>
         <span><i style="background:#ccd2d6"></i>weniger wichtig (Stufe 1–3)</span></div>
@@ -787,7 +882,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 4 — Segmentanalyse'))
 
     # 12 Barrieren
-    F.append(folie(15, 'Barrieren', 'Beim Kauf entscheiden Preis <em>und Verfügbarkeit</em>',
+    F.append(folie(16, 'Barrieren', 'Beim Kauf entscheiden Preis <em>und Verfügbarkeit</em>',
         """<div class="body mid"><div class="col">%s
         <div class="note">Mehrfachnennung, Basis: %d Erwäger ohne Kauf in den letzten drei
         Monaten. Kleine Fallzahl — die Rangfolge der ersten beiden Nennungen ist deutlich,
@@ -802,7 +897,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Stufe 3 — Selbstauskunft der Erwäger'))
 
     # 13 Empfehlungen
-    F.append(folie(16, 'Ableitung', 'Vier Hebel, in der Reihenfolge ihrer Wirkung',
+    F.append(folie(17, 'Ableitung', 'Vier Hebel, in der Reihenfolge ihrer Wirkung',
         """<div class="body"><div class="col">
         <ul class="big">
         <li><strong>Reichweite zahlt sich hier aus.</strong> NEOH verwandelt Bekanntheit
@@ -841,7 +936,7 @@ tr.hi td{color:%(ink)s;font-weight:620}
         'Ableitung aus den Stufen 1 bis 4'))
 
     # 14 Vorbehalte
-    F.append(folie(17, 'Einordnung', 'Was diese Zahlen tragen — und was nicht',
+    F.append(folie(18, 'Einordnung', 'Was diese Zahlen tragen — und was nicht',
         """<div class="body"><div class="col">
         <ul class="big">
         <li><strong>Gewichtung.</strong> Die Werte sind auf den vereinbarten Quotenplan
