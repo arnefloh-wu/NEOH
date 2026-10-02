@@ -1,0 +1,159 @@
+GESTUETZTE UND UNGESTUETZTE BEKANNTHEIT - OESTERREICH
+==============================================================================
+Basis: 567 Faelle, davon 566 mit Spontannennung
+Gestuetzte Werte gewichtet, ungestuetzte als Anteil der Antwortenden.
+
+1. ERINNERUNGSQUOTE: WIE VIEL WIEDERERKENNUNG WIRD ZU ERINNERUNG
+------------------------------------------------------------------------------
+Erinnerungsquote = ungestuetzte Nennung geteilt durch gestuetzte Bekanntheit.
+Sie misst, wie fest eine Marke im Gedaechtnis verankert ist - unabhaengig
+davon, wie viele Menschen sie ueberhaupt kennen.
+
+Marke                   gestuetzt ungestuetzt  Erinnerungsq.
+Mars                        94.0%       43.1%          45.9%
+Milka                       94.2%       37.6%          39.9%
+Kinder                      87.8%       31.4%          35.8%
+Snickers                    91.0%       23.9%          26.2%
+Bounty                      91.1%       20.5%          22.5%
+Balisto                     85.1%        7.4%           8.7%
+NEOH                        53.3%        4.4%           8.3%  <<<
+Corny                       71.1%        5.7%           8.0%
+More Nutrition              28.1%        1.8%           6.3%
+Knoppers                    87.8%        4.8%           5.4%
+AHEAD                       13.3%        0.7%           5.3%
+Manner                      89.4%        3.0%           3.4%
+Pick Up!                    72.0%        1.4%           2.0%
+Hanuta                      73.8%        0.7%           1.0%
+Dragee Keksi (Napoli)       80.5%        0.0%           0.0%
+Foodspring                  12.4%        0.0%           0.0%
+Nicks                       10.5%        0.0%           0.0%
+BE-KIND                      8.6%        0.0%           0.0%
+
+NEOH: 8.3 % Erinnerungsquote, Rang 7 von 18. Median 5.9 %.
+
+2. SHARE OF MIND GEGEN SHARE OF RECOGNITION
+------------------------------------------------------------------------------
+Share of Mind: Anteil an allen 1586 Spontannennungen.
+Share of Recognition: Anteil an der Summe der gestuetzten Bekanntheiten
+aller im Raster abgefragten Marken.
+
+Marke                         SoM        SoR    SoM/SoR
+Mars                        15.4%       8.2%      1.88
+Milka                       13.4%       8.2%      1.64
+Kinder                      11.2%       7.6%      1.47
+Snickers                     8.5%       7.9%      1.08
+Bounty                       7.3%       7.9%      0.92
+Balisto                      2.6%       7.4%      0.36
+Corny                        2.0%       6.2%      0.33
+Knoppers                     1.7%       7.6%      0.22
+NEOH                         1.6%       4.6%      0.34  <<<
+Manner                       1.1%       7.8%      0.14
+More Nutrition               0.6%       2.4%      0.26
+Pick Up!                     0.5%       6.3%      0.08
+AHEAD                        0.3%       1.2%      0.22
+Hanuta                       0.3%       6.4%      0.04
+Dragee Keksi (Napoli)        0.0%       7.0%      0.00
+Foodspring                   0.0%       1.1%      0.00
+Nicks                        0.0%       0.9%      0.00
+BE-KIND                      0.0%       0.7%      0.00
+
+Ein Wert unter 1 heisst: Die Marke wird seltener erinnert, als ihre
+Bekanntheit erwarten liesse.
+
+3. TOP OF MIND UND NENNPOSITION
+------------------------------------------------------------------------------
+Marke                        TOM   TOM je Nennung Median-Position
+Milka                      23.5%              62%            1.0
+Mars                       21.2%              49%            2.0
+Kinder                     17.0%              54%            1.0
+Snickers                    4.6%              19%            2.0
+Corny                       2.3%              41%            2.0
+NEOH                        2.1%              48%            2.0  <<<
+Bounty                      1.2%               6%            3.0
+Balisto                     1.2%              17%            3.0
+Knoppers                    1.2%              26%            3.0
+Manner                      0.9%              29%            2.0
+More Nutrition              0.4%              20%            3.0
+Pick Up!                    0.4%              25%            2.5
+AHEAD                       0.0%               0%            2.0
+Hanuta                      0.0%               0%            4.0
+
+"TOM je Nennung" ist der Anteil der Nennungen, bei denen die Marke
+zuerst genannt wurde - ein Mass fuer Dominanz im Gedaechtnis der
+Menschen, die sie ueberhaupt erinnern.
+
+4. MENTALE VERFUEGBARKEIT DER KATEGORIE
+------------------------------------------------------------------------------
+Genannte Marken je Person: M = 2.80, Median = 3, Maximum = 11
+    0 Marken:  30 Personen ( 5.3 %)
+    1 Marken: 142 Personen (25.1 %)
+    2 Marken:  95 Personen (16.8 %)
+    3 Marken: 131 Personen (23.1 %)
+    4 Marken:  71 Personen (12.5 %)
+    5 Marken:  50 Personen ( 8.8 %)
+    6 Marken:  28 Personen ( 4.9 %)
+    7 Marken:   7 Personen ( 1.2 %)
+    8 Marken:   4 Personen ( 0.7 %)
+    9 Marken:   4 Personen ( 0.7 %)
+   10 Marken:   2 Personen ( 0.4 %)
+   11 Marken:   2 Personen ( 0.4 %)
+
+Wer NEOH spontan nennt, nennt insgesamt 4.44 Marken;
+wer es nicht nennt, 2.73. t = 4.58, p = 0.000
+
+Das trennt zwei Erklaerungen: Wird NEOH nur von Menschen genannt, denen
+ohnehin viele Marken einfallen, oder verdraengt es andere Marken?
+
+5. UNGESTUETZTE BEKANNTHEIT VON NEOH NACH UNTERGRUPPEN
+------------------------------------------------------------------------------
+                                    n   gestuetzt ungestuetzt Erinnerungsq.
+Alter:
+   18 bis 29 Jahre                 88       68.2%        5.7%          8.3%
+   30 bis 39 Jahre                118       65.9%        6.8%         10.3%
+   40 bis 49 Jahre                108       52.3%        2.8%          5.3%
+   50 bis 59 Jahre                139       41.4%        4.3%         10.4%
+   60 Jahre und älter             113       31.6%        2.7%          8.4%
+
+Geschlecht:
+   Männlich                       292       43.5%        3.4%          7.9%
+   Weiblich                       274       63.2%        5.5%          8.7%
+
+Zuckerreduktion wichtig:
+   1                               27       41.7%        3.7%          8.9%
+   2                               54       57.7%        1.9%          3.2%
+   3                              136       40.3%        2.2%          5.5%
+   4                              144       59.8%        4.2%          7.0%
+   5                              203       58.2%        6.9%         11.8%
+
+6. TRAEGT ERINNERUNG MEHR BEI ALS WIEDERERKENNUNG?
+------------------------------------------------------------------------------
+Ein Modell ueber die ganze Stichprobe waere hier wertlos: Wer NEOH nicht
+gestuetzt kennt, kann es per Fragebogenlogik auch nicht erwaegen. Der
+Praediktor "gestuetzt" trennt die Faelle damit vollstaendig, und die
+Schaetzung divergiert. Die beantwortbare Frage lautet deshalb: Traegt die
+Erinnerung INNERHALB der Kenner etwas bei?
+
+Unter den 287 Kennern:
+   erinnern spontan (n =  24): 62.5 % erwaegen
+   erkennen nur     (n = 263): 22.4 % erwaegen
+   t = 3.85, p = 0.0007
+
+Ist das nur ein Nebeneffekt des Markenurteils? Kontrolle dafuer:
+   nur Markenurteil             n = 260, Pseudo-R2 = 0.210, AIC = 246.4
+        (Konstante)  b = -1.304  SE = 0.182  p = 0.0000  Odds =   0.27
+        bh_index     b =  1.582  SE = 0.232  p = 0.0000  Odds =   4.86
+   Markenurteil + Erinnerung    n = 260, Pseudo-R2 = 0.250, AIC = 236.0
+        (Konstante)  b = -1.504  SE = 0.199  p = 0.0000  Odds =   0.22
+        bh_index     b =  1.624  SE = 0.239  p = 0.0000  Odds =   5.07
+        erinnert     b =  1.966  SE = 0.580  p = 0.0007  Odds =   7.14
+
+7. UNTERSCHEIDEN SICH ERINNERER IM MARKENURTEIL?
+------------------------------------------------------------------------------
+                     erinnern erkennen nur      Diff        p
+emotion                 52.0         36.4      15.6    0.053
+qualität                57.3         44.8      12.5    0.153
+plv                     -0.8          4.4      -5.1    0.592
+zufriedenheit           48.1         32.1      16.1    0.112
+wom                      9.6         11.6      -1.9    0.709
+
+Geschrieben: ERGEBNISSE_AT_bekanntheit.txt, ERGEBNISSE_AT_bekanntheit.csv
