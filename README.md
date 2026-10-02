@@ -116,7 +116,9 @@ python3 dashboard_at.py
 
 Erzeugt `DASHBOARD_AT.html`, ein eigenständiges interaktives Dashboard mit
 Funnel, Markenbild und Wettbewerbsvergleich, filterbar nach Alter, Geschlecht
-und Zuckersegment. Die Seite enthält **keine Falldaten**, sondern einen
+und Zuckersegment. Die Seite wird zweimal geschrieben: als `DASHBOARD_AT.html`
+und als `docs/index.html` für GitHub Pages (siehe [`docs/README.md`](docs/README.md)).
+Sie enthält **keine Falldaten**, sondern einen
 vorberechneten Würfel aus 20 Zellen; die kleinste hat 12 Fälle. Die Region
 ist bewusst keine Filterdimension — mit ihr hätte der Würfel Zellen mit einer
 einzigen Person, und die Stichprobe trägt Regionalaussagen ohnehin nicht.
