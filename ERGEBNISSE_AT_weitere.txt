@@ -1,0 +1,86 @@
+WEITERE VARIABLEN - OESTERREICH
+==============================================================================
+Basis der Abschnitte 1 bis 4: 287 NEOH-Kenner. Abschnitt 5 und 6: alle 567.
+
+1. KAUFABSICHT (intention, 1 sehr unwahrscheinlich bis 7 sehr wahrscheinlich)
+------------------------------------------------------------------------------
+   1     110   39.5 %  ####################
+   2      40   14.3 %  #######
+   3      31   11.1 %  ######
+   4      33   11.2 %  ######
+   5      34   11.2 %  ######
+   6      19    6.6 %  ###
+   7      19    5.7 %  ###
+
+M = 2.91 (gewichtet 2.83), SD = 1.98, Median = 2
+Top-2-Box (6 und 7): 12.3 % der Kenner, also 6.5 % der Bevölkerung.
+Bottom-Box (1): 39.5 % - mehr als ein Drittel schliesst einen Kauf aus.
+
+   Erwäger    M = 4.61 gegen 2.32 bei den übrigen
+   Käufer     M = 4.68 gegen 2.56 bei den übrigen
+
+2. WEITEREMPFEHLUNG ALS NPS (empfehlung, 0 bis 10)
+------------------------------------------------------------------------------
+Promotoren (9-10):   10.3 %   n =  32
+Passive   (7-8):     11.6 %   n =  35
+Detraktoren (0-6):   78.0 %   n = 219
+
+NPS = -68   (Basis: 286 Kenner mit Angabe)
+
+Der Wert ist niedrig, aber er misst hier etwas anderes als ueblich: Die
+NPS-Definition unterstellt Kunden. Hier antworten alle Kenner, auch die
+239, die nie gekauft haben. Unter den Kaeufern sieht es anders aus:
+   nur Käufer (n = 47): Promotoren 32.2 %, Detraktoren 42.9 %, NPS = -11
+
+Die Nullen dominieren die Verteilung: 93 der 286 Kenner geben 0 an.
+Das ist bei einer Marke, die vier von fuenf Kennern nie gekauft haben,
+zu erwarten und kein Qualitaetsurteil.
+
+3. BEDUERFNISERFUELLUNG UND BEDEUTSAMKEIT (0 bis 10)
+------------------------------------------------------------------------------
+                    n        M   gew. M       SD    Erwäger     übrige
+bedürfnis         282     5.10     5.12     2.96       7.61       4.21
+bedeutsam         285     2.83     2.75     2.96       5.16       2.01
+
+   bedürfnis    Erwäger gegen übrige: t = 11.32, p = 1.37e-22
+   bedeutsam    Erwäger gegen übrige: t =  8.08, p = 9.52e-13
+
+Bedürfniserfüllung 7 oder höher: 35.3 % der Kenner. Deren Erwägungsquote
+liegt bei 53.1 %, bei den übrigen bei 10.5 %.
+
+4. KATEGORIENUTZUNG (haeufigkeit, alle Befragten)
+------------------------------------------------------------------------------
+                            n    Anteil      kennt     erwägt    gekauft
+Täglich                    10      2.1%      56.9%       6.3%       6.3%
+Mehrmals pro Woche         64     10.9%      41.6%      12.6%       5.8%
+Wöchentlich               137     24.9%      59.9%      16.2%      10.6%
+Mehrmals pro Monat        161     29.0%      56.2%      14.0%      10.5%
+Monatlich                 111     18.8%      48.9%      12.2%       8.1%
+Seltener                   75     13.0%      50.7%      16.6%       4.6%
+Nie                         9      1.3%      45.1%       0.0%       0.0%
+
+Wöchentlich oder häufiger (37.9 % der Bevölkerung): Bekanntheit 54.5 %,
+Kaufquote 9.0 %. Seltener als wöchentlich: 52.6 % und 8.3 %.
+
+5. DIE DREI TIMING-FRAGEN
+------------------------------------------------------------------------------
+Zeit bis zum Absenden der jeweiligen Seite, in Sekunden.
+
+                      n      P25   Median      P75      P95
+Spontannennung      567       14       24       40       98
+Markenraster        567       46       58       72      111
+Markensentiment     287       20       28       40       67
+
+Das Markenraster ist mit Abstand die teuerste Seite - 21 Marken in drei
+Fragen. Es allein macht rund ein Drittel der gesamten Bearbeitungszeit aus.
+
+Hängt die Zeit am Markenraster mit der Zahl der Kreuze zusammen?
+   Rangkorrelation Zeit x Zahl der bekannten Marken: rho = 0.217, p = 1.7e-07
+   Die schnellsten 10 % (unter 36 s) kreuzen im Mittel 8.2 Marken an,
+   alle übrigen 11.7.
+
+Ein positiver Zusammenhang spricht dafuer, dass die Zeit Verarbeitung
+misst und nicht blosses Zoegern: Wer mehr Marken kennt, braucht laenger.
+Das stuetzt die Verwendung der Gesamtdauer als Speeder-Kriterium.
+
+Geschrieben: ERGEBNISSE_AT_weitere.txt
