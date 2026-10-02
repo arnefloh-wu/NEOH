@@ -81,6 +81,25 @@ of Mind aus den Spontannennungen, thematische Codierung der offenen
 Beschreibungen. Lesbare Fassung in
 [`ERGEBNISSE_AT_segmente_text.md`](ERGEBNISSE_AT_segmente_text.md).
 
+```
+python3 analyse_bekanntheit_at.py
+```
+
+Vertiefung zur gestützten und ungestützten Bekanntheit: Erinnerungsquote je
+Marke, Share of Mind, Top of Mind und Nennposition, und ob Erinnerung die
+Erwägung unabhängig vom Markenurteil erhöht. Lesbare Fassung in
+[`ERGEBNISSE_AT_bekanntheit.md`](ERGEBNISSE_AT_bekanntheit.md).
+
+```
+python3 slides_at.py --pdf
+```
+
+Erzeugt `SLIDES_AT.html` und rendert daraus `SLIDES_AT.pdf` (18 Folien).
+Logo, Produktbilder und Markenfarben sind optional und werden aus `assets/`
+gelesen: Bilder als Dateien, Farben und Schrift als `assets/marke.json`. Ohne
+diese Dateien rendert das Deck in der validierten Standardpalette. Siehe
+[`assets/README.md`](assets/README.md).
+
 [`FELDBERICHT_AT.md`](FELDBERICHT_AT.md) hält Feldverlauf, Ausschüsse,
 Quotenerfüllung, Gewichtung und Datenqualität fest. **Vor jeder Auswertung
 lesen:** Der vereinbarte Quotenplan bildet die Altersstruktur der
