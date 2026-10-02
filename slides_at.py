@@ -20,6 +20,7 @@ import numpy as np
 # damit beide Auswertungen dieselbe Zuordnung verwenden.
 from analyse_segmente_text_at import marken_im_text
 
+ASSETS = 'assets'
 DATEN = 'NEOH_AT_analyse.csv'
 FUNNEL = 'ERGEBNISSE_AT_funnel.csv'
 BEKANNT = 'ERGEBNISSE_AT_bekanntheit.csv'
@@ -27,6 +28,9 @@ AUS_HTML = 'SLIDES_AT.html'
 AUS_PDF = 'SLIDES_AT.pdf'
 NEOH, KEINE = '13', '99'
 
+# Standardpalette (validiert gegen die Flaeche, siehe dataviz-Richtlinie).
+# Liegt assets/marke.json vor, werden Akzent, Flaeche, Schriftfarbe und die
+# ordinale Rampe daraus abgeleitet - siehe marke_laden() weiter unten.
 AKZENT = '#2a78d6'
 ZWEIT = '#eb6834'
 GUT = '#0ca30c'
@@ -36,17 +40,89 @@ MUTED = '#898781'
 GRID = '#e1e0d9'
 BASE = '#c3c2b7'
 FLAECHE = '#fdfdfc'
+SCHRIFT = '"Helvetica Neue",Helvetica,Arial,sans-serif'
 # Ordinale Rampe fuer die Funnel-Stufen (eine Hue, monoton, validiert)
 ST_KAUF, ST_ERW, ST_KENNT, ST_FREMD = '#184f95', '#2a78d6', '#86b6ef', '#e9e8e3'
+
+
+def _hex(h):
+    h = h.lstrip('#')
+    if len(h) == 3:
+        h = ''.join(c * 2 for c in h)
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _hexs(rgb):
+    return '#%02x%02x%02x' % tuple(max(0, min(255, int(round(c)))) for c in rgb)
+
+
+def _lum(h):
+    def k(c):
+        c /= 255.0
+        return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    r, g, b = (k(c) for c in _hex(h))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def kontrast(a, b):
+    la, lb = _lum(a), _lum(b)
+    hell, dunkel = max(la, lb), min(la, lb)
+    return (hell + 0.05) / (dunkel + 0.05)
+
+
+def auf(farbe, hell='#ffffff', dunkel='#0b0b0b'):
+    """Lesbare Schriftfarbe auf einer Flaeche - gewaehlt, nicht geraten."""
+    return hell if kontrast(farbe, hell) >= kontrast(farbe, dunkel) else dunkel
+
+
+def _mische(a, b, t):
+    ra, rb = _hex(a), _hex(b)
+    return _hexs([ra[i] + (rb[i] - ra[i]) * t for i in range(3)])
+
+
+def marke_laden():
+    """Markenfarben aus assets/marke.json uebernehmen, falls vorhanden.
+
+    Erwartet werden die Schluessel akzent (Pflicht), zweit, flaeche, ink und
+    schrift. Die ordinale Funnel-Rampe wird aus dem Akzent abgeleitet, damit
+    sie eine Hue behaelt und monoton bleibt - eine beliebige Markenpalette
+    erfuellt diese Bedingung nicht von selbst.
+    """
+    global AKZENT, ZWEIT, INK, INK2, MUTED, GRID, BASE, FLAECHE, SCHRIFT
+    global ST_KAUF, ST_ERW, ST_KENNT, ST_FREMD
+    import json, os
+    pfad = os.path.join(ASSETS, 'marke.json')
+    if not os.path.exists(pfad):
+        return None
+    m = json.load(io.open(pfad, encoding='utf-8'))
+    AKZENT = m['akzent']
+    ZWEIT = m.get('zweit', ZWEIT)
+    FLAECHE = m.get('flaeche', FLAECHE)
+    INK = m.get('ink', INK)
+    SCHRIFT = m.get('schrift', SCHRIFT)
+    INK2 = _mische(INK, FLAECHE, 0.34)
+    MUTED = _mische(INK, FLAECHE, 0.58)
+    GRID = _mische(INK, FLAECHE, 0.88)
+    BASE = _mische(INK, FLAECHE, 0.76)
+    ST_ERW = AKZENT
+    ST_KAUF = _mische(AKZENT, '#000000', 0.34)
+    ST_KENNT = _mische(AKZENT, FLAECHE, 0.55)
+    ST_FREMD = _mische(INK, FLAECHE, 0.91)
+    warn = []
+    if kontrast(AKZENT, FLAECHE) < 3.0:
+        warn.append('Akzent %s erreicht gegen die Flaeche nur %.2f:1 (Ziel 3:1). '
+                    'Balken bleiben erkennbar, Text im Akzent nicht - die Folien '
+                    'setzen Text deshalb in INK.' % (AKZENT, kontrast(AKZENT, FLAECHE)))
+    if kontrast(ST_KENNT, FLAECHE) < 2.0:
+        warn.append('Hellste Funnel-Stufe %s liegt bei %.2f:1 gegen die Flaeche '
+                    '(Ziel 2:1 fuer ordinale Rampen).' % (ST_KENNT, kontrast(ST_KENNT, FLAECHE)))
+    return warn
 
 
 # Spaltenbreiten in Pixeln. Die SVG-viewBox wird exakt darauf gesetzt, damit
 # Schriftgroessen 1:1 gerendert werden und nicht mitskalieren.
 W_FULL, W_WIDE, W_HALF, W_NARROW = 1136, 784, 547, 310
 H_CHART = 404          # Zielhoehe der Diagrammflaeche
-
-
-ASSETS = 'assets'
 
 
 def asset(*namen):
@@ -189,7 +265,7 @@ def pyramide(stufen, breite=W_WIDE, hoehe=H_CHART, vergleich=None):
     basis = breite * 0.48
     mitte = breite * 0.43
     zh = (hoehe - 34) / len(stufen)
-    farben = [ST_KENNT, '#5598e7', ST_ERW, ST_KAUF]
+    farben = [ST_KENNT, _mische(ST_KENNT, ST_ERW, 0.5), ST_ERW, ST_KAUF]
     maxv = stufen[0][1]
     s = ['<svg viewBox="0 0 %d %d" width="%d" height="%d" role="img">'
          % (breite, hoehe, breite, hoehe)]
@@ -372,6 +448,11 @@ def folie(nr, kicker, titel, inhalt, fuss=''):
 
 
 def main():
+    warnungen = marke_laden()
+    if warnungen is not None:
+        print('Markenfarben aus %s/marke.json uebernommen.' % ASSETS)
+        for hinweis in warnungen:
+            print('  HINWEIS: ' + hinweis)
     d = laden()
     w = np.array([float(r['gewicht_quote']) for r in d])
     fu = {r['marke']: r for r in csv.DictReader(io.open(FUNNEL, encoding='utf-8-sig'))}
@@ -454,7 +535,7 @@ def main():
 *{box-sizing:border-box;margin:0;padding:0}
 @page{size:1280px 720px;margin:0}
 html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-body{background:#eceae4;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:%(ink)s}
+body{background:%(plane)s;font-family:%(font)s;color:%(ink)s}
 .s{width:1280px;height:720px;background:%(fl)s;padding:56px 72px 44px;position:relative;
    page-break-after:always;break-after:page;display:flex;flex-direction:column;margin:0 auto 22px}
 .s:last-child{page-break-after:auto}
@@ -508,7 +589,8 @@ tr.hi td{color:%(ink)s;font-weight:620}
 .col{display:flex;flex-direction:column;align-items:stretch}
 .tag{align-self:flex-start}
 .rule{height:4px;width:62px;background:%(ak)s;border-radius:2px;margin-bottom:26px}
-""" % dict(ink=INK, ink2=INK2, muted=MUTED, grid=GRID, ak=AKZENT, fl=FLAECHE)
+""" % dict(ink=INK, ink2=INK2, muted=MUTED, grid=GRID, ak=AKZENT, fl=FLAECHE,
+            font=SCHRIFT, plane=_mische(INK, FLAECHE, 0.84))
 
     F = []
 
