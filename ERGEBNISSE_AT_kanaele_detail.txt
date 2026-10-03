@@ -1,0 +1,93 @@
+KONTAKTKANAELE IM DETAIL - OESTERREICH
+==============================================================================
+Basis: 287 NEOH-Kenner, davon 217 mit mindestens einem Kontakt im letzten
+Monat. Alle Reichweiten gelten innerhalb der Kenner, nicht in der
+Bevoelkerung - gefragt wurden nur Kenner.
+
+1. EXKLUSIVE REICHWEITE
+------------------------------------------------------------------------------
+Wie viele Kenner erreicht ein Kanal, die ueber keinen anderen Kanal
+erreicht werden? Das ist die Frage, die ueber Streichen oder Behalten
+entscheidet - nicht die Gesamtreichweite.
+
+Kanal                      gesamt     exklusiv   Anteil
+TV-Werbung                  14.3%         4.0%      28%
+Printwerbung                 9.2%         3.0%      32%
+Werbung auf Websites         8.1%         0.0%       0%
+Instagram/Facebook          24.4%         6.5%      27%
+YouTube                      6.8%         1.3%      19%
+TikTok                       8.7%         1.4%      16%
+Influencer                   4.8%         0.0%       0%
+Supermarkt                  46.5%        25.0%      54%
+Mundpropaganda               7.7%         1.6%      21%
+Außenwerbung                 7.2%         1.8%      25%
+
+Der Supermarkt erreicht ein Viertel aller Kenner exklusiv. Websites und
+Influencer erreichen niemanden, der nicht ohnehin anders erreicht wird -
+ihre Gesamtreichweite ist vollstaendig gedeckt.
+
+2. REICHWEITENAUFBAU
+------------------------------------------------------------------------------
+Kanaele in der Reihenfolge ihres groessten zusaetzlichen Beitrags.
+
+Kanal                    zusätzlich      kumuliert
+Supermarkt                   +46.5 Pp.          46.5%
+Instagram/Facebook           +14.5 Pp.          61.0%
+TV-Werbung                    +6.1 Pp.          67.1%
+Printwerbung                  +3.4 Pp.          70.6%
+Mundpropaganda                +1.9 Pp.          72.5%
+TikTok                        +1.9 Pp.          74.4%
+Außenwerbung                  +1.8 Pp.          76.2%
+YouTube                       +1.3 Pp.          77.4%
+Werbung auf Websites          +0.0 Pp.          77.4%
+Influencer                    +0.0 Pp.          77.4%
+
+Zwei Kanaele - Supermarkt und Instagram/Facebook - decken 61 % der
+erreichbaren Kenner ab. Die uebrigen acht bringen zusammen 16,4 Punkte.
+
+3. UEBERLAPPUNG
+------------------------------------------------------------------------------
+Anteil der Kenner mit Kontakt in beiden Kanaelen, in Prozent.
+
+                   TV-Werbu Printwer Werbung  Instagra   TikTok Supermar Mundprop Außenwer
+TV-Werbung                —     2.4%     2.4%     6.2%     2.8%     4.0%     1.1%     1.1%
+Printwerbung           2.4%        —     1.3%     1.0%     0.0%     4.9%     0.6%     1.9%
+Werbung auf Websit     2.4%     1.3%        —     3.5%     2.2%     6.3%     1.9%     1.5%
+Instagram/Facebook     6.2%     1.0%     3.5%        —     4.9%     9.9%     2.5%     1.5%
+TikTok                 2.8%     0.0%     2.2%     4.9%        —     3.3%     0.9%     1.0%
+Supermarkt             4.0%     4.9%     6.3%     9.9%     3.3%        —     4.6%     5.3%
+Mundpropaganda         1.1%     0.6%     1.9%     2.5%     0.9%     4.6%        —     1.7%
+Außenwerbung           1.1%     1.9%     1.5%     1.5%     1.0%     5.3%     1.7%        —
+
+4. ZIELGRUPPENINDEX NACH ALTER
+------------------------------------------------------------------------------
+Index 100 = Reichweite des Kanals unter allen Kennern. 150 heisst:
+In dieser Altersgruppe erreicht der Kanal anderthalbmal so viele.
+Ein Punkt steht fuer eine Zelle mit weniger als fuenf Kontakten - dort
+waere jeder Index eine Scheingenauigkeit.
+
+                          18–29    30–39    40–49    50–59      60+
+TV-Werbung                  105      106      122       60        ·
+Printwerbung                  ·      124        ·      132      176
+Werbung auf Websites          ·      170        ·      109        ·
+Instagram/Facebook          150      107       95       42        ·
+YouTube                     197        ·        ·        ·        ·
+TikTok                      230        ·        ·        ·        ·
+Supermarkt                  104       82      116      111       83
+Mundpropaganda              109      146        ·        ·        ·
+Außenwerbung                115      112        ·        ·        ·
+
+5. KANALKOMBINATIONEN UND FUNNEL
+------------------------------------------------------------------------------
+                        n     Anteil      erwägen
+nur Handel             93      31.8%        33.3%
+nur Digital            53      19.8%        22.9%
+beides                 38      14.6%        38.1%
+weder noch            103      33.7%        14.4%
+
+Die Unterschiede sind nicht als Wirkung zu lesen (siehe
+ERGEBNISSE_AT_kanaele.md, Abschnitt 3) - die Zahl der Kanaele traegt
+zur Erwaegung nichts bei, sobald das Markenurteil kontrolliert ist.
+
+Grafiken: grafiken/kanaele_aufbau.svg, _index.svg, _ueberlappung.svg
+Geschrieben: ERGEBNISSE_AT_kanaele_detail.txt
