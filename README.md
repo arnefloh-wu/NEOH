@@ -112,6 +112,7 @@ diese Dateien rendert das Deck in der validierten Standardpalette. Siehe
 
 ```
 python3 analyse_kanaele_at.py
+python3 analyse_kanaele_detail_at.py --png
 python3 analyse_weitere_at.py
 ```
 
@@ -121,6 +122,9 @@ bis 4 nur als Kovariaten vorkamen: `intention`, `empfehlung` als NPS,
 Fassungen in [`ERGEBNISSE_AT_kanaele.md`](ERGEBNISSE_AT_kanaele.md) und
 [`ERGEBNISSE_AT_weitere.md`](ERGEBNISSE_AT_weitere.md); die Tabelle am Ende
 der zweiten Datei hält fest, welche Variable wo ausgewertet ist.
+[`ERGEBNISSE_AT_kanaele_detail.md`](ERGEBNISSE_AT_kanaele_detail.md) geht auf
+exklusive Reichweite, Reichweitenaufbau, Überlappung und Zielgruppenindex ein;
+die Grafiken dazu liegen in `grafiken/` als SVG und PNG.
 
 ```
 python3 dashboard_at.py
